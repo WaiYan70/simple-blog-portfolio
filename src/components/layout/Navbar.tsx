@@ -8,7 +8,10 @@ const navItem = [
 
 const socialLinks = [
   { href: "https://github.com/WaiYan70", label: "GitHub" },
-  { href: "https://github.com/WaiYan70", label: "GitHub" },
+  {
+    href: "https://www.linkedin.com/in/khant-wai-yan-00b1241b9/",
+    label: "Linkedln",
+  },
 ];
 
 const Navbar = () => {
