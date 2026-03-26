@@ -12,7 +12,7 @@ const BlogPage = async () => {
           <Link key={post.slug} href={`/blog/${post.slug}`}>
             <div>
               <h2 className="font-medium">{post.title}</h2>
-              <p className="text-sm">{post.content}</p>
+              <p className="text-sm">{post.description}</p>
             </div>
           </Link>
         ))}
