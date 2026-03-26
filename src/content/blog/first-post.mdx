@@ -1,12 +1,42 @@
 ---
-title: "My First Post"
-description: "This is my first blog post"
-date: "2026-01-01"
+title: "Building My Portfolio with Next.js"
+description: "Why I chose a blog-first portfolio and how I structured the project."
+date: "2026-03-26"
 ---
 
-# Hello World 👋
+# Building My Portfolio with Next.js
 
-This is my first blog post.
+I wanted this portfolio to be more than a landing page. The goal is to make it a place where I can explain how I think, how I build, and how I solve technical problems.
 
-```js
-console.log("Hello from MDX");
+A blog-first portfolio fits that goal well because it lets me document:
+
+- project decisions
+- technical tradeoffs
+- implementation details
+- lessons learned during development
+
+## Why this structure works
+
+Instead of treating writing as a separate activity, I want the blog to be part of the product itself. Every article becomes evidence of how I work as an engineer.
+
+This also makes the site easier to evolve over time. I can add new posts without changing the application structure.
+
+## Current stack
+
+Here is the stack I am using for this project:
+
+- Next.js App Router
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- MDX
+
+## Example code
+
+```ts
+const site = {
+  name: "Khant Portfolio",
+  type: "blog-based portfolio",
+};
+
+console.log(site.name);

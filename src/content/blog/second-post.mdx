@@ -1,12 +1,42 @@
 ---
-title: "My Second Post"
-description: "This is my second blog post"
-date: "2026-01-04"
+title: "How I Organize Blog Content in MDX"
+description: "A simple approach for storing and rendering blog posts in a Next.js app."
+date: "2026-03-27"
 ---
 
-# Hello World 👋
+# How I Organize Blog Content in MDX
 
-This is my second blog post.
+For this project, I want blog posts to stay easy to read, easy to maintain, and easy to scale. That is why I store each article as an `.mdx` file with frontmatter.
 
-```js
-console.log("Welcome back");
+## Why MDX
+
+MDX gives me two useful things:
+
+1. Markdown for writing content quickly
+2. React component support when I need richer content later
+
+That means I can start simple and still keep the option to add custom UI when needed.
+
+## Frontmatter shape
+
+Each post includes a small set of metadata:
+
+- `title`
+- `description`
+- `date`
+
+This is enough to render a blog list page and a detail page without introducing unnecessary complexity.
+
+## Rendering flow
+
+The content pipeline is straightforward:
+
+1. Read the file from `src/content/blog`
+2. Parse frontmatter with `gray-matter`
+3. Pass the content string into the MDX renderer
+4. Render custom components for headings, paragraphs, links, and code blocks
+
+## Example snippet
+
+```tsx
+<MDXContent content={post.content} />

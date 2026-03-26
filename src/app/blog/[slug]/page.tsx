@@ -1,3 +1,4 @@
+import { MDXContent } from "@/components/blog/MDXContent";
 import { getAllPosts, getPostBySlug } from "@/lib/post";
 import { notFound } from "next/navigation";
 
@@ -24,7 +25,7 @@ const BlogDetailPage = async ({ params }: Props) => {
     <article className="mx-auto max-w-3xl py-10">
       <h1 className="text-3xl font-bold">{post.title}</h1>
       <p className="text-muted-foreground mt-2">{post.description}</p>
-      <div className="mt-6">{post.content}</div>
+      <MDXContent content={post.content} />
     </article>
   );
 };
