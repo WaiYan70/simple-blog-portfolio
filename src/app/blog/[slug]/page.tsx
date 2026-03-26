@@ -39,8 +39,13 @@ export const generateMetadata = async ({
   };
 };
 
+// const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const BlogDetailPage = async ({ params }: Props) => {
   const { slug } = await params;
+
+  // await delay(2000);
+  // throw new Error("Something broke");
 
   const post = await getPostBySlug(slug);
 
