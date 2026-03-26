@@ -53,7 +53,14 @@ You are a senior fullstack engineer working on a Next.js (App Router) blog-based
 - Prefer type inference when safe
 
 ### Functions
-- Use arrow fuctions 
+- Use function declarations for Next.js framework APIs:
+  - `generateMetadata`
+  - `generateStaticParams`
+  - `page.tsx` and `layout.tsx` exports
+- Use arrow functions for:
+  - React components (not component from `/app` folder)
+  - Utility functions (`/lib`)
+  - Event handlers
 - Keep functions small and single-purpose
 
 ### Naming

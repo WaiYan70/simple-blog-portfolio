@@ -1,7 +1,7 @@
 import { getAllPosts } from "@/lib/post";
 import Link from "next/link";
 
-const BlogPage = async () => {
+export default async function BlogPage() {
   const posts = await getAllPosts();
 
   return (
@@ -19,6 +19,4 @@ const BlogPage = async () => {
       </div>
     </div>
   );
-};
-
-export default BlogPage;
+}

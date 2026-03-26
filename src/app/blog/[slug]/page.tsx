@@ -9,27 +9,23 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
-export const generateStaticParams = async () => {
+export async function generateStaticParams() {
   const posts = await getAllPosts();
 
   return posts.map((post) => ({
     slug: post.slug,
   }));
-};
+}
 
-export const generateMetadata = async ({
-  params,
-}: Props): Promise<Metadata> => {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-
   const post = await getPostBySlug(slug);
 
-  if (!post) return { title: "Post Not Found" };
+  if (!post) return { title: "Post Not found" };
 
   return {
     title: post.title,
     description: post.description,
-
     openGraph: {
       title: post.title,
       description: post.description,
@@ -37,15 +33,10 @@ export const generateMetadata = async ({
       type: "article",
     },
   };
-};
+}
 
-// const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-const BlogDetailPage = async ({ params }: Props) => {
+export default async function BlogDetailPage({ params }: Props) {
   const { slug } = await params;
-
-  // await delay(2000);
-  // throw new Error("Something broke");
 
   const post = await getPostBySlug(slug);
 
@@ -67,6 +58,4 @@ const BlogDetailPage = async ({ params }: Props) => {
       <MDXContent content={post.content} />
     </article>
   );
-};
-
-export default BlogDetailPage;
+}
