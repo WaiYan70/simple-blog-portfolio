@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 import { MDXContent } from "@/components/blog/MDXContent";
 import { getAllPosts, getPostBySlug } from "@/lib/post";
-import { notFound } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -46,6 +48,15 @@ const BlogDetailPage = async ({ params }: Props) => {
 
   return (
     <article className="mx-auto max-w-3xl py-10">
+      <div className="flex items-center mb-4">
+        <span>
+          <ArrowLeft size={16} />
+        </span>
+        <Link href="/blog" className="text-sm">
+          Back to the Blog Page
+        </Link>
+      </div>
+
       <h1 className="text-3xl font-bold">{post.title}</h1>
       <p className="mt-2">{post.description}</p>
       <MDXContent content={post.content} />
