@@ -3,7 +3,7 @@ import { Computer } from "lucide-react";
 
 const navItem = [
   { href: "/blog", label: "Blogs" },
-  { href: "/project", label: "Projects" },
+  { href: "/projects", label: "Projects" },
 ];
 
 const socialLinks = [
@@ -20,7 +20,7 @@ const Navbar = () => {
       <nav className="flex justify-between w-full max-w-3xl px-4 py-3">
         <div>
           <Link href="/" className="font-bold">
-            KWY
+            Khant.DEV
           </Link>
         </div>
         <div className="flex items-center gap-4">
