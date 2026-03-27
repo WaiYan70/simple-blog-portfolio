@@ -53,8 +53,8 @@ export default async function BlogDetailPage({ params }: Props) {
         </Link>
       </div>
 
-      <h1 className="text-3xl font-bold">{post.title}</h1>
-      <p className="mt-2">{post.description}</p>
+      <h1>{post.title}</h1>
+      <p>{post.description}</p>
       <MDXContent content={post.content} />
     </article>
   );

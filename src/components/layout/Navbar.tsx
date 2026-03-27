@@ -9,10 +9,17 @@ const navItem = [
 ];
 
 const socialLinks = [
-  { href: "https://github.com/WaiYan70", label: "GitHub" },
+  {
+    href: "https://github.com/WaiYan70",
+    label: "GitHub",
+    icon: (props: { size: number }) => (
+      <BrandIcon path={siGithub.path} title="GitHub" {...props} />
+    ),
+  },
   {
     href: "https://www.linkedin.com/in/khant-wai-yan-00b1241b9/",
     label: "Linkedln",
+    icon: LinkedInIcon,
   },
 ];
 
@@ -38,25 +45,21 @@ const Navbar = () => {
           </div>
           <div>|</div>
           <div className="flex gap-4">
-            <Link
-              href="https://github.com/WaiYan70"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="GitHub"
-              className="text-muted-foreground transition hover:text-foreground"
-            >
-              <BrandIcon path={siGithub.path} title="GitHub" />
-            </Link>
-
-            <Link
-              href="https://www.linkedin.com/in/khant-wai-yan-00b1241b9/"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="LinkedIn"
-              className="text-muted-foreground transition hover:text-foreground"
-            >
-              <LinkedInIcon />
-            </Link>
+            {socialLinks.map((socialLink) => {
+              const Icon = socialLink.icon;
+              return (
+                <Link
+                  key={socialLink.href}
+                  href={socialLink.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={socialLink.label}
+                  className="text-muted-foreground transition hover:text-foreground"
+                >
+                  <Icon size={16} />
+                </Link>
+              );
+            })}
           </div>
         </div>
       </nav>
