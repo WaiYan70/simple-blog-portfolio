@@ -1,3 +1,4 @@
+import { MDXContent } from "@/components/blog/MDXContent";
 import { getAllProjects, getProjectBySlug } from "@/lib/project";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -40,6 +41,7 @@ export default async function ProjectDetailPage({ params }: Props) {
     <article>
       <h1>{project.title}</h1>
       <p>{project.description}</p>
+      <MDXContent content={project.content} />
     </article>
   );
 }

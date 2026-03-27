@@ -43,7 +43,7 @@ export default async function BlogDetailPage({ params }: Props) {
   if (!post) return notFound();
 
   return (
-    <article className="mx-auto max-w-3xl py-10">
+    <article>
       <div className="flex items-center mb-4">
         <span>
           <ArrowLeft size={16} />

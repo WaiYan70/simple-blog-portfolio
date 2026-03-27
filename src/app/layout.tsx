@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Navbar from "@/components/layout/Navbar";
+import { Container } from "@/components/layout/Container";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -47,7 +48,9 @@ export default function RootLayout({
       {/* use "dark" in classname for now, until learning dark/light mode toggle */}
       <body className="min-h-full flex flex-col">
         <Navbar />
-        <main>{children}</main>
+        <main>
+          <Container>{children}</Container>
+        </main>
       </body>
     </html>
   );
