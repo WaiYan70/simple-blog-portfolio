@@ -10,7 +10,7 @@ export type PostSummary = Omit<Post, "content">;
 export const getAllPosts = async (): Promise<PostSummary[]> => {
   const files = fs.readdirSync(postDirectory);
 
-  return files.map((file) => {
+  const posts = files.map((file) => {
     const filePath = path.join(postDirectory, file);
     const fileContent = fs.readFileSync(filePath, "utf-8");
     const { data } = matter(fileContent);
@@ -21,6 +21,10 @@ export const getAllPosts = async (): Promise<PostSummary[]> => {
       description: typeof data.description === "string" ? data.description : "",
       date: typeof data.date === "string" ? data.date : "",
     };
+  });
+
+  return posts.sort((b, a) => {
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
   });
 };
 
