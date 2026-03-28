@@ -46,7 +46,7 @@ export default function RootLayout({
       )}
     >
       {/* use "dark" in classname for now, until learning dark/light mode toggle */}
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col dark">
         <Navbar />
         <main>
           <Container>{children}</Container>
