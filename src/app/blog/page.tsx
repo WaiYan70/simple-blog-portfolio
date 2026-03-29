@@ -10,6 +10,7 @@ export default async function BlogPage() {
         <Link key={post.slug} href={`/blog/${post.slug}`}>
           <h2 className="font-medium">{post.title}</h2>
           <p className="text-sm">{post.description}</p>
+          <p>{post.readingTime} mins to read</p>
           <p>{post.date}</p>
         </Link>
       ))}

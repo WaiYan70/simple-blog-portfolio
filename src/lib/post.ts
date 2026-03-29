@@ -13,13 +13,15 @@ export const getAllPosts = async (): Promise<PostSummary[]> => {
   const posts = files.map((file) => {
     const filePath = path.join(postDirectory, file);
     const fileContent = fs.readFileSync(filePath, "utf-8");
-    const { data } = matter(fileContent);
+    const { data, content } = matter(fileContent);
+    const readingTime = calculateReadingTime(content);
 
     return {
       slug: file.replace(".mdx", ""),
       title: typeof data.title === "string" ? data.title : "",
       description: typeof data.description === "string" ? data.description : "",
       date: typeof data.date === "string" ? data.date : "",
+      readingTime: readingTime,
     };
   });
 
@@ -44,4 +46,11 @@ export const getPostBySlug = async (slug: string) => {
     date: typeof data.date === "string" ? data.date : "",
     content,
   };
+};
+
+const calculateReadingTime = (content: string): number => {
+  if (!content.trim()) return 0;
+
+  const words = content.trim().split(/\s+/).length;
+  return Math.ceil(words / 150);
 };
