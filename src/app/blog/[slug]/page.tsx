@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { MDXContent } from "@/components/blog/MDXContent";
 import { getAllPosts, getPostBySlug } from "@/lib/post";
 import { ArrowLeft } from "lucide-react";
+import { TableOfContents } from "@/components/blog/TableOfContent";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -43,23 +44,29 @@ export default async function BlogDetailPage({ params }: Props) {
   if (!post) return notFound();
 
   return (
-    <article>
-      <div className="flex items-center mb-4">
-        <span>
-          <ArrowLeft size={16} />
-        </span>
-        <Link href="/blog" className="text-sm">
-          Back to the Blog Page
-        </Link>
-      </div>
+    <div className="mx-auto max-w-5xl p-4 flex gap-10">
+      <article className="flex-1 max-w-3xl">
+        <div className="flex items-center mb-4">
+          <span>
+            <ArrowLeft size={16} />
+          </span>
+          <Link href="/blog" className="text-sm">
+            Back to the Blog Page
+          </Link>
+        </div>
 
-      <h1>{post.title}</h1>
-      <p>{post.description}</p>
-      {post.headings.map((header) => (
-        <p key={header.slug}>{header.level} level</p>
-      ))}
-      {post.headings.length}
-      <MDXContent content={post.content} />
-    </article>
+        <h1>{post.title}</h1>
+        <p>{post.description}</p>
+        {/*{post.headings.map((header) => (
+          <p key={header.slug}>{header.level} level</p>
+        ))}
+        {post.headings.length}*/}
+        <MDXContent content={post.content} />
+      </article>
+
+      <aside className="hidden lg:block w-64 sticky top-20 h-fit">
+        <TableOfContents headings={post.headings} />
+      </aside>
+    </div>
   );
 }
