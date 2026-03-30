@@ -1,3 +1,9 @@
+export type Heading = {
+  text: string;
+  slug: string;
+  level: number;
+};
+
 export type Post = {
   slug: string;
   title: string;
@@ -5,4 +11,5 @@ export type Post = {
   content: string;
   date: string;
   readingTime: number;
+  headings: Heading[];
 };

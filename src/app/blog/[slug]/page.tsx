@@ -55,6 +55,10 @@ export default async function BlogDetailPage({ params }: Props) {
 
       <h1>{post.title}</h1>
       <p>{post.description}</p>
+      {post.headings.map((header) => (
+        <p key={header.slug}>{header.level} level</p>
+      ))}
+      {post.headings.length}
       <MDXContent content={post.content} />
     </article>
   );
