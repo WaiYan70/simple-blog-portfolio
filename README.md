@@ -34,3 +34,12 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+What features I implemented in this next.js, are:
+
+Full blog system
++ MDX (mainly next-remote-mdx to render .mdx, code block shiki, rehype pretty code shiki plugiin)
++ Table Of Contect (TOC)
++ Search (Client Side Search)
++ Dark mode (next-themes)
++ OG images (vercel/og)
