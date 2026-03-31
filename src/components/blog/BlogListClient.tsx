@@ -24,7 +24,7 @@ export const BlogListClient = ({ posts }: Props) => {
   return (
     <div className="space-y-4">
       {/* Search input */}
-      <div className="relative group">
+      <div className="relative group mb-2">
         <label htmlFor="search" className="sr-only">
           Search posts
         </label>
@@ -44,27 +44,31 @@ export const BlogListClient = ({ posts }: Props) => {
       {/* Results */}
       <div className="flex flex-col gap-4">
         {filteredPosts.map((post) => (
-          <Link key={post.slug} href={`/blog/${post.slug}`}>
-            <div className="rounded-2xl border border-border bg-card p-4 text-card-foreground transition-colors hover:bg-muted/40">
-              <h2 className="font-semibold">{post.title}</h2>
-              <p className="text-sm text-muted-foreground">
-                {post.description}
-              </p>
+          <Link
+            key={post.slug}
+            href={`/blog/${post.slug}`}
+            className="group block rounded-2xl border border-border bg-card p-5 transistion hover:bg-muted/40"
+          >
+            <h2 className="text-lg font-semibold tracking-tight transition group-hover:text-primary">
+              {post.title}
+            </h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              {post.description}
+            </p>
 
-              <div className="my-2 flex flex-wrap gap-2">
-                {post.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full bg-muted px-2.5 py-1 text-xs text-muted-foreground"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-              <p className="text-xs text-muted-foreground">
-                {post.readingTime} mins to read, {post.date}
-              </p>
+            <div className="my-2 flex flex-wrap gap-2">
+              {post.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-full bg-primary/10 px-2.5 py-1 text-xs text-primary"
+                >
+                  {tag}
+                </span>
+              ))}
             </div>
+            <p className="mt-2 text-xs text-muted-foreground">
+              {post.readingTime} min read · {post.date}
+            </p>
           </Link>
         ))}
 

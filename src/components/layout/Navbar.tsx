@@ -29,7 +29,7 @@ const Navbar = () => {
     <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur">
       <nav className="mx-auto max-w-5xl flex items-center justify-between px-4 py-3">
         <Link href="/" className="font-semibold tracking-tight">
-          Khant.dev
+          <span className="text-primary">khant</span>.dev
         </Link>
 
         <div className="flex items-center gap-6">
