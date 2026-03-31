@@ -10,6 +10,7 @@ export type Post = {
   description: string;
   content: string;
   date: string;
+  tags: string[];
   readingTime: number;
   headings: Heading[];
 };

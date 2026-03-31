@@ -57,10 +57,13 @@ export default async function BlogDetailPage({ params }: Props) {
 
         <h1>{post.title}</h1>
         <p>{post.description}</p>
-        {/*{post.headings.map((header) => (
-          <p key={header.slug}>{header.level} level</p>
-        ))}
-        {post.headings.length}*/}
+        <div className="flex gap-2 mt-4 flex-wrap">
+          {post.tags.map((tag) => (
+            <span key={tag} className="text-xs bg-muted px-2 py-1 rounded">
+              {tag}
+            </span>
+          ))}
+        </div>
         <MDXContent content={post.content} />
       </article>
 

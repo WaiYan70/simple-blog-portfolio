@@ -23,6 +23,7 @@ export const getAllPosts = async (): Promise<PostSummary[]> => {
       title: typeof data.title === "string" ? data.title : "",
       description: typeof data.description === "string" ? data.description : "",
       date: typeof data.date === "string" ? data.date : "",
+      tags: Array.isArray(data.tags) ? data.tags : [],
       readingTime: readingTime,
       headings: headings,
     };
@@ -52,6 +53,7 @@ export const getPostBySlug = async (slug: string): Promise<Post | null> => {
     description: typeof data.description === "string" ? data.description : "",
     date: typeof data.date === "string" ? data.date : "",
     content,
+    tags: Array.isArray(data.tags) ? data.tags : [],
     readingTime: readingTime,
     headings: headings,
   };
