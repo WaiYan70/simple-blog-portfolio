@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import Navbar from "@/components/layout/Navbar";
 import { Container } from "@/components/layout/Container";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -38,19 +39,22 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       className={cn(
         "h-full",
         "antialiased",
         inter.variable,
         jetbrainsMono.variable,
       )}
+      suppressHydrationWarning
     >
-      {/* use "dark" in classname for now, until learning dark/light mode toggle */}
-      <body className="min-h-full flex flex-col dark">
-        <Navbar />
-        <main>
-          <Container>{children}</Container>
-        </main>
+      <body className="min-h-full flex flex-col">
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Navbar />
+          <main>
+            <Container>{children}</Container>
+          </main>
+        </ThemeProvider>
       </body>
     </html>
   );

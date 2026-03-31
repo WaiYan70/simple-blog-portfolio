@@ -2,6 +2,7 @@ import Link from "next/link";
 import { siGithub } from "simple-icons/icons";
 import { BrandIcon } from "../shared/BrandIcon";
 import { LinkedInIcon } from "../icons/LinkedIn";
+import { ThemeToggle } from "../theme/ThemeToggle";
 
 const navItem = [
   { href: "/blog", label: "Blogs" },
@@ -43,7 +44,9 @@ const Navbar = () => {
               </Link>
             ))}
           </div>
-          <div>|</div>
+
+          <ThemeToggle />
+
           <div className="flex gap-4">
             {socialLinks.map((socialLink) => {
               const Icon = socialLink.icon;

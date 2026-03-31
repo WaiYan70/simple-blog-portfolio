@@ -64,7 +64,10 @@ export default async function BlogDetailPage({ params }: Props) {
         <MDXContent content={post.content} />
       </article>
 
-      <aside className="hidden lg:block w-64 sticky top-20 h-fit">
+      <aside className="hidden lg:block w-60 sticky top-20 h-fit text-left border-2">
+        <h3 className="text-sm font-semibold text-muted-foreground uppercase mb-4">
+          On this page
+        </h3>
         <TableOfContents headings={post.headings} />
       </aside>
     </div>
