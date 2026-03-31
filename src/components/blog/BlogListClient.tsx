@@ -37,8 +37,7 @@ export const BlogListClient = ({ posts }: Props) => {
           placeholder="Search posts by title, description, or tag..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="w-full rounded-md border bg-background py-2 pl-9 pr-3 text-sm
-          transition focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+          className="w-full rounded-xl border border-border bg-background py-2.5 pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground transition focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
         />
       </div>
 
@@ -46,23 +45,23 @@ export const BlogListClient = ({ posts }: Props) => {
       <div className="flex flex-col gap-4">
         {filteredPosts.map((post) => (
           <Link key={post.slug} href={`/blog/${post.slug}`}>
-            <div className="p-4 border rounded-xl hover:bg-muted/50 transition">
+            <div className="rounded-2xl border border-border bg-card p-4 text-card-foreground transition-colors hover:bg-muted/40">
               <h2 className="font-semibold">{post.title}</h2>
               <p className="text-sm text-muted-foreground">
                 {post.description}
               </p>
 
-              <div className="flex gap-2 my-2 flex-wrap">
+              <div className="my-2 flex flex-wrap gap-2">
                 {post.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="text-xs bg-muted px-2 py-1 rounded"
+                    className="rounded-full bg-muted px-2.5 py-1 text-xs text-muted-foreground"
                   >
                     {tag}
                   </span>
                 ))}
               </div>
-              <p className="text-xs">
+              <p className="text-xs text-muted-foreground">
                 {post.readingTime} mins to read, {post.date}
               </p>
             </div>

@@ -36,12 +36,12 @@ export const TableOfContents = ({ headings }: Props) => {
   }, [headings]);
 
   return (
-    <nav>
+    <nav className="space-y-2 border-l border-border pl-4">
       {headings.map((h) => (
         <a
           key={h.slug}
           href={`#${h.slug}`}
-          className={`block transition ${activeId === h.slug ? "text-primary font-medium" : "text-muted-foreground hover:text-foreground"}`}
+          className={`block text-sm transition ${activeId === h.slug ? "font-medium text-primary" : "text-muted-foreground hover:text-foreground"}`}
         >
           {h.text}
         </a>

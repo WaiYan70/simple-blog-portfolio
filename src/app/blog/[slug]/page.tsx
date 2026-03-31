@@ -44,22 +44,35 @@ export default async function BlogDetailPage({ params }: Props) {
   if (!post) return notFound();
 
   return (
-    <div className="mx-auto max-w-5xl p-4 flex gap-10">
+    <div className="mx-auto flex max-w-5xl gap-10 px-4 py-2">
       <article className="flex-1 max-w-3xl">
-        <div className="flex items-center mb-4">
-          <span>
+        <div className="mb-4 flex items-center gap-2 text-muted-foreground">
+          <span aria-hidden="true">
             <ArrowLeft size={16} />
           </span>
-          <Link href="/blog" className="text-sm">
+          <Link
+            href="/blog"
+            className="text-sm transition hover:text-foreground"
+          >
             Back to the Blog Page
           </Link>
         </div>
 
-        <h1>{post.title}</h1>
-        <p>{post.description}</p>
-        <div className="flex gap-2 mt-4 flex-wrap">
+        <div className="rounded-3xl border border-border bg-card p-6 text-card-foreground shadow-sm">
+          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+            {post.title}
+          </h1>
+          <p className="mt-3 text-sm leading-6 text-muted-foreground sm:text-base">
+            {post.description}
+          </p>
+        </div>
+
+        <div className="mt-4 flex flex-wrap gap-2">
           {post.tags.map((tag) => (
-            <span key={tag} className="text-xs bg-muted px-2 py-1 rounded">
+            <span
+              key={tag}
+              className="rounded-full bg-muted px-2.5 py-1 text-xs text-muted-foreground"
+            >
               {tag}
             </span>
           ))}
@@ -67,8 +80,8 @@ export default async function BlogDetailPage({ params }: Props) {
         <MDXContent content={post.content} />
       </article>
 
-      <aside className="hidden lg:block w-60 sticky top-20 h-fit text-left border-2">
-        <h3 className="text-sm font-semibold text-muted-foreground uppercase mb-4">
+      <aside className="sticky top-20 hidden h-fit w-60 rounded-2xl border border-border bg-card p-4 text-left text-card-foreground lg:block">
+        <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.16em] text-muted-foreground">
           On this page
         </h3>
         <TableOfContents headings={post.headings} />
