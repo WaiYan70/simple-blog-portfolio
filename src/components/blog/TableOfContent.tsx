@@ -18,21 +18,26 @@ export const TableOfContents = ({ headings }: Props) => {
 
       const visibleHeadings = headingElements.filter(Boolean);
 
-      const current = visibleHeadings.find((element) => {
-        if (!element) return false;
+      let currentId = "";
+
+      for (const element of visibleHeadings) {
+        if (!element) continue;
 
         const rect = element.getBoundingClientRect();
-        return rect.top >= 0 && rect.top <= 200;
-      });
 
-      if (current) {
-        setActiveId(current.id);
+        if (rect.top <= 100) {
+          currentId = element.id;
+        }
+      }
+
+      if (currentId) {
+        setActiveId(currentId);
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
-    return window.removeEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [headings]);
 
   return (
@@ -41,8 +46,20 @@ export const TableOfContents = ({ headings }: Props) => {
         <a
           key={h.slug}
           href={`#${h.slug}`}
-          className={`block text-sm transition ${activeId === h.slug ? "font-medium text-primary" : "text-muted-foreground hover:text-foreground"}`}
+          style={{
+            paddingLeft: `${(h.level - 2) * 12}px`,
+          }}
+          className={`block text-sm transition relative ${
+            activeId === h.slug
+              ? "text-primary font-medium"
+              : "text-muted-foreground hover:text-foreground"
+          }`}
         >
+          <span
+            className={`absolute -left-4 top-1/2 h-4 w-[2px] -translate-y-1/2 ${
+              activeId === h.slug ? "bg-primary" : "bg-transparent"
+            }`}
+          />
           {h.text}
         </a>
       ))}

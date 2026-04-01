@@ -9,6 +9,8 @@ tags: ["Next.js", "MDX", "Performance"]
 
 For this project, I want blog posts to stay easy to read, easy to maintain, and easy to scale. That is why I store each article as an `.mdx` file with frontmatter.
 
+The important part is not that the content is local. The important part is that the content format stays understandable months later. A blog system becomes annoying very quickly when publishing a new post requires touching too many files, remembering hidden conventions, or debugging a fragile pipeline.
+
 ## Why MDX
 
 MDX gives me two useful things:
@@ -17,6 +19,8 @@ MDX gives me two useful things:
 2. React component support when I need richer content later
 
 That means I can start simple and still keep the option to add custom UI when needed.
+
+This is especially helpful for a portfolio site. Some posts are just narrative writing. Others may need code examples, architecture notes, diagrams, or richer components. MDX keeps both use cases in one content format without forcing the whole system to become complex.
 
 ## Frontmatter shape
 
@@ -28,6 +32,15 @@ Each post includes a small set of metadata:
 
 This is enough to render a blog list page and a detail page without introducing unnecessary complexity.
 
+As the site grows, I can extend the shape with optional fields like:
+
+- `tags`
+- `readingTime`
+- `published`
+- `coverImage`
+
+The key is to avoid inventing fields before they solve a real problem.
+
 ## Rendering flow
 
 The content pipeline is straightforward:
@@ -37,8 +50,51 @@ The content pipeline is straightforward:
 3. Pass the content string into the MDX renderer
 4. Render custom components for headings, paragraphs, links, and code blocks
 
+This separation keeps the responsibilities clear:
+
+- content files store the article
+- utility functions load and normalize the data
+- page components render the page shell
+- MDX components control presentation
+
+That is easier to maintain than mixing file IO, parsing, rendering, and styling inside one route file.
+
+## What can go wrong
+
+MDX setups are simple until they are not. The problems I ran into were mostly predictable:
+
+- malformed frontmatter
+- unclosed code fences
+- type leakage from loosely typed content parsing
+- rendering markdown as plain strings instead of MDX
+- hydration mismatches when client-only behavior leaks into server-first pages
+
+Most of those issues came from pipeline mismatches rather than complicated bugs. The fix was usually to make the data flow explicit and keep the rendering path consistent.
+
 ### Example snippet
 
 ```tsx
 <MDXContent content={post.content} />
 ```
+
+## Why I prefer local content here
+
+For a personal site, local MDX has several advantages:
+
+1. version control for both content and presentation
+2. no extra CMS setup
+3. simple deployment model
+4. easy refactoring when the content model changes
+
+That does not mean a CMS is bad. It just means the operational overhead is unnecessary for the current size of this project.
+
+## Long-term direction
+
+If the site grows into something larger, I would still keep the same principles:
+
+- strong content types
+- predictable rendering pipeline
+- minimal hidden magic
+- clear ownership between data and UI
+
+MDX works well here because it supports that style of system design. It is not only a content format. It is also a way to keep the content layer close to the engineering workflow.

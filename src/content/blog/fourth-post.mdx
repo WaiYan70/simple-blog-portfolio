@@ -5,15 +5,86 @@ date: "2026-07-26"
 tags: ["Next.js", "MDX", "Performance"]
 ---
 
-## the Usage of both function Next JS
+# Difference Between Function Declarations and Arrow Functions
 
-For example:
- 
-Why we need this generateStaticParams() function
+JavaScript gives us more than one way to define functions, and it is easy to treat them as interchangeable. In everyday code they often look similar, but the differences matter once you start working with callbacks, event handlers, object methods, and framework code.
 
-- This function tells the Next.js what dynamic routes exit at build time like a pre-built
-- Without it, Next.js do not know how many routes are there.
-- Because Next.js calls it internally during build
+For this project, I try to use each style deliberately rather than by habit. The choice is not only about syntax. It affects readability, `this` behavior, hoisting, and how predictable the function feels in context.
 
-1. Static Generation (SSG): Faster pages, SEO
-2. Performance: No runtime fetching, instant load
+## Function declarations
+
+Function declarations are useful when the function has a clear identity and should read like part of the module's public behavior.
+
+```ts
+export async function generateStaticParams() {
+  return [{ slug: "first-post" }, { slug: "second-post" }];
+}
+```
+
+This style works well when:
+
+- the function is exported
+- the framework expects a named function
+- you want hoisting
+- the function is important enough to deserve a strong name
+
+In Next.js, examples like `generateStaticParams` and `generateMetadata` are good candidates for function declarations because they are framework-level entry points.
+
+## Arrow functions
+
+Arrow functions are usually better when the function is local, small, or tied closely to a variable or callback.
+
+```ts
+const formatSlug = (value: string) => {
+  return value.toLowerCase().replaceAll(" ", "-");
+};
+```
+
+This style works well when:
+
+- the function is local to a file
+- the function is passed as a callback
+- lexical `this` is useful
+- you want a more compact expression
+
+In React components and small utilities, arrow functions often feel more natural because they stay close to where they are used.
+
+## The this difference
+
+One of the most important differences is how `this` behaves.
+
+- normal functions have their own `this`
+- arrow functions capture `this` from the surrounding scope
+
+That means arrow functions are safer in some callback-heavy situations, but they are not ideal for every object method. If a method relies on its own dynamic `this`, using an arrow function can quietly change behavior in a way that is hard to spot.
+
+## How I apply this rule in this project
+
+My current rule is simple:
+
+1. framework entry points use function declarations
+2. small helpers and component-level logic use arrow functions
+3. I avoid mixing styles randomly within the same file
+
+The goal is consistency more than ideology. A team can work with either style if the usage is deliberate and predictable.
+
+## Example from Next.js
+
+Why do we need `generateStaticParams()`?
+
+- it tells Next.js which dynamic routes exist at build time
+- it allows static generation for known route params
+- it improves performance for content-driven pages
+- it gives the framework the list of slugs it should pre-render
+
+That is a good example of a named function that benefits from being explicit.
+
+## Common mistake
+
+A common mistake is choosing arrow functions everywhere because they feel modern, or choosing normal functions everywhere because they feel traditional. Neither approach is very useful by itself.
+
+The better question is: what makes this specific function easier to understand in this location?
+
+## Final thought
+
+Good code style decisions are rarely about novelty. They are about making the code easier to read, easier to reason about, and easier to maintain. Function declarations and arrow functions both have a place. The important part is using each one where it makes the intent clearer.

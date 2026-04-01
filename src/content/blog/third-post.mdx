@@ -16,6 +16,8 @@ For me, that means this website should communicate a few things clearly:
 - I value readable code
 - I can explain technical decisions clearly
 
+A portfolio does not need to claim those qualities directly if the work already demonstrates them. The structure of the project, the quality of the writing, and the clarity of the implementation should do most of that communication on their own.
+
 ## Beyond visual design
 
 The design matters, but the structure matters more. If the codebase is difficult to understand, the project does not reflect the kind of engineer I want to be.
@@ -26,6 +28,8 @@ That is why I am focusing on:
 - clear file organization
 - strict TypeScript
 - minimal abstractions
+
+That does not mean the site should feel plain or unfinished. It means the visual layer should be supported by an equally clear implementation. A polished UI built on top of confusing code is still confusing software.
 
 ## Writing as part of engineering
 
@@ -38,6 +42,19 @@ This blog gives me a place to write about:
 - architecture decisions
 - project retrospectives
 
+That writing is useful for me as well. It turns vague instincts into explicit reasoning. It also creates a record I can revisit later when I want to improve a system or compare earlier decisions with newer ones.
+
+## The kind of signal I want the site to send
+
+When someone reads this portfolio, I want them to come away with a few specific impressions:
+
+1. the work is deliberate, not accidental
+2. the code favors long-term maintainability
+3. the engineer behind it can explain tradeoffs clearly
+4. the implementation choices match the scale of the product
+
+That last point matters a lot. I do not want to use heavy abstractions where simple utilities are enough. I also do not want to avoid structure where structure is clearly needed. Good engineering is often about choosing the right level of complexity, not the maximum amount possible.
+
 ## Example code block
 
 ```js
@@ -46,3 +63,20 @@ function publishPost(title) {
 }
 
 console.log(publishPost("What I Want This Portfolio to Show"));
+```
+
+## What this means in practice
+
+For this project, it means I pay attention to things that are easy to skip in a small codebase:
+
+- naming consistency
+- predictable folder structure
+- clear component boundaries
+- token-based styling
+- server-first rendering where possible
+
+Those choices may look small in isolation, but together they change how easy the project is to extend. A site like this should be easy to revisit after a few months and still feel understandable.
+
+## Final note
+
+The strongest portfolios are usually not the loudest ones. They are the ones that make it obvious that the person behind them can think clearly, build responsibly, and communicate the reasoning behind their work. That is the standard I want this site to meet.

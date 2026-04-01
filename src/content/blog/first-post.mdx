@@ -5,9 +5,11 @@ date: "2026-03-26"
 tags: ["Next.js", "MDX", "Performance"]
 ---
 
-I wanted this portfolio to be more than a landing page. The goal is to make it a place where I can explain how I think, how I build, and how I solve technical problems.
+# Building My Portfolio with Next.js
 
-A blog-first portfolio fits that goal well because it lets me document:
+I wanted this portfolio to be more than a landing page. The goal was to build a site that could present my work, but also explain the reasoning behind it. A portfolio can look polished and still say very little about how an engineer actually thinks. I wanted the opposite: a simple interface backed by writing that shows decisions, tradeoffs, and implementation details.
+
+A blog-first portfolio fits that goal because it gives me space to document:
 
 - project decisions
 - technical tradeoffs
@@ -16,9 +18,21 @@ A blog-first portfolio fits that goal well because it lets me document:
 
 ## Why this structure works
 
-Instead of treating writing as a separate activity, I want the blog to be part of the product itself. Every article becomes evidence of how I work as an engineer.
+Instead of treating writing as a separate activity, I want the blog to be part of the product itself. Every article becomes a small piece of proof. It shows how I approach architecture, how I debug issues, and how I communicate technical choices clearly enough for someone else to follow.
 
-This also makes the site easier to evolve over time. I can add new posts without changing the application structure.
+This structure also scales better than a static portfolio page. I can add new posts over time without redesigning the entire site. The content becomes the product. The design supports the writing, and the writing supports the credibility of the work.
+
+## What I wanted from the stack
+
+The technical requirements were intentionally small:
+
+- server-rendered pages by default
+- simple content editing workflow
+- strong TypeScript support
+- minimal client-side state
+- easy styling with reusable primitives
+
+That pushed me toward Next.js App Router and MDX. The combination gives me a straightforward way to keep content close to the codebase while still rendering rich article pages.
 
 ## Current stack
 
@@ -30,6 +44,24 @@ Here is the stack I am using for this project:
 - shadcn/ui
 - MDX
 
+## Why MDX matters here
+
+MDX is a good fit because it lets me start with plain writing and introduce richer rendering only when needed. Most posts can stay close to Markdown, but I still have the option to add custom components for code blocks, callouts, tables of contents, or project-specific visual elements later.
+
+That flexibility matters because I do not want to overbuild the content system on day one. I want the simplest version that still leaves room for growth.
+
+## Design goals
+
+I am not trying to make this portfolio look like a product marketing page. The visual direction is meant to support readability:
+
+- comfortable spacing
+- strong contrast
+- restrained color usage
+- clean typography
+- focused layouts for long-form reading
+
+The UI should stay out of the way. If a visitor spends more time admiring the chrome than reading the content, the design is doing too much.
+
 ## Example code
 
 ```ts
@@ -40,3 +72,18 @@ const site = {
 
 console.log(site.name);
 ```
+
+## What I want to add next
+
+The first version is intentionally narrow, but there are obvious next steps:
+
+1. better metadata per post for SEO and social sharing
+2. richer MDX rendering for code snippets and headings
+3. project pages that mirror the same writing-first approach
+4. search and tag filtering for easier browsing
+
+The goal is not to add features for the sake of it. Each addition should make the writing easier to discover, easier to read, or easier to maintain.
+
+## Closing thought
+
+This portfolio is meant to grow alongside my work. Over time, the strongest part of the site should not be the homepage. It should be the archive of decisions, experiments, mistakes, and improvements that show how I build software in practice.
