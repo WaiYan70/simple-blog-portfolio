@@ -78,6 +78,7 @@ export default async function BlogDetailPage({ params }: Props) {
           ))}
         </div>
         <MDXContent content={post.content} />
+        {/*<div className="h-250">blank</div>*/}
       </article>
 
       <aside className="sticky top-20 hidden h-fit w-60 rounded-2xl border border-border bg-card p-4 text-left text-card-foreground lg:block">

@@ -182,6 +182,6 @@ html {
     scroll-behavior: smooth;
 }
 
-:target {
-    scroll-margin-top: 5rem;
-}
+/*:target {
+    scroll-margin-top: 100px;
+}*/

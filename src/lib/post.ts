@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { Heading, Post } from "@/types/post";
+import { slugifyHeading } from "@/lib/heading";
 
 const postDirectory = path.join(process.cwd(), "src/content/blog");
 
@@ -76,11 +77,7 @@ const extractHeaders = (content: string) => {
   for (const match of matches) {
     const level = match[1].length;
     const text = match[2];
-    const slug = text
-      .toLowerCase()
-      .trim()
-      .replace(/\s+/g, "-")
-      .replace(/[^\w-]/g, "");
+    const slug = slugifyHeading(text);
 
     if (level >= 2) {
       headings.push({ level, text, slug });
