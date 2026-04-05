@@ -3,8 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXContent } from "@/components/blog/MDXContent";
 import { getAllPosts, getPostBySlug } from "@/lib/post";
-import { ArrowLeft } from "lucide-react";
 import { TableOfContents } from "@/components/blog/TableOfContent";
+import { ArrowLeft } from "lucide-react";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -52,7 +52,8 @@ export default async function BlogDetailPage({ params }: Props) {
           </span>
           <Link
             href="/blog"
-            className="text-sm transition hover:text-foreground"
+            // className="text-sm transition hover:text-foreground"
+            className="text-sm text-muted-foreground transition hover:text-primary"
           >
             Back to the Blog Page
           </Link>

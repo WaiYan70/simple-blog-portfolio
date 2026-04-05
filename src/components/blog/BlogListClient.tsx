@@ -47,7 +47,7 @@ export const BlogListClient = ({ posts }: Props) => {
           <Link
             key={post.slug}
             href={`/blog/${post.slug}`}
-            className="group block rounded-2xl border border-border bg-card p-5 transistion hover:bg-muted/40 hover:shadow-sm"
+            className="group block rounded-2xl border border-border bg-card p-5 transition hover:bg-muted/40 hover:shadow-sm"
           >
             <h2 className="text-lg font-semibold tracking-tight transition group-hover:text-primary">
               {post.title}
