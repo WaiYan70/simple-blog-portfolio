@@ -1,8 +1,8 @@
-import { Project } from "@/types/project";
 import { BaseCard } from "../shared/BaseCard";
+import { ProjectSummary } from "@/lib/project";
 
 type Props = {
-  project: Project;
+  project: ProjectSummary;
 };
 
 export const ProjectCard = ({ project }: Props) => {
