@@ -28,7 +28,7 @@ export default async function Home() {
         <h2 className="text-2xl font-semibold tracking-tight">
           Latest Project
         </h2>
-        <div className="flex flex-col gap-4">
+        <div className="flex gap-4">
           {latestProject.map((project) => (
             <ProjectCard key={project.slug} project={project} />
           ))}
