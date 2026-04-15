@@ -14,17 +14,21 @@ export default async function Home() {
   return (
     <>
       <Hero />
-      <section>
-        <h2>Latest Writing</h2>
-        <div>
+      <section className="mt-12 space-y-6">
+        <h2 className="text-2xl font-semibold tracking-tight">
+          Latest Writing
+        </h2>
+        <div className="flex flex-col gap-4">
           {latestPosts.map((post) => (
             <BlogCard key={post.slug} post={post} />
           ))}
         </div>
       </section>
-      <section>
-        <h2>Latest Project</h2>
-        <div>
+      <section className="mt-12 space-y-6">
+        <h2 className="text-2xl font-semibold tracking-tight">
+          Latest Project
+        </h2>
+        <div className="flex flex-col gap-4">
           {latestProject.map((project) => (
             <ProjectCard key={project.slug} project={project} />
           ))}

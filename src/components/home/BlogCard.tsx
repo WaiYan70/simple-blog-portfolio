@@ -8,8 +8,13 @@ type Props = {
 export const BlogCard = ({ post }: Props) => {
   return (
     <BaseCard href={`/blog/${post.slug}`}>
-      <h3>{post.title}</h3>
-      <p>{post.description}</p>
+      <h3 className="text-lg font-semibold tracking-tight transition group-hover:text-primary">
+        {post.title}
+      </h3>
+      <p className="mt-1 text-sm text-muted-foreground">{post.description}</p>
+      <p className="mt-3 text-xs text-muted-foreground">
+        {post.readingTime} min read · {post.date}
+      </p>
     </BaseCard>
   );
 };
