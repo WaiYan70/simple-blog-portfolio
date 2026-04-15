@@ -7,7 +7,7 @@ type Props = {
   headings: Heading[];
 };
 
-export const TableOfContents = ({ headings }: Props) => {
+export function TableOfContents({ headings }: Props) {
   const [activeId, setActiveId] = useState<string>("");
 
   useEffect(() => {
@@ -82,4 +82,4 @@ export const TableOfContents = ({ headings }: Props) => {
       ))}
     </nav>
   );
-};
+}

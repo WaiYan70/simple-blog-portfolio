@@ -9,7 +9,7 @@ type Props = {
   posts: PostSummary[];
 };
 
-export const BlogListClient = ({ posts }: Props) => {
+export function BlogListClient({ posts }: Props) {
   const [query, setQuery] = useState("");
 
   const filteredPosts = posts.filter((post) => {
@@ -78,4 +78,4 @@ export const BlogListClient = ({ posts }: Props) => {
       </div>
     </div>
   );
-};
+}

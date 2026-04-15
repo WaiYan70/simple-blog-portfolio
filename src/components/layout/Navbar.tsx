@@ -24,7 +24,7 @@ const socialLinks = [
   },
 ];
 
-const Navbar = () => {
+export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur">
       <nav className="mx-auto max-w-5xl flex items-center justify-between px-4 py-3">
@@ -68,6 +68,4 @@ const Navbar = () => {
       </nav>
     </header>
   );
-};
-
-export default Navbar;
+}

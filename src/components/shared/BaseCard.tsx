@@ -7,7 +7,7 @@ type BaseCardProps = {
   className?: string;
 };
 
-export const BaseCard = ({ children, href, className }: BaseCardProps) => {
+export function BaseCard({ children, href, className }: BaseCardProps) {
   const baseStyle =
     "group block rounded-2xl border border-border bg-card p-5 transistion hover:bg-muted/40 hover:shadow-sm";
 
@@ -20,4 +20,4 @@ export const BaseCard = ({ children, href, className }: BaseCardProps) => {
   }
 
   return <div className={cn(baseStyle, className)}>{children}</div>;
-};
+}

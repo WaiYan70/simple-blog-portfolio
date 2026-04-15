@@ -7,10 +7,11 @@ type Props = {
   project: ProjectSummary;
 };
 
-export const ProjectCard = ({ project }: Props) => {
+export function ProjectCard({ project }: Props) {
   return (
     <BaseCard href={`/project/${project.slug}`}>
       <div className="space-y-4">
+        {/* Image or preview Placeholder */}
         {project.image ? (
           <div className="relative h-40 w-full overflow-hidden rounded-xl bg-muted">
             <Image
@@ -26,21 +27,6 @@ export const ProjectCard = ({ project }: Props) => {
           </div>
         )}
 
-        {/* Image */}
-        {/*<div className="relative h-40 w-full overflow-hidden rounded-xl bg-muted">
-          <Image
-            src={project.image}
-            alt={project.title}
-            fill
-            className="object-cover transition group-hover:scale-105"
-          />
-        </div>*/}
-
-        {/* Preview */}
-        {/*<div className="h-40 w-full rounded-xl bg-muted flex items-center justify-center text-sm text-muted-foreground space-x-2">
-          <Terminal /> <span>Preview</span>
-        </div>*/}
-
         {/* Content */}
         <div>
           <h3 className="text-lg font-semibold tracking-tight group-hover:text-primary">
@@ -54,4 +40,4 @@ export const ProjectCard = ({ project }: Props) => {
       </div>
     </BaseCard>
   );
-};
+}

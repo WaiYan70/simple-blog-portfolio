@@ -1,5 +1,6 @@
 import { BlogCard } from "@/components/home/BlogCard";
 import Hero from "@/components/home/Hero";
+import { HighLight } from "@/components/home/HighLight";
 import { ProjectCard } from "@/components/home/ProjectCard";
 import { getAllPosts } from "@/lib/post";
 import { getAllProjects } from "@/lib/project";
@@ -16,16 +17,6 @@ export default async function Home() {
       <Hero />
       <section className="mt-12 space-y-6">
         <h2 className="text-2xl font-semibold tracking-tight">
-          Latest Writing
-        </h2>
-        <div className="flex flex-col gap-4">
-          {latestPosts.map((post) => (
-            <BlogCard key={post.slug} post={post} />
-          ))}
-        </div>
-      </section>
-      <section className="mt-12 space-y-6">
-        <h2 className="text-2xl font-semibold tracking-tight">
           Latest Project
         </h2>
         <div className="flex gap-4">
@@ -34,6 +25,17 @@ export default async function Home() {
           ))}
         </div>
       </section>
+      <section className="mt-12 space-y-6">
+        <h2 className="text-2xl font-semibold tracking-tight">
+          Latest Writing
+        </h2>
+        <div className="flex flex-col gap-4">
+          {latestPosts.map((post) => (
+            <BlogCard key={post.slug} post={post} />
+          ))}
+        </div>
+      </section>
+      <HighLight />
     </>
   );
 }

@@ -6,7 +6,7 @@ type Props = {
   post: PostSummary;
 };
 
-export const BlogCard = ({ post }: Props) => {
+export function BlogCard({ post }: Props) {
   return (
     <BaseCard href={`/blog/${post.slug}`}>
       <div className="flex items-start justify-between gap-4">
@@ -25,4 +25,4 @@ export const BlogCard = ({ post }: Props) => {
       </div>
     </BaseCard>
   );
-};
+}

@@ -5,12 +5,12 @@ type BrandIconProps = {
   className?: string;
 };
 
-export const BrandIcon = ({
+export function BrandIcon({
   path,
   title,
   size = 16,
   className,
-}: BrandIconProps) => {
+}: BrandIconProps) {
   return (
     <svg
       role="img"
@@ -24,4 +24,4 @@ export const BrandIcon = ({
       <path d={path} />
     </svg>
   );
-};
+}
