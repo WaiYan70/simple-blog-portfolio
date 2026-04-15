@@ -19,6 +19,7 @@ export const getAllProjects = async (): Promise<ProjectSummary[]> => {
       slug: file.replace(".mdx", ""),
       title: typeof data.title === "string" ? data.title : "",
       description: typeof data.description === "string" ? data.description : "",
+      image: typeof data.image === "string" ? data.image : "",
     };
   });
 };
@@ -35,6 +36,7 @@ export const getProjectBySlug = async (slug: string) => {
     slug,
     title: typeof data.title === "string" ? data.title : "",
     description: typeof data.description === "string" ? data.description : "",
+    image: typeof data.image === "string" ? data.image : "",
     content,
   };
 };
