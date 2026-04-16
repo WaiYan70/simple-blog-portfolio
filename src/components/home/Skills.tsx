@@ -1,0 +1,166 @@
+import {
+  siReact,
+  siNodedotjs,
+  siTypescript,
+  siMongodb,
+  siRedis,
+  siNextdotjs,
+  siTailwindcss,
+  siDocker,
+  siPostgresql,
+  siVercel,
+  siRailway,
+  siHostinger,
+  siBun,
+  siJavascript,
+  siPython,
+  siShadcnui,
+  siAxios,
+  siThreedotjs,
+  siVite,
+  siJest,
+  siJsonwebtokens,
+  siGoogleauthenticator,
+  siPuppeteer,
+  siExpress,
+  siCheerio,
+  siCloudinary,
+  siStripe,
+} from "simple-icons/icons";
+import {
+  Server,
+  Monitor,
+  Database,
+  Wrench,
+  Cpu,
+  Shield,
+  Zap,
+  Network,
+} from "lucide-react";
+import { BaseCard } from "../shared/BaseCard";
+
+import type { LucideIcon } from "lucide-react";
+
+type IconType = SimpleIcon | LucideIcon;
+
+type SimpleIcon = {
+  path: string;
+};
+
+const skillGroups = [
+  {
+    title: "Backend",
+    icon: Server,
+    skills: [
+      { name: "Node.js", icon: siNodedotjs },
+      { name: "Bun.js", icon: siBun },
+      { name: "JavaScript", icon: siJavascript },
+      { name: "TypeScript", icon: siTypescript },
+      { name: "Express.js", icon: siExpress },
+      { name: "Python", icon: siPython },
+      { name: "Puppeteer", icon: siPuppeteer },
+      { name: "Cheerio", icon: siCheerio },
+      { name: "MongoDB", icon: siMongodb },
+      { name: "PostgreSQL", icon: siPostgresql },
+      { name: "Redis", icon: siRedis },
+      { name: "JWT", icon: siJsonwebtokens },
+      { name: "OAuth", icon: siGoogleauthenticator },
+    ],
+  },
+  {
+    title: "Frontend",
+    icon: Monitor,
+    skills: [
+      { name: "Vite", icon: siVite },
+      { name: "React", icon: siReact },
+      { name: "Next.js", icon: siNextdotjs },
+      { name: "Tailwind CSS", icon: siTailwindcss },
+      { name: "Shadcn", icon: siShadcnui },
+      { name: "Axios", icon: siAxios },
+      { name: "Three.js", icon: siThreedotjs },
+      { name: "Jest", icon: siJest },
+    ],
+  },
+  {
+    title: "Infra",
+    icon: Database,
+    skills: [
+      { name: "Docker", icon: siDocker },
+      { name: "Atlas", icon: siMongodb },
+      { name: "Neon", icon: siPostgresql },
+      { name: "Vercel", icon: siVercel },
+      { name: "Railway", icon: siRailway },
+      { name: "Hostinger", icon: siHostinger },
+      { name: "Cloudinary", icon: siCloudinary },
+      { name: "Stripe", icon: siStripe },
+    ],
+  },
+  {
+    title: "Practices",
+    icon: Wrench,
+    skills: [
+      { name: "System Design", icon: Cpu },
+      { name: "API Design", icon: Network },
+      { name: "Authentication", icon: Shield },
+      { name: "Performance", icon: Zap },
+    ],
+  },
+];
+
+function SkillIcon({ icon }: { icon: IconType }) {
+  if ("path" in icon) {
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        className="h-4 w-4 fill-current text-muted-foreground"
+      >
+        <path d={icon.path} />
+      </svg>
+    );
+  }
+
+  const Icon = icon;
+  return <Icon className="h-3 w-3 text-muted-foreground" />;
+}
+
+export function Skills() {
+  return (
+    <section className="mt-16 space-y-6">
+      <div className="space-y-2">
+        <h2 className="text-2xl font-semibold tracking-tight">Skills</h2>
+        <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
+          Tools and technologies I use to build full-stack systems with a focus
+          on backend architecture and scalability.
+        </p>
+      </div>
+
+      <div className="grid gap-6 sm:grid-cols-2">
+        {skillGroups.map((group) => {
+          const Icon = group.icon;
+          return (
+            <BaseCard key={group.title}>
+              <div className="flex items-center gap-2">
+                <Icon className="h-4 w-4 text-primary" />
+                <h3 className="text-sm font-semibold uppercase tracking-wide text-foreground">
+                  {group.title}
+                </h3>
+              </div>
+
+              <div className="mt-4 flex flex-wrap gap-2">
+                {group.skills.map((skill) => (
+                  <span
+                    key={skill.name}
+                    className="flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs text-primary"
+                  >
+                    <SkillIcon icon={skill.icon} />
+                    {skill.name}
+                  </span>
+                ))}
+              </div>
+            </BaseCard>
+          );
+        })}
+      </div>
+    </section>
+  );
+}

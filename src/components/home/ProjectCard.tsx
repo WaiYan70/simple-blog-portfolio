@@ -9,20 +9,21 @@ type Props = {
 
 export function ProjectCard({ project }: Props) {
   return (
-    <BaseCard href={`/project/${project.slug}`}>
+    <BaseCard href={`/project/${project.slug}`} className="overflow-hidden">
       <div className="space-y-4">
         {/* Image or preview Placeholder */}
         {project.image ? (
-          <div className="relative h-40 w-full overflow-hidden rounded-xl bg-muted">
+          <div className="relative h-40 w-full overflow-hidden rounded-xl border border-border bg-muted">
             <Image
               src={project.image}
               alt={project.title}
               fill
-              className="object-cover transition group-hover:scale-105"
+              sizes="(max-width: 640px) 100vw, 50vw"
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
             />
           </div>
         ) : (
-          <div className="h-40 w-full rounded-xl bg-muted flex items-center justify-center text-sm text-muted-foreground space-x-2">
+          <div className="h-40 w-full rounded-xl bg-muted flex items-center justify-center text-sm text-muted-foreground gap-2">
             <Terminal /> <span>Preview</span>
           </div>
         )}
