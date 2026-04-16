@@ -9,7 +9,7 @@ type BaseCardProps = {
 
 export function BaseCard({ children, href, className }: BaseCardProps) {
   const baseStyle =
-    "group block rounded-2xl border border-border bg-card p-5 transistion hover:bg-muted/40 hover:shadow-sm";
+    "group block rounded-2xl border border-border bg-card p-4 transistion hover:bg-muted/40 hover:shadow-sm";
 
   if (href) {
     return (

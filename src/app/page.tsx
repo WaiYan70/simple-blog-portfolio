@@ -1,6 +1,9 @@
 import { BlogCard } from "@/components/home/BlogCard";
+import { CurrentBuild } from "@/components/home/CurrentBuild";
 import Hero from "@/components/home/Hero";
 import { Highlight } from "@/components/home/HighLight";
+import { HowIThink } from "@/components/home/HowIThink";
+import { Journey } from "@/components/home/Journey";
 import { ProjectCard } from "@/components/home/ProjectCard";
 import { Skills } from "@/components/home/Skills";
 import { getAllPosts } from "@/lib/post";
@@ -38,6 +41,9 @@ export default async function Home() {
       </section>
       <Highlight />
       <Skills />
+      <CurrentBuild />
+      <HowIThink />
+      <Journey />
     </>
   );
 }
