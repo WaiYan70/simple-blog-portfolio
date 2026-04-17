@@ -1,4 +1,5 @@
 import { BlogCard } from "@/components/home/BlogCard";
+import { Contact } from "@/components/home/ContactMe";
 import { CurrentBuild } from "@/components/home/CurrentBuild";
 import Hero from "@/components/home/Hero";
 import { Highlight } from "@/components/home/HighLight";
@@ -44,6 +45,7 @@ export default async function Home() {
       <CurrentBuild />
       <HowIThink />
       <Journey />
+      <Contact />
     </>
   );
 }
