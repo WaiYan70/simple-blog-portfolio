@@ -110,10 +110,7 @@ const skillGroups = [
 function SkillIcon({ icon }: { icon: IconType }) {
   if ("path" in icon) {
     return (
-      <svg
-        viewBox="0 0 24 24"
-        className="h-4 w-4 fill-current text-muted-foreground"
-      >
+      <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current">
         <path d={icon.path} />
       </svg>
     );

@@ -1,4 +1,4 @@
-import { Project } from "@/types/project";
+import { Project, ProjectStatus } from "@/types/project";
 import {
   isProjectTechIconKey,
   type ProjectTechIconKey,
@@ -25,6 +25,7 @@ export const getAllProjects = async (): Promise<ProjectSummary[]> => {
       description: typeof data.description === "string" ? data.description : "",
       image: typeof data.image === "string" ? data.image : "",
       techstack: normalizeTechStack(data.techstack),
+      status: normalizeProjectStatus(data.status),
     };
   });
 };
@@ -43,6 +44,7 @@ export const getProjectBySlug = async (slug: string) => {
     description: typeof data.description === "string" ? data.description : "",
     image: typeof data.image === "string" ? data.image : "",
     techstack: normalizeTechStack(data.techstack),
+    status: typeof data.status === "string" ? data.status : "",
     content,
   };
 };
@@ -56,4 +58,15 @@ const normalizeTechStack = (value: unknown): ProjectTechIconKey[] => {
   );
 
   return [...new Set(techStack)];
+};
+
+const normalizeProjectStatus = (value: unknown): ProjectStatus => {
+  if (
+    value === "in-progress" ||
+    value === "maintaining" ||
+    value === "completed"
+  ) {
+    return value;
+  }
+  return "in-progress";
 };

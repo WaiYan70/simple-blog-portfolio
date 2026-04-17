@@ -20,6 +20,7 @@ export default async function Home() {
   return (
     <>
       <Hero />
+      <CurrentBuild />
       <section className="mt-12 space-y-6">
         <h2 className="text-2xl font-semibold tracking-tight">
           Latest Project
@@ -42,7 +43,7 @@ export default async function Home() {
       </section>
       <Highlight />
       <Skills />
-      <CurrentBuild />
+
       <HowIThink />
       <Journey />
       <Contact />

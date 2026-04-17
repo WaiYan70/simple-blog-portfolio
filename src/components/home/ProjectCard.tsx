@@ -3,6 +3,7 @@ import { ProjectSummary } from "@/lib/project";
 import Image from "next/image";
 import { Terminal } from "lucide-react";
 import { projectTechIcons } from "@/constants/project-tech-icons";
+import { statusStyles } from "@/types/project";
 
 type Props = {
   project: ProjectSummary;
@@ -10,16 +11,19 @@ type Props = {
 
 export function ProjectCard({ project }: Props) {
   return (
-    <BaseCard href={`/projects/${project.slug}`} className="overflow-hidden">
+    <BaseCard
+      href={`/projects/${project.slug}`}
+      className="overflow-hidden p-0"
+    >
       <div className="space-y-4">
         {/* Image or preview Placeholder */}
         {project.image ? (
-          <div className="relative h-40 w-full overflow-hidden rounded-xl border border-border bg-muted">
+          <div className="relative h-40 w-full overflow-hidden rounded-t-lg border border-border bg-muted">
             <Image
               src={project.image}
               alt={project.title}
               fill
-              sizes="(max-width: 640px) 100vw, 50vw"
+              sizes="(max-width: 640px) 100vw, 75vw"
               className="object-cover transition-transform duration-300 group-hover:scale-105"
             />
           </div>
@@ -30,7 +34,16 @@ export function ProjectCard({ project }: Props) {
         )}
 
         {/* Content */}
-        <div>
+        <div className="m-4">
+          <span
+            className={`inline-flex items-center rounded-full px-2 py-0.75 mb-2 text-xs font-medium ${
+              statusStyles[project.status]
+            }`}
+          >
+            {project.status === "in-progress" && "In Progress"}
+            {project.status === "maintaining" && "Maintaining"}
+            {project.status === "completed" && "Completed"}
+          </span>
           <h3 className="text-lg font-semibold tracking-tight group-hover:text-primary">
             {project.title}
           </h3>
