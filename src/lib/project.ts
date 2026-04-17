@@ -1,4 +1,8 @@
 import { Project } from "@/types/project";
+import {
+  isProjectTechIconKey,
+  type ProjectTechIconKey,
+} from "@/constants/project-tech-icons";
 import fs from "fs";
 import matter from "gray-matter";
 import path from "path";
@@ -20,6 +24,7 @@ export const getAllProjects = async (): Promise<ProjectSummary[]> => {
       title: typeof data.title === "string" ? data.title : "",
       description: typeof data.description === "string" ? data.description : "",
       image: typeof data.image === "string" ? data.image : "",
+      techstack: normalizeTechStack(data.techstack),
     };
   });
 };
@@ -37,6 +42,18 @@ export const getProjectBySlug = async (slug: string) => {
     title: typeof data.title === "string" ? data.title : "",
     description: typeof data.description === "string" ? data.description : "",
     image: typeof data.image === "string" ? data.image : "",
+    techstack: normalizeTechStack(data.techstack),
     content,
   };
+};
+
+const normalizeTechStack = (value: unknown): ProjectTechIconKey[] => {
+  if (!Array.isArray(value)) return [];
+
+  const techStack = value.filter(
+    (item): item is ProjectTechIconKey =>
+      typeof item === "string" && isProjectTechIconKey(item),
+  );
+
+  return [...new Set(techStack)];
 };
