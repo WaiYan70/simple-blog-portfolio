@@ -18,23 +18,23 @@ export function ProjectCard({ project }: Props) {
       <div className="space-y-4">
         {/* Image or preview Placeholder */}
         {project.image ? (
-          <div className="relative h-40 w-full overflow-hidden rounded-t-lg border border-border bg-muted">
+          <div className="relative aspect-video w-full overflow-hidden rounded-t-lg border border-border bg-muted">
             <Image
               src={project.image}
               alt={project.title}
               fill
-              sizes="(max-width: 640px) 100vw, 75vw"
+              sizes="(max-width: 640px) 100vw, 50vw"
               className="object-cover transition-transform duration-300 group-hover:scale-105"
             />
           </div>
         ) : (
-          <div className="h-40 w-full rounded-xl bg-muted flex items-center justify-center text-sm text-muted-foreground gap-2">
+          <div className="aspect-video w-full rounded-xl bg-muted flex items-center justify-center text-sm text-muted-foreground gap-2">
             <Terminal /> <span>Preview</span>
           </div>
         )}
 
         {/* Content */}
-        <div className="m-4">
+        <div className="m-4 space-y-2">
           <span
             className={`inline-flex items-center rounded-full px-2 py-0.75 mb-2 text-xs font-medium ${
               statusStyles[project.status]
@@ -44,11 +44,11 @@ export function ProjectCard({ project }: Props) {
             {project.status === "maintaining" && "Maintaining"}
             {project.status === "completed" && "Completed"}
           </span>
-          <h3 className="text-lg font-semibold tracking-tight group-hover:text-primary">
+          <h3 className="text-lg font-semibold tracking-tight transition group-hover:text-primary truncate">
             {project.title}
           </h3>
 
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground leading-6 line-clamp-3">
             {project.description}
           </p>
 
@@ -61,7 +61,7 @@ export function ProjectCard({ project }: Props) {
                   <span
                     key={techKey}
                     title={icon.title}
-                    className="flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-xs text-primary"
+                    className="flex items-center gap-1.5 rounded-full bg-primary/10 p-1 text-xs text-primary"
                   >
                     <svg
                       viewBox="0 0 24 24"
@@ -70,7 +70,6 @@ export function ProjectCard({ project }: Props) {
                     >
                       <path d={icon.path} />
                     </svg>
-                    <span>{icon.title}</span>
                   </span>
                 );
               })}
