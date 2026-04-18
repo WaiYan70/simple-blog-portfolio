@@ -21,7 +21,10 @@ export function BlogCard({ post }: Props) {
             {post.readingTime} min read · {post.date}
           </p>
         </div>
-        <ArrowRight />
+        <div className="flex items-center gap-1 text-xs text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100">
+          Read
+          <ArrowRight className="h-3 w-3" />
+        </div>
       </div>
     </BaseCard>
   );

@@ -39,7 +39,7 @@ export default function Hero() {
             href="/projects"
             className="text-sm font-medium text-muted-foreground transition hover:text-primary"
           >
-            View Projects →
+            View Projects
           </Link>
         </div>
       </div>
