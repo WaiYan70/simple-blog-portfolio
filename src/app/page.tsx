@@ -1,49 +1,27 @@
-import { BlogCard } from "@/components/home/BlogCard";
+import { BlogSection } from "@/components/home/BlogSection";
 import { Contact } from "@/components/home/ContactMe";
-import { CurrentBuild } from "@/components/home/CurrentBuild";
 import Hero from "@/components/home/Hero";
 import { Highlight } from "@/components/home/HighLight";
 import { HowIThink } from "@/components/home/HowIThink";
 import { Journey } from "@/components/home/Journey";
-import { ProjectCard } from "@/components/home/ProjectCard";
+import { ProjectSection } from "@/components/home/ProjectSection";
 import { Skills } from "@/components/home/Skills";
 import { getAllPosts } from "@/lib/post";
 import { getAllProjects } from "@/lib/project";
 
 export default async function Home() {
   const posts = await getAllPosts();
-  const latestPosts = posts.slice(0, 3);
-
+  const lastThreePosts = posts.slice(0, 3);
   const projects = await getAllProjects();
-  const latestProject = projects.slice(0, 3);
+  const lastThreeProjects = projects.slice(0, 3);
 
   return (
     <>
       <Hero />
-      <CurrentBuild />
-      <section className="mt-12 space-y-6">
-        <h2 className="text-2xl font-semibold tracking-tight">
-          Latest Project
-        </h2>
-        <div className="flex sm:flex-row flex-col gap-4">
-          {latestProject.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
-          ))}
-        </div>
-      </section>
-      <section className="mt-12 space-y-6">
-        <h2 className="text-2xl font-semibold tracking-tight">
-          Latest Writing
-        </h2>
-        <div className="flex flex-col gap-4">
-          {latestPosts.map((post) => (
-            <BlogCard key={post.slug} post={post} />
-          ))}
-        </div>
-      </section>
+      <ProjectSection projects={lastThreeProjects} />
+      <BlogSection posts={lastThreePosts} />
       <Highlight />
       <Skills />
-
       <HowIThink />
       <Journey />
       <Contact />

@@ -48,7 +48,7 @@ export function ProjectCard({ project }: Props) {
             {project.title}
           </h3>
 
-          <p className="text-sm text-muted-foreground leading-6 line-clamp-3">
+          <p className="text-sm text-muted-foreground leading-6 line-clamp-2">
             {project.description}
           </p>
 
