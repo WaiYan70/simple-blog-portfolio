@@ -1,3 +1,6 @@
+import { Section } from "../shared/Section";
+import { SectionHeader } from "../shared/SectionHeader";
+
 const principles = [
   {
     title: "Understand before building",
@@ -23,14 +26,12 @@ const principles = [
 
 export function HowIThink() {
   return (
-    <section className="mt-16 space-y-6">
-      <div className="space-y-2">
-        <h2 className="text-2xl font-semibold tracking-tight">How I Think</h2>
-
-        <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-          My approach to building systems and solving real-world problems.
-        </p>
-      </div>
+    <Section>
+      <SectionHeader
+        title="How I Think"
+        description="My approach to building systems and solving real-world problems."
+        className="space-y-2"
+      />
 
       <div className="space-y-6">
         {principles.map((item) => (
@@ -43,6 +44,6 @@ export function HowIThink() {
           </div>
         ))}
       </div>
-    </section>
+    </Section>
   );
 }

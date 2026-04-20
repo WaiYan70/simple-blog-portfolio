@@ -40,6 +40,8 @@ import {
 import { BaseCard } from "../shared/BaseCard";
 
 import type { LucideIcon } from "lucide-react";
+import { Section } from "../shared/Section";
+import { SectionHeader } from "../shared/SectionHeader";
 
 type IconType = SimpleIcon | LucideIcon;
 
@@ -122,14 +124,13 @@ function SkillIcon({ icon }: { icon: IconType }) {
 
 export function Skills() {
   return (
-    <section className="mt-16 space-y-6">
-      <div className="space-y-2">
-        <h2 className="text-2xl font-semibold tracking-tight">Skills</h2>
-        <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-          Tools and technologies I use to build full-stack systems with a focus
-          on backend architecture and scalability.
-        </p>
-      </div>
+    <Section>
+      <SectionHeader
+        title="Skills"
+        description="Tools and technologies I use to build full-stack systems with a focus
+        on backend architecture and scalability."
+        className="space-y-2"
+      />
 
       <div className="grid gap-6 sm:grid-cols-2">
         {skillGroups.map((group) => {
@@ -158,6 +159,6 @@ export function Skills() {
           );
         })}
       </div>
-    </section>
+    </Section>
   );
 }

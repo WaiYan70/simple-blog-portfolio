@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="relative rounded-3xl border border-border bg-card p-8 shadow-sm sm:p-12">
+    <section className="relative rounded-3xl border border-border bg-card p-6 shadow-sm sm:p-10">
       {/* Subtle background accent */}
       <div className="pointer-events-none absolute inset-0 rounded-3xl bg-linear-to-br from-primary/5 to-transparent" />
 

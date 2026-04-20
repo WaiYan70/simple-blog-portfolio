@@ -1,4 +1,6 @@
 import { BaseCard } from "../shared/BaseCard";
+import { Section } from "../shared/Section";
+import { SectionHeader } from "../shared/SectionHeader";
 
 const highlights = [
   {
@@ -25,8 +27,8 @@ const highlights = [
 
 export function Highlight() {
   return (
-    <section className="mt-16 space-y-6">
-      <h2 className="text-2xl font-semibold tracking-tight">Highlights</h2>
+    <Section>
+      <SectionHeader title="Highlights" />
 
       <div className="grid gap-4 sm:grid-cols-2">
         {highlights.map((highlight) => (
@@ -40,6 +42,6 @@ export function Highlight() {
           </BaseCard>
         ))}
       </div>
-    </section>
+    </Section>
   );
 }

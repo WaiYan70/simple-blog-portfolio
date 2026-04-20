@@ -1,3 +1,6 @@
+import { Section } from "../shared/Section";
+import { SectionHeader } from "../shared/SectionHeader";
+
 const journey = [
   {
     year: "2025",
@@ -33,14 +36,12 @@ const journey = [
 
 export function Journey() {
   return (
-    <section className="mt-16 space-y-6">
-      {/* Header */}
-      <div className="space-y-2">
-        <h2 className="text-2xl font-semibold tracking-tight">Journey</h2>
-        <p className="max-w-2xl text-sm text-muted-foreground">
-          A short timeline of my experience and how I got here.
-        </p>
-      </div>
+    <Section>
+      <SectionHeader
+        title="Journey"
+        description="A short timeline of my experience and how i got here"
+        className="space-y-2"
+      />
 
       {/* Timeline */}
       <div className="relative my-12">
@@ -112,6 +113,6 @@ export function Journey() {
           })}
         </div>
       </div>
-    </section>
+    </Section>
   );
 }

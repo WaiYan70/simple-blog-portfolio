@@ -3,6 +3,8 @@ import { Mail } from "lucide-react";
 import { siGithub } from "simple-icons";
 import { BrandIcon } from "../shared/BrandIcon";
 import { LinkedInIcon } from "../icons/LinkedIn";
+import { Section } from "../shared/Section";
+import { SectionHeader } from "../shared/SectionHeader";
 
 type IconProps = { size: number };
 
@@ -25,17 +27,15 @@ const socialLinks = [
 
 export function Contact() {
   return (
-    <section className="mt-16 space-y-6">
+    <Section>
       {/* Header */}
-      <div className="space-y-2">
-        <h2 className="text-2xl font-semibold tracking-tight">Contact</h2>
-
-        <p className="max-w-2xl text-sm text-muted-foreground leading-6">
-          If you are interested in working together or have any questions, feel
-          free to reach out. I am always open to discussing new opportunities
-          and ideas.
-        </p>
-      </div>
+      <SectionHeader
+        title="Contact"
+        description="If you are interested in working together or have any questions, feel
+        free to reach out. I am always open to discussing new opportunities
+        and ideas."
+        className="space-y-2"
+      />
 
       {/* Card */}
       <div className="flex flex-wrap items-center gap-4">
@@ -68,6 +68,6 @@ export function Contact() {
           );
         })}
       </div>
-    </section>
+    </Section>
   );
 }
