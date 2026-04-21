@@ -19,20 +19,24 @@ export const ThemeToggle = () => {
 
   return (
     <Button
-      variant="outline"
+      variant="ghost"
       size="icon"
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="relative flex items-center justify-center rounded-md transition hover:bg-muted"
+      className="relative flex items-center justify-center rounded-md transition hover:bg-muted/60 hover:scale-105 active:scale-95"
     >
       {/* BEFORE mount → neutral state */}
       <Sun
-        className={`absolute transition-all duration-200 ${
-          mounted && isDark ? "opacity-0 rotate-90" : "opacity-100 rotate-0"
+        className={`absolute transition-all duration-300 ${
+          mounted && isDark
+            ? "opacity-0 rotate-90 scale-75"
+            : "opacity-100 rotate-0 scale-100"
         }`}
       />
       <Moon
-        className={`absolute transition-all duration-200 ${
-          mounted && isDark ? "opacity-100 rotate-0" : "opacity-0 -rotate-90"
+        className={`absolute transition-all duration-300 ${
+          mounted && isDark
+            ? "opacity-100 rotate-0 scale-100"
+            : "opacity-0 -rotate-90 scale-75"
         }`}
       />
     </Button>
