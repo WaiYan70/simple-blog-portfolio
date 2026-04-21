@@ -26,14 +26,14 @@ export const ThemeToggle = () => {
     >
       {/* BEFORE mount → neutral state */}
       <Sun
-        className={`absolute transition-all duration-300 ${
+        className={`absolute transition-all duration-300 will-change-transform ${
           mounted && isDark
             ? "opacity-0 rotate-90 scale-75"
             : "opacity-100 rotate-0 scale-100"
         }`}
       />
       <Moon
-        className={`absolute transition-all duration-300 ${
+        className={`absolute transition-all duration-300 will-change-transform ${
           mounted && isDark
             ? "opacity-100 rotate-0 scale-100"
             : "opacity-0 -rotate-90 scale-75"
