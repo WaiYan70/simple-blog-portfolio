@@ -27,19 +27,35 @@ export const ThemeToggle = () => {
       className="relative flex items-center justify-center rounded-md transition hover:bg-muted/60 hover:scale-105 active:scale-95"
     >
       {/* BEFORE mount → neutral state */}
-      <Sun
-        className={`absolute transition-all duration-500 ease-out will-change-transform ${
-          mounted && isDark
+      {/*<Sun
+        className={`absolute transition-all duration-1000 ease-out will-change-transform ${
+          isDark
             ? "opacity-0 rotate-90 scale-75"
             : "opacity-100 rotate-0 scale-100"
         }`}
       />
       <Moon
-        className={`absolute transition-all duration-500 ease-out will-change-transform ${
-          mounted && isDark
+        className={`absolute transition-all duration-1000 ease-out will-change-transform ${
+          isDark
             ? "opacity-100 rotate-0 scale-100"
             : "opacity-0 -rotate-90 scale-75"
         }`}
+      />*/}
+
+      <Sun
+        className={`
+          absolute h-4 w-4
+          transition-transform duration-700 ease-out
+          ${isDark ? "opacity-0 rotate-180" : "opacity-100 rotate-0"}
+        `}
+      />
+
+      <Moon
+        className={`
+          absolute h-4 w-4
+          transition-transform duration-700 ease-out
+          ${isDark ? "opacity-100 rotate-0" : "opacity-0 -rotate-180"}
+        `}
       />
     </Button>
   );
