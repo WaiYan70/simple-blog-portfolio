@@ -5,6 +5,7 @@ import { MDXContent } from "@/components/blog/MDXContent";
 import { getAllPosts, getPostBySlug } from "@/lib/post";
 import { TableOfContents } from "@/components/blog/TableOfContent";
 import { ArrowLeft } from "lucide-react";
+import { ScrollProgress } from "@/components/blog/ScrollProgress";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -45,6 +46,7 @@ export default async function BlogDetailPage({ params }: Props) {
 
   return (
     <div className="mx-auto flex max-w-5xl gap-10 px-4 py-2">
+      <ScrollProgress />
       <article className="flex-1 max-w-3xl">
         <div className="mb-4 flex items-center gap-2 text-muted-foreground">
           <span aria-hidden="true">
