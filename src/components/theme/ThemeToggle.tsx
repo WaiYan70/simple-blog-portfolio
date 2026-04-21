@@ -15,6 +15,8 @@ export const ThemeToggle = () => {
     return () => cancelAnimationFrame(id);
   }, []);
 
+  if (!mounted) return null;
+
   const isDark = resolvedTheme === "dark";
 
   return (
