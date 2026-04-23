@@ -185,3 +185,26 @@ html {
 /*:target {
     scroll-margin-top: 100px;
 }*/
+
+@keyframes textFlip {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    15% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    85% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+}
+
+.animate-textFlip {
+    animation: textFlip 2.8s ease-in-out;
+}
