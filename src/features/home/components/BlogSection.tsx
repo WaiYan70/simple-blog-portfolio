@@ -3,6 +3,7 @@ import Link from "next/link";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { Section } from "@/components/shared/Section";
 import { BlogCard } from "@/features/blog/components/BlogCard";
+import { StaggerContainer } from "../animation/StaggerContainer";
 
 export function BlogSection({ posts }: { posts: PostSummary[] }) {
   return (
@@ -20,9 +21,11 @@ export function BlogSection({ posts }: { posts: PostSummary[] }) {
         className="flex flex-col sm:flex-row sm:gap-2 sm:items-center sm:justify-between"
       />
       <div className="flex flex-col gap-2">
-        {posts.map((post) => (
-          <BlogCard key={post.slug} post={post} />
-        ))}
+        <StaggerContainer>
+          {posts.map((post) => (
+            <BlogCard key={post.slug} post={post} />
+          ))}
+        </StaggerContainer>
       </div>
     </Section>
   );

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { PostSummary } from "@/lib/post";
 import { Search } from "lucide-react";
 import { BlogCard } from "./BlogCard";
+import { StaggerContainer } from "@/features/home/animation/StaggerContainer";
 
 type Props = {
   posts: PostSummary[];
@@ -43,9 +44,11 @@ export function BlogListClient({ posts }: Props) {
 
       {/* Results */}
       <div className="flex flex-col gap-4">
-        {filteredPosts.map((post) => (
-          <BlogCard key={post.slug} post={post} />
-        ))}
+        <StaggerContainer>
+          {filteredPosts.map((post) => (
+            <BlogCard key={post.slug} post={post} />
+          ))}
+        </StaggerContainer>
 
         {filteredPosts.length === 0 && (
           <p className="text-sm text-muted-foreground">No results found.</p>

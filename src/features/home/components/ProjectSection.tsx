@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { Section } from "@/components/shared/Section";
+import { StaggerContainer } from "../animation/StaggerContainer";
 
 export function ProjectSection({ projects }: { projects: ProjectSummary[] }) {
   return (
@@ -22,9 +23,11 @@ export function ProjectSection({ projects }: { projects: ProjectSummary[] }) {
         className="flex flex-col sm:gap-2 sm:flex-row sm:items-center sm:justify-between"
       />
       <div className="flex sm:flex-row flex-col gap-4">
-        {projects.map((project) => (
-          <ProjectCard key={project.slug} project={project} />
-        ))}
+        <StaggerContainer>
+          {projects.map((project) => (
+            <ProjectCard key={project.slug} project={project} />
+          ))}
+        </StaggerContainer>
       </div>
     </Section>
   );
