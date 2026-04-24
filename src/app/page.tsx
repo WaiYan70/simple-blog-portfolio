@@ -1,3 +1,4 @@
+import { FadeIn } from "@/features/home/animation/FadeIn";
 import { BlogSection } from "@/features/home/components/BlogSection";
 import { Contact } from "@/features/home/components/ContactMe";
 import Hero from "@/features/home/components/Hero";
@@ -17,14 +18,37 @@ export default async function Home() {
 
   return (
     <>
-      <Hero />
-      <ProjectSection projects={lastThreeProjects} />
-      <BlogSection posts={lastThreePosts} />
-      <Highlight />
-      <Skills />
-      <HowIThink />
-      <Journey />
-      <Contact />
+      <FadeIn delay={200}>
+        <Hero />
+      </FadeIn>
+
+      <FadeIn delay={400}>
+        <ProjectSection projects={lastThreeProjects} />
+      </FadeIn>
+
+      <FadeIn delay={400}>
+        <BlogSection posts={lastThreePosts} />
+      </FadeIn>
+
+      <FadeIn delay={400}>
+        <Highlight />
+      </FadeIn>
+
+      <FadeIn delay={400}>
+        <Skills />
+      </FadeIn>
+
+      <FadeIn delay={400}>
+        <HowIThink />
+      </FadeIn>
+
+      <FadeIn delay={400}>
+        <Journey />
+      </FadeIn>
+
+      <FadeIn delay={400}>
+        <Contact />
+      </FadeIn>
     </>
   );
 }
