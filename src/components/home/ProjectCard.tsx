@@ -14,11 +14,12 @@ export function ProjectCard({ project }: Props) {
     <BaseCard
       href={`/projects/${project.slug}`}
       className="overflow-hidden p-0"
+      radis="lg"
     >
       <div className="space-y-4">
         {/* Image or preview Placeholder */}
         {project.image ? (
-          <div className="relative aspect-video w-full overflow-hidden rounded-t-lg border border-border bg-muted">
+          <div className="relative aspect-video w-full overflow-hidden bg-muted">
             <Image
               src={project.image}
               alt={project.title}

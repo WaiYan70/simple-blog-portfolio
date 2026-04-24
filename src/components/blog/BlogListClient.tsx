@@ -3,7 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { PostSummary } from "@/lib/post";
-import { Search } from "lucide-react";
+import { Search, Dot } from "lucide-react";
+import { BaseCard } from "../shared/BaseCard";
+import { BlogCard } from "../home/BlogCard";
 
 type Props = {
   posts: PostSummary[];
@@ -24,7 +26,7 @@ export function BlogListClient({ posts }: Props) {
   return (
     <div className="space-y-4">
       {/* Search input */}
-      <div className="relative group mb-2">
+      <div className="relative group mb-4">
         <label htmlFor="search" className="sr-only">
           Search posts
         </label>
@@ -44,32 +46,7 @@ export function BlogListClient({ posts }: Props) {
       {/* Results */}
       <div className="flex flex-col gap-4">
         {filteredPosts.map((post) => (
-          <Link
-            key={post.slug}
-            href={`/blog/${post.slug}`}
-            className="group block rounded-2xl border border-border bg-card p-5 transition hover:bg-muted/40 hover:shadow-sm"
-          >
-            <h2 className="text-lg font-semibold tracking-tight transition group-hover:text-primary">
-              {post.title}
-            </h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              {post.description}
-            </p>
-
-            <div className="my-2 flex flex-wrap gap-2">
-              {post.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded-full bg-primary/10 px-2.5 py-1 text-xs text-primary"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-            <p className="mt-2 text-xs text-muted-foreground">
-              {post.readingTime} min read · {post.date}
-            </p>
-          </Link>
+          <BlogCard key={post.slug} post={post} />
         ))}
 
         {filteredPosts.length === 0 && (

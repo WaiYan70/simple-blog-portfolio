@@ -132,11 +132,16 @@ export function Skills() {
         className="space-y-2"
       />
 
-      <div className="grid gap-6 sm:grid-cols-2">
+      <div className="flex flex-col gap-6">
         {skillGroups.map((group) => {
           const Icon = group.icon;
           return (
-            <BaseCard key={group.title}>
+            <BaseCard
+              key={group.title}
+              variant="default"
+              radis="lg"
+              className="p-4 sm:p-6"
+            >
               <div className="flex items-center gap-2">
                 <Icon className="h-4 w-4 text-primary" />
                 <h3 className="text-sm font-semibold uppercase tracking-wide text-foreground">

@@ -1,7 +1,6 @@
 import { PostSummary } from "@/lib/post";
 import { BlogCard } from "./BlogCard";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { Section } from "../shared/Section";
 import { SectionHeader } from "../shared/SectionHeader";
 
@@ -13,15 +12,14 @@ export function BlogSection({ posts }: { posts: PostSummary[] }) {
         action={
           <Link
             href="/blog"
-            className="group inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition hover:text-primary"
+            className="group inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition hover:text-primary underline underline-offset-4"
           >
-            All Writing{" "}
-            <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-0.5" />
+            All Writing
           </Link>
         }
         className="flex flex-col sm:flex-row sm:gap-2 sm:items-center sm:justify-between"
       />
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-2">
         {posts.map((post) => (
           <BlogCard key={post.slug} post={post} />
         ))}

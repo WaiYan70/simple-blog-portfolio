@@ -12,7 +12,7 @@ export function ProjectSection({ projects }: { projects: ProjectSummary[] }) {
         title="Latest Projects"
         action={
           <Link
-            href="/blog"
+            href="/projects"
             className="group inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition hover:text-primary"
           >
             View all projects

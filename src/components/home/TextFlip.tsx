@@ -6,7 +6,7 @@ const phrases = [
   "how they work",
   "how they scale",
   "their tradeoff",
-  "system architecture",
+  "architectures",
 ];
 
 export function TextFlip() {

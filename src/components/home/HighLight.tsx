@@ -32,7 +32,12 @@ export function Highlight() {
 
       <div className="grid gap-4 sm:grid-cols-2">
         {highlights.map((highlight) => (
-          <BaseCard key={highlight.title}>
+          <BaseCard
+            key={highlight.title}
+            variant="default"
+            radis="md"
+            className="p-4 sm:p-6"
+          >
             <h3 className="font-medium tracking-tight transition group-hover:text-primary">
               {highlight.title}
             </h3>

@@ -46,9 +46,9 @@ export function Journey() {
       {/* Timeline */}
       <div className="relative my-12">
         {/* Vertical line */}
-        <div className="absolute left-4 h-full w-0.5 bg-border sm:left-1/2 sm:-translate-x-1/2" />
+        <div className="absolute top-7 left-4 sm:left-1/2 sm:-translate-x-1/2 h-[82%] w-0.5 bg-border" />
 
-        <div className="space-y-12">
+        <div className="space-y-6">
           {journey.map((item, index) => {
             const isLeft = index % 2 === 0;
 
@@ -72,7 +72,7 @@ export function Journey() {
                 </div>
 
                 {/* DOT */}
-                <div className="absolute left-2.75 top-7 sm:left-1/2 sm:-translate-x-1/2">
+                <div className="absolute top-7 left-2.75 sm:left-1/2 sm:-translate-x-1/2">
                   <span className="block h-3 w-3 rounded-full bg-primary" />
                 </div>
 

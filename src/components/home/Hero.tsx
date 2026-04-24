@@ -5,10 +5,7 @@ import { TypeWriter } from "./TypeWriter";
 
 export default function Hero() {
   return (
-    <section className="relative rounded-3xl border border-border bg-card/10 p-6 shadow-sm sm:p-10">
-      {/* Subtle background accent */}
-      <div className="pointer-events-none absolute inset-0 rounded-3xl bg-linear-to-br from-primary/5 to-transparent" />
-
+    <section className="relative">
       <div className="relative max-w-3xl space-y-6">
         {/* Role */}
         <div className="space-y-1">
@@ -57,9 +54,3 @@ export default function Hero() {
     </section>
   );
 }
-
-// Add fade-in for sections (scroll reveal)
-
-// Add View Transition API between page transition
-
-// Adjuct text flipping animation like the left letters go up a little fast that right one
