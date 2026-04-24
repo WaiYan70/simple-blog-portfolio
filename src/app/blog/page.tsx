@@ -1,4 +1,4 @@
-import { BlogListClient } from "@/components/blog/BlogListClient";
+import { BlogListClient } from "@/features/blog/components/BlogListClient";
 import { getAllPosts } from "@/lib/post";
 
 export default async function BlogPage() {

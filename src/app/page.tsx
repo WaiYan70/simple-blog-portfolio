@@ -1,11 +1,11 @@
-import { BlogSection } from "@/components/home/BlogSection";
-import { Contact } from "@/components/home/ContactMe";
-import Hero from "@/components/home/Hero";
-import { Highlight } from "@/components/home/HighLight";
-import { HowIThink } from "@/components/home/HowIThink";
-import { Journey } from "@/components/home/Journey";
-import { ProjectSection } from "@/components/home/ProjectSection";
-import { Skills } from "@/components/home/Skills";
+import { BlogSection } from "@/features/home/components/BlogSection";
+import { Contact } from "@/features/home/components/ContactMe";
+import Hero from "@/features/home/components/Hero";
+import { Highlight } from "@/features/home/components/HighLight";
+import { HowIThink } from "@/features/home/components/HowIThink";
+import { Journey } from "@/features/home/components/Journey";
+import { ProjectSection } from "@/features/home/components/ProjectSection";
+import { Skills } from "@/features/home/components/Skills";
 import { getAllPosts } from "@/lib/post";
 import { getAllProjects } from "@/lib/project";
 

@@ -1,7 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { TextFlip } from "./TextFlip";
-import { TypeWriter } from "./TypeWriter";
+import { TypeWriter } from "../animation/TypeWriter";
+import { TextFlip } from "../animation/TextFlip";
 
 export default function Hero() {
   return (

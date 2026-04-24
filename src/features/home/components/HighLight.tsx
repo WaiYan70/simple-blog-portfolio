@@ -1,6 +1,6 @@
-import { BaseCard } from "../shared/BaseCard";
-import { Section } from "../shared/Section";
-import { SectionHeader } from "../shared/SectionHeader";
+import { BaseCard } from "@/components/shared/BaseCard";
+import { Section } from "@/components/shared/Section";
+import { SectionHeader } from "@/components/shared/SectionHeader";
 
 const highlights = [
   {

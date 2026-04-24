@@ -1,9 +1,9 @@
 import { ProjectSummary } from "@/lib/project";
-import { ProjectCard } from "./ProjectCard";
+import { ProjectCard } from "@/features/projects/components/ProjectCard";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { SectionHeader } from "../shared/SectionHeader";
-import { Section } from "../shared/Section";
+import { SectionHeader } from "@/components/shared/SectionHeader";
+import { Section } from "@/components/shared/Section";
 
 export function ProjectSection({ projects }: { projects: ProjectSummary[] }) {
   return (

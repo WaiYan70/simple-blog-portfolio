@@ -1,5 +1,5 @@
-import { Section } from "../shared/Section";
-import { SectionHeader } from "../shared/SectionHeader";
+import { Section } from "@/components/shared/Section";
+import { SectionHeader } from "@/components/shared/SectionHeader";
 
 const journey = [
   {

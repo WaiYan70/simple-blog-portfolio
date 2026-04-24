@@ -37,11 +37,11 @@ import {
   Zap,
   Network,
 } from "lucide-react";
-import { BaseCard } from "../shared/BaseCard";
+import { BaseCard } from "@/components/shared/BaseCard";
 
 import type { LucideIcon } from "lucide-react";
-import { Section } from "../shared/Section";
-import { SectionHeader } from "../shared/SectionHeader";
+import { Section } from "@/components/shared/Section";
+import { SectionHeader } from "@/components/shared/SectionHeader";
 
 type IconType = SimpleIcon | LucideIcon;
 

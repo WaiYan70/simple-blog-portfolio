@@ -1,8 +1,8 @@
 import { PostSummary } from "@/lib/post";
-import { BlogCard } from "./BlogCard";
 import Link from "next/link";
-import { Section } from "../shared/Section";
-import { SectionHeader } from "../shared/SectionHeader";
+import { SectionHeader } from "@/components/shared/SectionHeader";
+import { Section } from "@/components/shared/Section";
+import { BlogCard } from "@/features/blog/components/BlogCard";
 
 export function BlogSection({ posts }: { posts: PostSummary[] }) {
   return (

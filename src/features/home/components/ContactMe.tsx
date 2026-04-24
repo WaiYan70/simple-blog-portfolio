@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { Mail } from "lucide-react";
 import { siGithub } from "simple-icons";
-import { BrandIcon } from "../shared/BrandIcon";
-import { LinkedInIcon } from "../icons/LinkedIn";
-import { Section } from "../shared/Section";
-import { SectionHeader } from "../shared/SectionHeader";
+import { BrandIcon } from "@/components/shared/BrandIcon";
+import { LinkedInIcon } from "@/components/icons/LinkedIn";
+import { Section } from "@/components/shared/Section";
+import { SectionHeader } from "@/components/shared/SectionHeader";
 
 type IconProps = { size: number };
 

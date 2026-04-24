@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { MDXContent } from "@/components/blog/MDXContent";
+import { MDXContent } from "@/features/blog/components/MDXContent";
 import { getAllPosts, getPostBySlug } from "@/lib/post";
-import { TableOfContents } from "@/components/blog/TableOfContent";
+import { TableOfContents } from "@/features/blog/components/TableOfContent";
 import { ArrowLeft } from "lucide-react";
-import { ScrollProgress } from "@/components/blog/ScrollProgress";
+import { ScrollProgress } from "@/features/blog/components/ScrollProgress";
 
 type Props = {
   params: Promise<{ slug: string }>;

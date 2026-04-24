@@ -1,11 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { PostSummary } from "@/lib/post";
-import { Search, Dot } from "lucide-react";
-import { BaseCard } from "../shared/BaseCard";
-import { BlogCard } from "../home/BlogCard";
+import { Search } from "lucide-react";
+import { BlogCard } from "./BlogCard";
 
 type Props = {
   posts: PostSummary[];
