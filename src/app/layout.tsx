@@ -54,7 +54,8 @@ export default function RootLayout({
           <Navbar />
           <main>
             <Container>
-              <PageTransition>{children}</PageTransition>
+              {/*<PageTransition>{children}</PageTransition>*/}
+              {children}
             </Container>
           </main>
         </ThemeProvider>

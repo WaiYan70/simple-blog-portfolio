@@ -62,7 +62,10 @@ export default async function BlogDetailPage({ params }: Props) {
         </div>
 
         <div className="rounded-3xl border border-border bg-card p-6 text-card-foreground shadow-sm">
-          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+          <h1
+            style={{ viewTransitionName: `title-${post.slug}` }}
+            className="text-3xl font-semibold tracking-tight sm:text-4xl"
+          >
             {post.title}
           </h1>
           <p className="mt-3 text-sm leading-6 text-muted-foreground sm:text-base">

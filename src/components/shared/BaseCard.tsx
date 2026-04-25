@@ -1,12 +1,14 @@
 import Link from "next/link";
+import type { MouseEvent, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 type BaseCardProps = {
-  children: React.ReactNode;
+  children: ReactNode;
   href?: string;
   className?: string;
   variant?: "default" | "ghost" | "outline";
   radis?: "none" | "md" | "lg" | "xl" | "top";
+  onClick?: (event: MouseEvent<HTMLElement>) => void;
 };
 
 const radiusStyle = {
@@ -24,6 +26,7 @@ export function BaseCard({
   className,
   variant = "default",
   radis = "xl",
+  onClick,
 }: BaseCardProps) {
   const baseStyle =
     "group block transition-all duration-200 active:scale-[0.98]";
@@ -38,6 +41,7 @@ export function BaseCard({
     return (
       <Link
         href={href}
+        onClick={(event) => onClick?.(event)}
         className={cn(
           baseStyle,
           className,
@@ -52,6 +56,7 @@ export function BaseCard({
 
   return (
     <div
+      onClick={onClick}
       className={cn(
         baseStyle,
         className,
