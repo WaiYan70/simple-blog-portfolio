@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import Navbar from "@/components/layout/Navbar";
 import { Container } from "@/components/layout/Container";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import { PageTransition } from "@/components/shared/PageTransition";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -52,7 +53,9 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Navbar />
           <main>
-            <Container>{children}</Container>
+            <Container>
+              <PageTransition>{children}</PageTransition>
+            </Container>
           </main>
         </ThemeProvider>
       </body>
