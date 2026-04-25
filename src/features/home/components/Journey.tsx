@@ -1,5 +1,6 @@
 import { Section } from "@/components/shared/Section";
 import { SectionHeader } from "@/components/shared/SectionHeader";
+import { StaggerContainer } from "../animation/StaggerContainer";
 
 const journey = [
   {
@@ -49,68 +50,70 @@ export function Journey() {
         <div className="absolute top-7 left-4 sm:left-1/2 sm:-translate-x-1/2 h-[82%] w-0.5 bg-border" />
 
         <div className="space-y-6">
-          {journey.map((item, index) => {
-            const isLeft = index % 2 === 0;
+          <StaggerContainer>
+            {journey.map((item, index) => {
+              const isLeft = index % 2 === 0;
 
-            return (
-              <div key={item.title} className="relative flex items-start">
-                {/* LEFT (desktop only) */}
-                <div className="hidden w-1/2 sm:block sm:pr-8 sm:text-right">
-                  {isLeft && (
-                    <div className="inline-block rounded-xl border border-border bg-card p-5 transition hover:bg-muted/40">
-                      <h3 className="font-semibold tracking-tight">
-                        {item.title}
-                      </h3>
-                      <p className="mt-1 text-xs text-muted-foreground">
-                        {item.year}
-                      </p>
-                      <p className="mt-2 text-sm text-muted-foreground leading-6">
-                        {item.description}
-                      </p>
-                    </div>
-                  )}
-                </div>
+              return (
+                <div key={item.title} className="relative flex items-start">
+                  {/* LEFT (desktop only) */}
+                  <div className="hidden w-1/2 sm:block sm:pr-8 sm:text-right">
+                    {isLeft && (
+                      <div className="inline-block rounded-xl border border-border bg-card p-5 transition hover:bg-muted/40">
+                        <h3 className="font-semibold tracking-tight">
+                          {item.title}
+                        </h3>
+                        <p className="mt-1 text-xs text-muted-foreground">
+                          {item.year}
+                        </p>
+                        <p className="mt-2 text-sm text-muted-foreground leading-6">
+                          {item.description}
+                        </p>
+                      </div>
+                    )}
+                  </div>
 
-                {/* DOT */}
-                <div className="absolute top-7 left-2.75 sm:left-1/2 sm:-translate-x-1/2">
-                  <span className="block h-3 w-3 rounded-full bg-primary" />
-                </div>
+                  {/* DOT */}
+                  <div className="absolute top-7 left-2.75 sm:left-1/2 sm:-translate-x-1/2">
+                    <span className="block h-3 w-3 rounded-full bg-primary" />
+                  </div>
 
-                {/* RIGHT (mobile + desktop) */}
-                <div className="w-full pl-10 sm:w-1/2 sm:pl-8">
-                  {/* Desktop right */}
-                  {!isLeft && (
-                    <div className="hidden sm:inline-block rounded-xl border border-border bg-card p-5 transition hover:bg-muted/40">
-                      <h3 className="font-semibold tracking-tight">
-                        {item.title}
-                      </h3>
-                      <p className="mt-1 text-xs text-muted-foreground">
-                        {item.year}
-                      </p>
-                      <p className="mt-2 text-sm text-muted-foreground leading-6">
-                        {item.description}
-                      </p>
-                    </div>
-                  )}
+                  {/* RIGHT (mobile + desktop) */}
+                  <div className="w-full pl-10 sm:w-1/2 sm:pl-8">
+                    {/* Desktop right */}
+                    {!isLeft && (
+                      <div className="hidden sm:inline-block rounded-xl border border-border bg-card p-5 transition hover:bg-muted/40">
+                        <h3 className="font-semibold tracking-tight">
+                          {item.title}
+                        </h3>
+                        <p className="mt-1 text-xs text-muted-foreground">
+                          {item.year}
+                        </p>
+                        <p className="mt-2 text-sm text-muted-foreground leading-6">
+                          {item.description}
+                        </p>
+                      </div>
+                    )}
 
-                  {/* Mobile (always right side) */}
-                  <div className="sm:hidden">
-                    <div className="rounded-xl border border-border bg-card p-5 transition hover:bg-muted/40">
-                      <h3 className="font-semibold tracking-tight">
-                        {item.title}
-                      </h3>
-                      <p className="mt-1 text-xs text-muted-foreground">
-                        {item.year}
-                      </p>
-                      <p className="mt-2 text-sm text-muted-foreground leading-6">
-                        {item.description}
-                      </p>
+                    {/* Mobile (always right side) */}
+                    <div className="sm:hidden">
+                      <div className="rounded-xl border border-border bg-card p-5 transition hover:bg-muted/40">
+                        <h3 className="font-semibold tracking-tight">
+                          {item.title}
+                        </h3>
+                        <p className="mt-1 text-xs text-muted-foreground">
+                          {item.year}
+                        </p>
+                        <p className="mt-2 text-sm text-muted-foreground leading-6">
+                          {item.description}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </StaggerContainer>
         </div>
       </div>
     </Section>

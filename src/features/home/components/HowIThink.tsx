@@ -1,5 +1,6 @@
 import { Section } from "@/components/shared/Section";
 import { SectionHeader } from "@/components/shared/SectionHeader";
+import { StaggerContainer } from "../animation/StaggerContainer";
 
 const principles = [
   {
@@ -34,15 +35,16 @@ export function HowIThink() {
       />
 
       <div className="space-y-6">
-        {principles.map((item) => (
-          <div key={item.title} className="max-w-3xl">
-            <h3 className="font-semibold tracking-tight">{item.title}</h3>
-
-            <p className="mt-1 text-sm text-muted-foreground leading-6">
-              {item.description}
-            </p>
-          </div>
-        ))}
+        <StaggerContainer>
+          {principles.map((item) => (
+            <div key={item.title} className="max-w-3xl">
+              <h3 className="font-semibold tracking-tight">{item.title}</h3>
+              <p className="mt-1 text-sm text-muted-foreground leading-6">
+                {item.description}
+              </p>
+            </div>
+          ))}
+        </StaggerContainer>
       </div>
     </Section>
   );

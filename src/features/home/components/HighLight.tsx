@@ -1,6 +1,7 @@
 import { BaseCard } from "@/components/shared/BaseCard";
 import { Section } from "@/components/shared/Section";
 import { SectionHeader } from "@/components/shared/SectionHeader";
+import { StaggerContainer } from "../animation/StaggerContainer";
 
 const highlights = [
   {
@@ -31,21 +32,23 @@ export function Highlight() {
       <SectionHeader title="Highlights" />
 
       <div className="grid gap-4 sm:grid-cols-2">
-        {highlights.map((highlight) => (
-          <BaseCard
-            key={highlight.title}
-            variant="default"
-            radis="md"
-            className="p-4 sm:p-6"
-          >
-            <h3 className="font-medium tracking-tight transition group-hover:text-primary">
-              {highlight.title}
-            </h3>
-            <p className="text-sm text-muted-foreground mt-1">
-              {highlight.description}
-            </p>
-          </BaseCard>
-        ))}
+        <StaggerContainer>
+          {highlights.map((highlight) => (
+            <BaseCard
+              key={highlight.title}
+              variant="default"
+              radis="md"
+              className="p-4 sm:p-6"
+            >
+              <h3 className="font-medium tracking-tight transition group-hover:text-primary">
+                {highlight.title}
+              </h3>
+              <p className="text-sm text-muted-foreground mt-1">
+                {highlight.description}
+              </p>
+            </BaseCard>
+          ))}
+        </StaggerContainer>
       </div>
     </Section>
   );
