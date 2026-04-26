@@ -40,16 +40,15 @@ export default async function ProjectDetailPage({ params }: Props) {
 
   return (
     <article className="space-y-4">
-      <div className="rounded-2xl border border-border bg-card p-6 text-card-foreground">
-        <div className="relative aspect-video w-full overflow-hidden bg-muted">
+      <div className="rounded-lg border border-border bg-card p-6 text-card-foreground">
+        <div className="relative aspect-video w-full bg-muted">
           <Image
             src={project.image}
             alt={project.title}
             fill
             loading="eager"
             sizes="(max-width: 640px) 100vw, 50vw"
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-            style={{ viewTransitionName: `image-${project.slug}` }}
+            className="object-cover"
           />
         </div>
         <h1 className="text-3xl font-semibold tracking-tight">

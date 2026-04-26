@@ -1,7 +1,6 @@
 "use client";
 
 import { BaseCard } from "@/components/shared/BaseCard";
-import { useViewTransitionRouter } from "@/hooks/useViewTransitionRouter";
 import { PostSummary } from "@/lib/post";
 import { ArrowRight, Dot } from "lucide-react";
 
@@ -10,18 +9,8 @@ type Props = {
 };
 
 export function BlogCard({ post }: Props) {
-  const { push } = useViewTransitionRouter();
-
   return (
-    <BaseCard
-      href={`/blog/${post.slug}`}
-      variant="ghost"
-      radis="md"
-      onClick={(event) => {
-        event.preventDefault();
-        push(`/blog/${post.slug}`);
-      }}
-    >
+    <BaseCard href={`/blog/${post.slug}`} variant="ghost" radius="md">
       <div className="flex flex-col items-start justify-between">
         <h3
           style={{ viewTransitionName: `title-${post.slug}` }}

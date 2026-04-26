@@ -6,29 +6,22 @@ import Image from "next/image";
 import { Terminal } from "lucide-react";
 import { projectTechIcons } from "@/constants/project-tech-icons";
 import { statusStyles } from "@/types/project";
-import { useViewTransitionRouter } from "@/hooks/useViewTransitionRouter";
 
 type Props = {
   project: ProjectSummary;
 };
 
 export function ProjectCard({ project }: Props) {
-  const { push } = useViewTransitionRouter();
-
   return (
     <BaseCard
       href={`/projects/${project.slug}`}
       className="overflow-hidden p-0"
-      radis="lg"
-      onClick={(event) => {
-        event.preventDefault();
-        push(`/projects/${project.slug}`);
-      }}
+      radius="lg"
     >
       <div className="space-y-4">
         {/* Image or preview Placeholder */}
         {project.image ? (
-          <div className="relative aspect-video w-full overflow-hidden bg-muted">
+          <div className="relative aspect-video w-full bg-muted">
             <Image
               src={project.image}
               alt={project.title}
@@ -36,7 +29,6 @@ export function ProjectCard({ project }: Props) {
               loading="eager"
               sizes="(max-width: 640px) 100vw, 50vw"
               className="object-cover transition-transform duration-300 group-hover:scale-105"
-              style={{ viewTransitionName: `image-${project.slug}` }}
             />
           </div>
         ) : (

@@ -182,27 +182,6 @@ html {
     scroll-behavior: smooth;
 }
 
-/*:target {
-    scroll-margin-top: 100px;
-}*/
-
-::view-transition-group(*) {
-    animation-duration: 450ms;
-    animation-timing-function: ease-out;
-    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-::view-transition-old(*),
-::view-transition-new(*) {
-    animation-duration: 450ms;
-    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-::view-transition-old(root),
-::view-transition-new(root) {
-    animation-duration: 250ms;
-}
-
 @keyframes textFlip {
     0% {
         transform: translateY(100%);

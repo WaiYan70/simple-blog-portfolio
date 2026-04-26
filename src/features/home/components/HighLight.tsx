@@ -37,7 +37,7 @@ export function Highlight() {
             <BaseCard
               key={highlight.title}
               variant="default"
-              radis="md"
+              radius="md"
               className="p-4 sm:p-6"
             >
               <h3 className="font-medium tracking-tight transition group-hover:text-primary">

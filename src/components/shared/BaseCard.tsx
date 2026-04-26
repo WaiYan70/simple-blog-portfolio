@@ -7,8 +7,7 @@ type BaseCardProps = {
   href?: string;
   className?: string;
   variant?: "default" | "ghost" | "outline";
-  radis?: "none" | "md" | "lg" | "xl" | "top";
-  onClick?: (event: MouseEvent<HTMLElement>) => void;
+  radius?: "none" | "md" | "lg" | "xl" | "xxl" | "top";
 };
 
 const radiusStyle = {
@@ -25,8 +24,7 @@ export function BaseCard({
   href,
   className,
   variant = "default",
-  radis = "xl",
-  onClick,
+  radius = "xl",
 }: BaseCardProps) {
   const baseStyle =
     "group block transition-all duration-200 active:scale-[0.98]";
@@ -41,12 +39,11 @@ export function BaseCard({
     return (
       <Link
         href={href}
-        onClick={(event) => onClick?.(event)}
         className={cn(
           baseStyle,
           className,
           variants[variant],
-          radiusStyle[radis],
+          radiusStyle[radius],
         )}
       >
         {children}
@@ -56,12 +53,11 @@ export function BaseCard({
 
   return (
     <div
-      onClick={onClick}
       className={cn(
         baseStyle,
         className,
         variants[variant],
-        radiusStyle[radis],
+        radiusStyle[radius],
       )}
     >
       {children}

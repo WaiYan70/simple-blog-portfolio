@@ -139,7 +139,7 @@ export function Skills() {
             <BaseCard
               key={group.title}
               variant="default"
-              radis="lg"
+              radius="lg"
               className="p-4 sm:p-6"
             >
               <div className="flex items-center gap-2">
