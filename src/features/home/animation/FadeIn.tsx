@@ -14,10 +14,12 @@ export function FadeIn({ children, className, delay }: Props) {
   const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    const showContent = () => setVisible(true);
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setVisible(true);
+          showContent();
           observer.disconnect();
         }
       },
@@ -29,6 +31,13 @@ export function FadeIn({ children, className, delay }: Props) {
     if (ref.current) {
       observer.observe(ref.current);
     }
+
+    window.addEventListener("pageshow", showContent);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("pageshow", showContent);
+    };
   }, []);
 
   return (

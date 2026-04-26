@@ -1,5 +1,3 @@
-"use client";
-
 import { BaseCard } from "@/components/shared/BaseCard";
 import { PostSummary } from "@/lib/post";
 import { ArrowRight, Dot } from "lucide-react";

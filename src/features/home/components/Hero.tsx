@@ -2,10 +2,11 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { TypeWriter } from "../animation/TypeWriter";
 import { TextFlip } from "../animation/TextFlip";
+import { Section } from "@/components/shared/Section";
 
 export default function Hero() {
   return (
-    <section className="relative">
+    <Section>
       <div className="relative max-w-3xl space-y-6">
         {/* Role */}
         <div className="space-y-1">
@@ -51,6 +52,6 @@ export default function Hero() {
           </Link>
         </div>
       </div>
-    </section>
+    </Section>
   );
 }

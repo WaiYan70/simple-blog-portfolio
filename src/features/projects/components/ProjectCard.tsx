@@ -1,5 +1,3 @@
-"use client";
-
 import { BaseCard } from "@/components/shared/BaseCard";
 import { ProjectSummary } from "@/lib/project";
 import Image from "next/image";

@@ -42,6 +42,7 @@ import { BaseCard } from "@/components/shared/BaseCard";
 import type { LucideIcon } from "lucide-react";
 import { Section } from "@/components/shared/Section";
 import { SectionHeader } from "@/components/shared/SectionHeader";
+import { StaggerContainer } from "../animation/StaggerContainer";
 
 type IconType = SimpleIcon | LucideIcon;
 
@@ -133,36 +134,40 @@ export function Skills() {
       />
 
       <div className="flex flex-col gap-6">
-        {skillGroups.map((group) => {
-          const Icon = group.icon;
-          return (
-            <BaseCard
-              key={group.title}
-              variant="default"
-              radius="lg"
-              className="p-4 sm:p-6"
-            >
-              <div className="flex items-center gap-2">
-                <Icon className="h-4 w-4 text-primary" />
-                <h3 className="text-sm font-semibold uppercase tracking-wide text-foreground">
-                  {group.title}
-                </h3>
-              </div>
+        <StaggerContainer>
+          {skillGroups.map((group) => {
+            const Icon = group.icon;
+            return (
+              <BaseCard
+                key={group.title}
+                variant="default"
+                radius="lg"
+                className="p-4 sm:p-6"
+              >
+                <div className="flex items-center gap-2">
+                  <Icon className="h-4 w-4 text-primary" />
+                  <h3 className="text-sm font-semibold uppercase tracking-wide text-foreground">
+                    {group.title}
+                  </h3>
+                </div>
 
-              <div className="mt-4 flex flex-wrap gap-2">
-                {group.skills.map((skill) => (
-                  <span
-                    key={skill.name}
-                    className="flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs text-primary"
-                  >
-                    <SkillIcon icon={skill.icon} />
-                    {skill.name}
-                  </span>
-                ))}
-              </div>
-            </BaseCard>
-          );
-        })}
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <StaggerContainer>
+                    {group.skills.map((skill) => (
+                      <span
+                        key={skill.name}
+                        className="flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs text-primary"
+                      >
+                        <SkillIcon icon={skill.icon} />
+                        {skill.name}
+                      </span>
+                    ))}
+                  </StaggerContainer>
+                </div>
+              </BaseCard>
+            );
+          })}
+        </StaggerContainer>
       </div>
     </Section>
   );

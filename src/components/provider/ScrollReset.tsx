@@ -2,10 +2,15 @@
 
 import { useEffect } from "react";
 
-export function ScrollRestorationControl() {
+export function ScrollControl() {
   useEffect(() => {
-    if ("scrollRestoration" in window.history) {
-      window.history.scrollRestoration = "manual";
+    const [navigation] = performance.getEntriesByType("navigation");
+
+    if (
+      navigation instanceof PerformanceNavigationTiming &&
+      navigation.type === "reload"
+    ) {
+      window.scrollTo(0, 0);
     }
   }, []);
 
