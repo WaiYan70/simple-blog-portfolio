@@ -6,6 +6,7 @@ import { Highlight } from "@/features/home/components/HighLight";
 import { HowIThink } from "@/features/home/components/HowIThink";
 import { Journey } from "@/features/home/components/Journey";
 import { ProjectSection } from "@/features/home/components/ProjectSection";
+
 import { Skills } from "@/features/home/components/Skills";
 import { getAllPosts } from "@/lib/post";
 import { getAllProjects } from "@/lib/project";

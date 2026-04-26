@@ -44,7 +44,7 @@ export const getProjectBySlug = async (slug: string) => {
     description: typeof data.description === "string" ? data.description : "",
     image: typeof data.image === "string" ? data.image : "",
     techstack: normalizeTechStack(data.techstack),
-    status: typeof data.status === "string" ? data.status : "",
+    status: normalizeProjectStatus(data.status),
     content,
   };
 };

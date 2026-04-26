@@ -6,6 +6,7 @@ import Navbar from "@/components/layout/Navbar";
 import { Container } from "@/components/layout/Container";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { PageTransition } from "@/components/shared/PageTransition";
+import { ScrollRestorationControl } from "@/components/provider/ScrollReset";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -51,6 +52,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <ScrollRestorationControl />
           <Navbar />
           <main>
             <Container>
