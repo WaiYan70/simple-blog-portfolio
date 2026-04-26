@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 
 export function TypeWriter({
   text,
-  speed = 60,
-  startDelay = 850,
+  speed = 30,
+  startDelay = 500,
 }: {
   text: string;
   speed?: number;

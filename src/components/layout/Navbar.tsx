@@ -86,7 +86,6 @@ export default function Navbar() {
                   rel="noopener noreferrer"
                   aria-label={socialLink.label}
                   className="flex items-center justify-center rounded-md p-2.5 text-muted-foreground transition hover:text-foreground hover:bg-muted"
-                  // className="text-muted-foreground transition hover:text-foreground"
                 >
                   <Icon size={16} />
                 </Link>
