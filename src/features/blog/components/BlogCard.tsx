@@ -10,10 +10,7 @@ export function BlogCard({ post }: Props) {
   return (
     <BaseCard href={`/blog/${post.slug}`} variant="ghost" radius="md">
       <div className="flex flex-col items-start justify-between">
-        <h3
-          style={{ viewTransitionName: `title-${post.slug}` }}
-          className="text-lg font-semibold tracking-tight transition group-hover:text-primary"
-        >
+        <h3 className="text-lg font-semibold tracking-tight transition group-hover:text-primary">
           {post.title}
         </h3>
         <p className="mt-1 text-sm text-muted-foreground">{post.description}</p>
