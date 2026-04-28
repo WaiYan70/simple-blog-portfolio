@@ -1,4 +1,3 @@
-const scrollControlScript = `
 (() => {
   if (window.__scrollControlLoaded) return;
 
@@ -42,13 +41,3 @@ const scrollControlScript = `
     });
   });
 })();
-`;
-
-export function ScrollControl() {
-  return (
-    <script
-      id="scroll-control"
-      dangerouslySetInnerHTML={{ __html: scrollControlScript }}
-    />
-  );
-}
