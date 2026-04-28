@@ -2,32 +2,25 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { Heading, Post } from "@/types/post";
-import { slugifyHeading } from "@/lib/heading";
+import { slugifyHeading } from "@/features/blog/lib/heading";
 
 const postDirectory = path.join(process.cwd(), "src/content/blog");
 
 export type PostSummary = Omit<Post, "content">;
 
 export const getAllPosts = async (): Promise<PostSummary[]> => {
-  const files = fs.readdirSync(postDirectory);
+  const files = fs
+    .readdirSync(postDirectory)
+    .filter((file) => file.endsWith(".mdx"));
 
   const posts = files.map((file) => {
     const filePath = path.join(postDirectory, file);
     const fileContent = fs.readFileSync(filePath, "utf-8");
     const { data, content } = matter(fileContent);
+    const slug = getSlugFromFile(file);
+    const post = normalizePostFormatter(slug, data, content);
 
-    const readingTime = calculateReadingTime(content);
-    const headings = extractHeaders(content);
-
-    return {
-      slug: file.replace(".mdx", ""),
-      title: typeof data.title === "string" ? data.title : "",
-      description: typeof data.description === "string" ? data.description : "",
-      date: typeof data.date === "string" ? data.date : "",
-      tags: Array.isArray(data.tags) ? data.tags : [],
-      readingTime: readingTime,
-      headings: headings,
-    };
+    return toSummary(post);
   });
 
   return posts.sort((a, b) => {
@@ -44,20 +37,46 @@ export const getPostBySlug = async (slug: string): Promise<Post | null> => {
 
   const { data, content } = matter(fileContent);
 
-  const readingTime = calculateReadingTime(content);
+  return normalizePostFormatter(slug, data, content);
+};
 
-  const headings = extractHeaders(content);
-
+// Core Normalization  (single truth of source)
+const normalizePostFormatter = (
+  slug: string,
+  data: Record<string, unknown>,
+  content: string,
+): Post => {
   return {
     slug,
-    title: typeof data.title === "string" ? data.title : "",
-    description: typeof data.description === "string" ? data.description : "",
-    date: typeof data.date === "string" ? data.date : "",
+    title: getString(data.title),
+    description: getString(data.description),
+    date: getString(data.date),
     content,
-    tags: Array.isArray(data.tags) ? data.tags : [],
-    readingTime: readingTime,
-    headings: headings,
+    tags: getStringArray(data.tags),
+    readingTime: calculateReadingTime(content),
+    headings: extractHeadings(content),
   };
+};
+
+// Derived Transformation
+const toSummary = (post: Post): PostSummary => {
+  const { content: _content, ...summary } = post;
+  return summary;
+};
+
+// Helpers
+const getSlugFromFile = (file: string): string => {
+  return path.parse(file).name;
+};
+
+const getString = (value: unknown): string => {
+  return typeof value === "string" ? value : "";
+};
+
+const getStringArray = (value: unknown): string[] => {
+  return Array.isArray(value)
+    ? value.filter((item): item is string => typeof item === "string")
+    : [];
 };
 
 const calculateReadingTime = (content: string): number => {
@@ -67,7 +86,7 @@ const calculateReadingTime = (content: string): number => {
   return Math.ceil(words / 225);
 };
 
-const extractHeaders = (content: string) => {
+const extractHeadings = (content: string) => {
   const regex = /^(#+)\s+(.*)/gm;
 
   const matches = content.matchAll(regex);

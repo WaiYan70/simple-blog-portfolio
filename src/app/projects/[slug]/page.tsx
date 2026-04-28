@@ -1,5 +1,8 @@
 import { MDXContent } from "@/features/blog/components/MDXContent";
-import { getAllProjects, getProjectBySlug } from "@/lib/project";
+import {
+  getAllProjects,
+  getProjectBySlug,
+} from "@/features/projects/lib/project";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";

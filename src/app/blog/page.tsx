@@ -1,5 +1,5 @@
 import { BlogListClient } from "@/features/blog/components/BlogListClient";
-import { getAllPosts } from "@/lib/post";
+import { getAllPosts } from "@/features/blog/lib/post";
 
 export default async function BlogPage() {
   const posts = await getAllPosts();

@@ -1,5 +1,8 @@
 import type { MDXComponents } from "mdx/types";
-import { extractTextFromNode, slugifyHeading } from "@/lib/heading";
+import {
+  extractTextFromNode,
+  slugifyHeading,
+} from "@/features/blog/lib/heading";
 
 export const mdxComponents: MDXComponents = {
   h1: (props) => (

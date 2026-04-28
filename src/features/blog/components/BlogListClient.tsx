@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { PostSummary } from "@/lib/post";
+import { PostSummary } from "@/features/blog/lib/post";
 import { Search } from "lucide-react";
 import { BlogCard } from "./BlogCard";
 import { StaggerContainer } from "@/features/home/animation/StaggerContainer";

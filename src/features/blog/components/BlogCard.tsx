@@ -1,5 +1,5 @@
 import { BaseCard } from "@/components/shared/BaseCard";
-import { PostSummary } from "@/lib/post";
+import { PostSummary } from "@/features/blog/lib/post";
 import { ArrowRight, Dot } from "lucide-react";
 
 type Props = {

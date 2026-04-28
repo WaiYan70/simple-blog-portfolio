@@ -1,5 +1,5 @@
 import { size } from "@/app/opengraph-image";
-import { getPostBySlug } from "@/lib/post";
+import { getPostBySlug } from "@/features/blog/lib/post";
 import { ImageResponse } from "@vercel/og";
 
 type Props = {
@@ -14,34 +14,32 @@ export default async function Image({ params }: Props) {
   }
 
   return new ImageResponse(
-    (
+    <div
+      style={{
+        background: "#0f172a",
+        color: "white",
+        width: "100%",
+        height: "100%",
+        padding: "60px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+      }}
+    >
+      <div style={{ fontSize: 20, opacity: 0.6 }}>Khant.dev</div>
+      <div style={{ fontSize: 42, marginTop: 20, fontWeight: 600 }}>
+        {post.title}
+      </div>
       <div
         style={{
-          background: "#0f172a",
-          color: "white",
-          width: "100%",
-          height: "100%",
-          padding: "60px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
+          fontSize: 20,
+          marginTop: 20,
+          opacity: 0.7,
         }}
       >
-        <div style={{ fontSize: 20, opacity: 0.6 }}>Khant.dev</div>
-        <div style={{ fontSize: 42, marginTop: 20, fontWeight: 600 }}>
-          {post.title}
-        </div>
-        <div
-          style={{
-            fontSize: 20,
-            marginTop: 20,
-            opacity: 0.7,
-          }}
-        >
-          {post.description}
-        </div>
+        {post.description}
       </div>
-    ),
+    </div>,
     { ...size },
   );
 }

@@ -1,4 +1,4 @@
-import { PostSummary } from "@/lib/post";
+import { PostSummary } from "@/features/blog/lib/post";
 import Link from "next/link";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { Section } from "@/components/shared/Section";

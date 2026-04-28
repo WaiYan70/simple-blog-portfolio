@@ -7,8 +7,8 @@ import { Journey } from "@/features/home/components/Journey";
 import { ProjectSection } from "@/features/home/components/ProjectSection";
 
 import { Skills } from "@/features/home/components/Skills";
-import { getAllPosts } from "@/lib/post";
-import { getAllProjects } from "@/lib/project";
+import { getAllPosts } from "@/features/blog/lib/post";
+import { getAllProjects } from "@/features/projects/lib/project";
 
 export default async function Home() {
   const posts = await getAllPosts();

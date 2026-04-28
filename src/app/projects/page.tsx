@@ -1,4 +1,4 @@
-import { getAllProjects } from "@/lib/project";
+import { getAllProjects } from "@/features/projects/lib/project";
 import Link from "next/link";
 
 export default async function ProjectPage() {
