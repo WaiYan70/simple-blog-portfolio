@@ -178,10 +178,6 @@
     }
 }
 
-html {
-    scroll-behavior: smooth;
-}
-
 @keyframes textFlip {
     0% {
         transform: translateY(100%);
@@ -199,6 +195,10 @@ html {
         transform: translateY(-100%);
         opacity: 0;
     }
+}
+
+html {
+    scroll-behavior: auto;
 }
 
 .animate-textFlip {
