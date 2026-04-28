@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import Navbar from "@/components/layout/Navbar";
 import { Container } from "@/components/layout/Container";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
-import { BrowserNavigationGuard } from "@/components/provider/BrowserNavigationGuard";
+// import { BrowserNavigationGuard } from "@/components/provider/BrowserNavigationGuard";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -51,7 +51,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <BrowserNavigationGuard />
+          {/*<BrowserNavigationGuard />*/}
           <Navbar />
           <main>
             <Container>{children}</Container>
