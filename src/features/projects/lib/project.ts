@@ -16,17 +16,16 @@ export const getAllProjects = async (): Promise<ProjectSummary[]> => {
 
   return files.map((file) => {
     const filePath = path.join(projectDirectory, file);
-    const fileContent = fs.readFileSync(filePath, "utf-8");
-    const { data } = matter(fileContent);
 
-    return {
-      slug: file.replace(".mdx", ""),
-      title: typeof data.title === "string" ? data.title : "",
-      description: typeof data.description === "string" ? data.description : "",
-      image: typeof data.image === "string" ? data.image : "",
-      techstack: normalizeTechStack(data.techstack),
-      status: normalizeProjectStatus(data.status),
-    };
+    const fileContent = fs.readFileSync(filePath, "utf-8");
+
+    const { data, content } = matter(fileContent);
+
+    const slug = getSlugFromFile(file);
+
+    const project = normalizeProjectFormatter(slug, data, content);
+
+    return toSummary(project);
   });
 };
 
@@ -36,17 +35,42 @@ export const getProjectBySlug = async (slug: string) => {
   if (!fs.existsSync(filePath)) return null;
 
   const fileContent = fs.readFileSync(filePath, "utf-8");
+
   const { data, content } = matter(fileContent);
 
+  return normalizeProjectFormatter(slug, data, content);
+};
+
+// Core Normalization (single truth of source)
+const normalizeProjectFormatter = (
+  slug: string,
+  data: Record<string, unknown>,
+  content: string,
+) => {
   return {
     slug,
-    title: typeof data.title === "string" ? data.title : "",
-    description: typeof data.description === "string" ? data.description : "",
-    image: typeof data.image === "string" ? data.image : "",
-    techstack: normalizeTechStack(data.techstack),
+    title: getString(data.title),
+    description: getString(data.description),
+    image: getString(data.image),
+    techstack: normalizeTechStack(data.techStack),
     status: normalizeProjectStatus(data.status),
     content,
   };
+};
+
+// Derived Transformation
+const toSummary = (project: Project): ProjectSummary => {
+  const { content: _content, ...summary } = project;
+  return summary;
+};
+
+// Helpers
+const getSlugFromFile = (file: string): string => {
+  return path.parse(file).name;
+};
+
+const getString = (value: unknown): string => {
+  return typeof value === "string" ? value : "";
 };
 
 const normalizeTechStack = (value: unknown): ProjectTechIconKey[] => {
