@@ -6,6 +6,7 @@ import {
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import { Terminal } from "lucide-react";
 
 export type Props = {
   params: Promise<{ slug: string }>;
@@ -44,16 +45,22 @@ export default async function ProjectDetailPage({ params }: Props) {
   return (
     <article className="space-y-4">
       <div className="rounded-lg border border-border bg-card p-6 text-card-foreground">
-        <div className="relative aspect-video w-full bg-muted">
-          <Image
-            src={project.image}
-            alt={project.title}
-            fill
-            loading="eager"
-            sizes="(max-width: 640px) 100vw, 50vw"
-            className="object-cover"
-          />
-        </div>
+        {project.image ? (
+          <div className="relative aspect-video w-full bg-muted">
+            <Image
+              src={project.image}
+              alt={project.title}
+              fill
+              loading="eager"
+              sizes="(max-width: 640px) 100vw, 50vw"
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+          </div>
+        ) : (
+          <div className="aspect-video w-full rounded-xl bg-muted flex items-center justify-center text-sm text-muted-foreground gap-2">
+            <Terminal /> <span>Preview</span>
+          </div>
+        )}
         <h1 className="text-3xl font-semibold tracking-tight">
           {project.title}
         </h1>
