@@ -12,7 +12,9 @@ const projectDirectory = path.join(process.cwd(), "src/content/projects");
 export type ProjectSummary = Omit<Project, "content">;
 
 export const getAllProjects = async (): Promise<ProjectSummary[]> => {
-  const files = fs.readdirSync(projectDirectory);
+  const files = fs
+    .readdirSync(projectDirectory)
+    .filter((file) => file.endsWith(".mdx"));
 
   return files.map((file) => {
     const filePath = path.join(projectDirectory, file);
@@ -29,7 +31,9 @@ export const getAllProjects = async (): Promise<ProjectSummary[]> => {
   });
 };
 
-export const getProjectBySlug = async (slug: string) => {
+export const getProjectBySlug = async (
+  slug: string,
+): Promise<Project | null> => {
   const filePath = path.join(projectDirectory, `${slug}.mdx`);
 
   if (!fs.existsSync(filePath)) return null;
@@ -46,13 +50,13 @@ const normalizeProjectFormatter = (
   slug: string,
   data: Record<string, unknown>,
   content: string,
-) => {
+): Project => {
   return {
     slug,
     title: getString(data.title),
     description: getString(data.description),
     image: getString(data.image),
-    techstack: normalizeTechStack(data.techStack),
+    techstack: normalizeTechStack(data.techstack),
     status: normalizeProjectStatus(data.status),
     content,
   };
@@ -60,8 +64,14 @@ const normalizeProjectFormatter = (
 
 // Derived Transformation
 const toSummary = (project: Project): ProjectSummary => {
-  const { content: _content, ...summary } = project;
-  return summary;
+  return {
+    slug: project.slug,
+    title: project.title,
+    description: project.description,
+    image: project.image,
+    techstack: project.techstack,
+    status: project.status,
+  };
 };
 
 // Helpers
@@ -76,12 +86,12 @@ const getString = (value: unknown): string => {
 const normalizeTechStack = (value: unknown): ProjectTechIconKey[] => {
   if (!Array.isArray(value)) return [];
 
-  const techStack = value.filter(
+  const techstack = value.filter(
     (item): item is ProjectTechIconKey =>
       typeof item === "string" && isProjectTechIconKey(item),
   );
 
-  return [...new Set(techStack)];
+  return [...new Set(techstack)];
 };
 
 const normalizeProjectStatus = (value: unknown): ProjectStatus => {

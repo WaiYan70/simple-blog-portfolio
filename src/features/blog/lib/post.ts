@@ -15,9 +15,13 @@ export const getAllPosts = async (): Promise<PostSummary[]> => {
 
   const posts = files.map((file) => {
     const filePath = path.join(postDirectory, file);
+
     const fileContent = fs.readFileSync(filePath, "utf-8");
+
     const { data, content } = matter(fileContent);
+
     const slug = getSlugFromFile(file);
+
     const post = normalizePostFormatter(slug, data, content);
 
     return toSummary(post);
@@ -60,8 +64,15 @@ const normalizePostFormatter = (
 
 // Derived Transformation
 const toSummary = (post: Post): PostSummary => {
-  const { content: _content, ...summary } = post;
-  return summary;
+  return {
+    slug: post.slug,
+    title: post.title,
+    description: post.description,
+    date: post.date,
+    tags: post.tags,
+    readingTime: post.readingTime,
+    headings: post.headings,
+  };
 };
 
 // Helpers
