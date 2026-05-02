@@ -1,17 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { siGithub } from "simple-icons/icons";
 import { BrandIcon } from "../shared/BrandIcon";
 import { LinkedInIcon } from "../icons/LinkedIn";
 import { ThemeToggle } from "../theme/ThemeToggle";
 import { useEffect, useState } from "react";
-
-const navItem = [
-  { href: "/blog", label: "Blog" },
-  { href: "/projects", label: "Projects" },
-];
+import NavbarLinks from "./NavbarLinks";
 
 const socialLinks = [
   {
@@ -29,7 +24,6 @@ const socialLinks = [
 ];
 
 export default function Navbar() {
-  const pathName = usePathname();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -54,28 +48,11 @@ export default function Navbar() {
           <span className="text-primary">Khant</span>.dev
         </Link>
 
-        <div className="flex items-center gap-2">
-          <div className="flex gap-4 font-semibold text-sm text-muted-foreground">
-            {navItem.map((item) => {
-              const isActive = pathName.startsWith(item.href);
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`group relative inline-flex items-center transition ${isActive ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
-                >
-                  {item.label}
+        <NavbarLinks />
 
-                  <span
-                    className={`absolute left-0 -bottom-1 h-0.5 w-full rounded-full bg-primary origin-left transition-transform duration-300 ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
-                  />
-                </Link>
-              );
-            })}
-          </div>
-
+        <div className="flex">
           <ThemeToggle />
-          <div className="flex items-center gap-2">
+          <div className="flex items-center">
             {socialLinks.map((socialLink) => {
               const Icon = socialLink.icon;
               return (
