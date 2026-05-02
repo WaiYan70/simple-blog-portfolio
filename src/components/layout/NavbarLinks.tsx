@@ -5,25 +5,27 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { motion } from "motion/react";
 
-const links = [
+export const navbarLinks = [
   { name: "Home", href: "/" },
   { name: "Blog", href: "/blog" },
   { name: "Projects", href: "/projects" },
-];
+] as const;
 
 export default function NavbarLinks() {
   const pathname = usePathname();
   const [hovered, setHovered] = useState<string | null>(null);
 
   return (
-    <nav aria-label="Primary navigation">
+    <nav aria-label="Primary navigation" className="sm:block hidden">
       <ul
         onMouseLeave={() => setHovered(null)}
         className="relative flex justify-center gap-2"
       >
-        {links.map((link) => {
+        {navbarLinks.map((link) => {
           const isActive =
-            link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
+            link.href === "/"
+              ? pathname === "/"
+              : pathname.startsWith(link.href);
           const isHovered = hovered === link.name;
 
           return (

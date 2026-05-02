@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import NavbarLinks from "./NavbarLinks";
 import { NavbarActions } from "./NavbarActions";
 import { NavbarBrand } from "./NavbarBrand";
+import { MobileNavbar } from "./MobileNavbar";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -30,6 +31,7 @@ export default function Navbar() {
         <NavbarBrand />
         <NavbarLinks />
         <NavbarActions />
+        <MobileNavbar />
       </div>
     </header>
   );

@@ -21,7 +21,7 @@ const socialLinks = [
 
 export function NavbarActions() {
   return (
-    <div className="flex">
+    <div className="sm:flex hidden">
       <ThemeToggle />
       <div className="flex items-center">
         {socialLinks.map((socialLink) => {

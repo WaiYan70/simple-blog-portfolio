@@ -44,3 +44,4 @@ next-env.d.ts
 
 # un-used component
 /src/components/layout/NavbarLink.tsx
+/src/components/layout/MobileNav.tsx
