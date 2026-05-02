@@ -47,7 +47,7 @@ export function Section({ children, className, reveal = true }: SectionProps) {
     <section
       ref={sectionRef}
       className={cn(
-        "my-12 space-y-6 transition-all duration-700 ease-out",
+        "my-12 space-y-6 transition-[opacity,translate] duration-700 ease-out",
         reveal && !isVisible && "translate-y-6 opacity-0",
         reveal && isVisible && "translate-y-0 opacity-100",
         className,

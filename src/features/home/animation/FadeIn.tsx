@@ -11,7 +11,9 @@ type Props = {
 
 export function FadeIn({ children, className, delay }: Props) {
   const [visible, setVisible] = useState(false);
+  const [hasRevealed, setHasRevealed] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
+  const transitionDelay = hasRevealed ? "0ms" : `${delay ?? 0}ms`;
 
   useEffect(() => {
     const showContent = () => setVisible(true);
@@ -43,9 +45,14 @@ export function FadeIn({ children, className, delay }: Props) {
   return (
     <div
       ref={ref}
-      style={{ transitionDelay: `${delay}ms` }}
+      style={{ transitionDelay }}
+      onTransitionEnd={(event) => {
+        if (event.propertyName === "opacity") {
+          setHasRevealed(true);
+        }
+      }}
       className={cn(
-        "transition-all duration-700 ease-out",
+        "transition-[opacity,translate,transform] duration-700 ease-out",
         visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6",
         className,
       )}

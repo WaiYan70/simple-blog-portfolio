@@ -1,5 +1,6 @@
+import { StaggerContainer } from "@/features/home/animation/StaggerContainer";
+import { ProjectCard } from "@/features/projects/components/ProjectCard";
 import { getAllProjects } from "@/features/projects/lib/project";
-import Link from "next/link";
 
 export default async function ProjectPage() {
   const projects = await getAllProjects();
@@ -19,19 +20,12 @@ export default async function ProjectPage() {
         </p>
       </div>
 
-      <div className="grid gap-4">
-        {projects.map((project) => (
-          <Link
-            key={project.slug}
-            href={`/projects/${project.slug}`}
-            className="rounded-2xl border border-border bg-card p-5 text-card-foreground transition-colors hover:bg-muted/40"
-          >
-            <h2 className="font-medium">{project.title}</h2>
-            <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              {project.description}
-            </p>
-          </Link>
-        ))}
+      <div className="flex flex-col gap-4">
+        <StaggerContainer>
+          {projects.map((project) => (
+            <ProjectCard key={project.slug} project={project} />
+          ))}
+        </StaggerContainer>
       </div>
     </section>
   );
