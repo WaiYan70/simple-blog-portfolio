@@ -18,7 +18,7 @@ const socialLinks = [
   },
   {
     href: "https://www.linkedin.com/in/khant-wai-yan-00b1241b9/",
-    label: "Linkedln",
+    label: "LinkedIn",
     icon: LinkedInIcon,
   },
 ];
@@ -38,9 +38,13 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? "bg-card/60 backdrop-blur-sm border-b border-border" : "bg-transparent"}`}
+      className={`sticky top-0 z-50 transition-[background-color,backdrop-filter,border-color] duration-300 ${
+        scrolled
+          ? "bg-card/60 backdrop-blur-sm border-b border-border"
+          : "bg-transparent"
+      }`}
     >
-      <nav className="mx-auto max-w-5xl flex items-center justify-between px-4 py-3">
+      <div className="mx-auto max-w-5xl flex items-center justify-between px-4 py-3">
         <Link
           href="/"
           className="text-base font-semibold tracking-tight hover:opacity-80"
@@ -70,7 +74,7 @@ export default function Navbar() {
             })}
           </div>
         </div>
-      </nav>
+      </div>
     </header>
   );
 }
