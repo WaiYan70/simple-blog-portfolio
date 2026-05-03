@@ -11,11 +11,11 @@ const menuSlide = {
   initial: { x: "100%" },
   enter: {
     x: 0,
-    transition: { duration: 0.75, ease: easeInOut },
+    transition: { duration: 0.68, ease: easeInOut },
   },
   exit: {
     x: "100%",
-    transition: { duration: 0.55, ease: easeInOut },
+    transition: { duration: 0.5, ease: easeInOut },
   },
 };
 
@@ -25,8 +25,8 @@ const mobileLinkSlide = {
     x: 0,
     opacity: 1,
     transition: {
-      delay: 0.1 * index,
-      duration: 0.55,
+      delay: 0.18 + 0.07 * index,
+      duration: 0.5,
       ease: easeInOut,
     },
   }),
@@ -34,8 +34,8 @@ const mobileLinkSlide = {
     x: 48,
     opacity: 0,
     transition: {
-      delay: 0.1 * index,
-      duration: 0.35,
+      delay: 0.03 * index,
+      duration: 0.28,
       ease: easeInOut,
     },
   }),
@@ -47,11 +47,11 @@ const curvePath = {
   },
   enter: {
     d: "M100 0 L100 100 Q100 50 100 0",
-    transition: { duration: 0.9, ease: easeInOut },
+    transition: { duration: 0.68, ease: easeInOut },
   },
   exit: {
     d: "M100 0 L100 100 Q-100 50 100 0",
-    transition: { duration: 0.55, ease: easeInOut },
+    transition: { duration: 0.5, ease: easeInOut },
   },
 };
 
@@ -85,7 +85,7 @@ function AnimatedHamBurger({
   onToggle,
 }: AnimatedHamBurgerProps) {
   return (
-    <MotionConfig transition={{ duration: 0.5, ease: easeInOut }}>
+    <MotionConfig transition={{ duration: 0.42, ease: easeInOut }}>
       <motion.button
         type="button"
         initial={false}
