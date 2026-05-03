@@ -40,7 +40,7 @@ export default function NavbarLinks() {
                   <motion.span
                     layoutId="active-pill"
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    className="pointer-events-none absolute inset-0 rounded-full bg-black/80"
+                    className="pointer-events-none absolute inset-0 rounded-full bg-primary"
                   />
                 )}
 
@@ -49,13 +49,13 @@ export default function NavbarLinks() {
                   <motion.span
                     layoutId="hover-pill"
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    className="pointer-events-none absolute inset-0 rounded-full bg-black/10"
+                    className="pointer-events-none absolute inset-0 rounded-full bg-muted"
                   />
                 )}
 
                 {/* Routes (Navbar links)*/}
                 <span
-                  className={`relative z-10 ${isActive ? "text-white" : "text-slate-700"}`}
+                  className={`relative z-10 ${isActive ? "text-primary-foreground" : "text-muted-foreground"}`}
                 >
                   {link.name}
                 </span>

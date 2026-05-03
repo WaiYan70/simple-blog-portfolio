@@ -92,11 +92,11 @@ function AnimatedHamBurger({
         animate={active ? "open" : "closed"}
         aria-controls={controls}
         aria-expanded={active}
-        className="relative w-9 h-9 z-70 bg-primary/20 rounded-sm"
+        className="relative z-70 h-9 w-9 rounded-md border border-border bg-card text-foreground shadow-sm transition-colors hover:bg-muted"
         onClick={onToggle}
       >
         <motion.span
-          className="absolute bg-black h-0.5 w-5"
+          className="absolute h-0.5 w-5 rounded-full bg-current"
           style={{ left: "calc(50% + 2px)", top: "35%", x: "-50%", y: "-50%" }}
           variants={{
             open: {
@@ -114,7 +114,7 @@ function AnimatedHamBurger({
           }}
         />
         <motion.span
-          className="absolute bg-black h-0.5 w-6"
+          className="absolute h-0.5 w-6 rounded-full bg-current"
           style={{ left: "50%", top: "50%", x: "-50%", y: "-50%" }}
           variants={{
             open: { rotate: ["0deg", "0deg", "-45deg"] },
@@ -122,7 +122,7 @@ function AnimatedHamBurger({
           }}
         />
         <motion.span
-          className="absolute bg-black h-0.5 w-4"
+          className="absolute h-0.5 w-4 rounded-full bg-current"
           style={{
             left: "calc(50% + 4px)",
             bottom: "35%",
@@ -162,7 +162,7 @@ function MobileMenu({ id, onNavigate }: MobileMenuProps) {
       initial="initial"
       animate="enter"
       exit="exit"
-      className="fixed inset-0 z-60 flex min-h-dvh flex-col justify-between overflow-visible bg-background px-6 pb-8 pt-24 text-foreground shadow-2xl"
+      className="fixed inset-0 z-60 flex min-h-dvh flex-col justify-between overflow-visible border-l border-border bg-card px-6 pb-8 pt-24 text-card-foreground shadow-2xl"
     >
       <MenuCurve />
       <div className="relative z-10">
@@ -188,10 +188,10 @@ function MobileMenu({ id, onNavigate }: MobileMenuProps) {
                 <Link
                   href={link.href}
                   onClick={onNavigate}
-                  className={`block rounded-2xl px-4 py-4 text-3xl font-semibold tracking-tight transition-colors ${
+                  className={`block rounded-2xl p-4 text-3xl font-semibold tracking-tight transition-colors ${
                     isActive
                       ? "bg-primary text-primary-foreground"
-                      : "text-foreground hover:bg-muted"
+                      : "text-card-foreground hover:bg-muted hover:text-foreground"
                   }`}
                 >
                   {link.name}
@@ -201,6 +201,10 @@ function MobileMenu({ id, onNavigate }: MobileMenuProps) {
           })}
         </ul>
       </div>
+      <p className="relative z-10 text-sm leading-6 text-muted-foreground">
+        Software engineer portfolio documenting projects, writing, and system
+        design decisions.
+      </p>
     </motion.nav>
   );
 }
@@ -211,7 +215,7 @@ function MenuCurve() {
       aria-hidden="true"
       viewBox="0 0 100 100"
       preserveAspectRatio="none"
-      className="pointer-events-none absolute -left-[99px] top-0 h-full w-[100px] fill-background"
+      className="pointer-events-none absolute -left-25 top-0 h-full w-25 fill-card"
     >
       <motion.path
         variants={curvePath}
