@@ -45,3 +45,5 @@ next-env.d.ts
 # un-used component
 /src/components/layout/NavbarLink.tsx
 /src/components/layout/MobileNav.tsx
+/src/components/layout/MobileNavCurve.tsx
+/src/components/layout/MobileNavbarCurve.tsx
