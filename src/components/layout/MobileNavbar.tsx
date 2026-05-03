@@ -19,6 +19,28 @@ const menuSlide = {
   },
 };
 
+const mobileLinkSlide = {
+  initial: { x: 48, opacity: 0 },
+  enter: (index: number) => ({
+    x: 0,
+    opacity: 1,
+    transition: {
+      delay: 0.1 * index,
+      duration: 0.55,
+      ease: easeInOut,
+    },
+  }),
+  exit: (index: number) => ({
+    x: 48,
+    opacity: 0,
+    transition: {
+      delay: 0.1 * index,
+      duration: 0.35,
+      ease: easeInOut,
+    },
+  }),
+};
+
 export function MobileNavbar() {
   const [open, setOpen] = useState(false);
   const menuId = useId();
@@ -128,39 +150,41 @@ function MobileMenu({ id, onNavigate }: MobileMenuProps) {
       exit="exit"
       className="fixed inset-0 z-60 flex min-h-dvh flex-col justify-between overflow-hidden bg-background px-6 pb-8 pt-24 text-foreground shadow-2xl"
     >
-      <div
-        aria-hidden="true"
-        className="absolute -left-20 top-0 h-full w-24 rounded-r-[100%] bg-background shadow-[-24px_0_60px_rgba(0,0,0,0.18)]"
-      >
-        <div className="relative z-10">
-          <p className="mb-8 text-xs font-medium uppercase tracking-[0.24em] text-muted-foreground">
-            Navigation
-          </p>
-          <ul>
-            {navbarLinks.map((link) => {
-              const isActive =
-                link.href === "/"
-                  ? pathname === "/"
-                  : pathname.startsWith(link.href);
+      <div className="relative z-10">
+        <p className="mb-8 text-xs font-medium uppercase tracking-[0.24em] text-muted-foreground">
+          Navigation
+        </p>
+        <ul className="space-y-3">
+          {navbarLinks.map((link, index) => {
+            const isActive =
+              link.href === "/"
+                ? pathname === "/"
+                : pathname.startsWith(link.href);
 
-              return (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    onClick={onNavigate}
-                    className={`block rounded-2xl px-4 py-4 text-3xl font-semibold tracking-tight transition-colors ${
-                      isActive
-                        ? "bg-primary text-primary-foreground"
-                        : "text-foreground hover:bg-muted"
-                    }`}
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+            return (
+              <motion.li
+                key={link.name}
+                custom={index}
+                variants={mobileLinkSlide}
+                initial="initial"
+                animate="enter"
+                exit="exit"
+              >
+                <Link
+                  href={link.href}
+                  onClick={onNavigate}
+                  className={`block rounded-2xl px-4 py-4 text-3xl font-semibold tracking-tight transition-colors ${
+                    isActive
+                      ? "bg-primary text-primary-foreground"
+                      : "text-foreground hover:bg-muted"
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              </motion.li>
+            );
+          })}
+        </ul>
       </div>
     </motion.nav>
   );
