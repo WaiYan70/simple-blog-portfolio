@@ -41,6 +41,20 @@ const mobileLinkSlide = {
   }),
 };
 
+const curvePath = {
+  initial: {
+    d: "M100 0 L100 100 Q-100 50 100 0",
+  },
+  enter: {
+    d: "M100 0 L100 100 Q100 50 100 0",
+    transition: { duration: 0.9, ease: easeInOut },
+  },
+  exit: {
+    d: "M100 0 L100 100 Q-100 50 100 0",
+    transition: { duration: 0.55, ease: easeInOut },
+  },
+};
+
 export function MobileNavbar() {
   const [open, setOpen] = useState(false);
   const menuId = useId();
@@ -148,8 +162,9 @@ function MobileMenu({ id, onNavigate }: MobileMenuProps) {
       initial="initial"
       animate="enter"
       exit="exit"
-      className="fixed inset-0 z-60 flex min-h-dvh flex-col justify-between overflow-hidden bg-background px-6 pb-8 pt-24 text-foreground shadow-2xl"
+      className="fixed inset-0 z-60 flex min-h-dvh flex-col justify-between overflow-visible bg-background px-6 pb-8 pt-24 text-foreground shadow-2xl"
     >
+      <MenuCurve />
       <div className="relative z-10">
         <p className="mb-8 text-xs font-medium uppercase tracking-[0.24em] text-muted-foreground">
           Navigation
@@ -163,7 +178,7 @@ function MobileMenu({ id, onNavigate }: MobileMenuProps) {
 
             return (
               <motion.li
-                key={link.name}
+                key={link.href}
                 custom={index}
                 variants={mobileLinkSlide}
                 initial="initial"
@@ -187,5 +202,23 @@ function MobileMenu({ id, onNavigate }: MobileMenuProps) {
         </ul>
       </div>
     </motion.nav>
+  );
+}
+
+function MenuCurve() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 100 100"
+      preserveAspectRatio="none"
+      className="pointer-events-none absolute -left-[99px] top-0 h-full w-[100px] fill-background"
+    >
+      <motion.path
+        variants={curvePath}
+        initial="initial"
+        animate="enter"
+        exit="exit"
+      />
+    </svg>
   );
 }
