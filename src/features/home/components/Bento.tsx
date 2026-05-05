@@ -5,7 +5,7 @@ import Image from "next/image";
 import { motion, MotionProps } from "motion/react";
 import { twMerge } from "tailwind-merge";
 import { siGithub } from "simple-icons";
-import { Blocks, MapPin, Mail } from "lucide-react";
+import { Blocks, MapPin, Mail, FileText } from "lucide-react";
 import { TextFlip } from "../animation/TextFlip";
 import { LinkedInIcon } from "@/components/icons/LinkedIn";
 import { BrandIcon } from "@/components/shared/BrandIcon";
@@ -15,7 +15,7 @@ import { Section } from "@/components/shared/Section";
 export function Bento() {
   return (
     <Section>
-      <div className="grid max-w-5xl grid-cols-12 gap-2.5 sm:gap-3">
+      <div className="grid max-w-5xl grid-cols-12 items-center gap-2.5 sm:gap-3">
         <HeaderBlock />
         <SocialBlock />
         <AboutBlock />
@@ -76,29 +76,41 @@ function HeaderBlock() {
 function SocialBlock() {
   return (
     <>
-      <Block className="col-span-6 grid place-items-center md:col-span-2">
-        <div className="flex items-center justify-center gap-1 md:gap-0">
+      <Block className="col-span-6 grid min-h-20 place-items-center md:col-span-2 md:aspect-square md:min-h-0">
+        <div className="flex items-center justify-center gap-1.5">
           <MapPin />
-          <p className="inline md:hidden text-xs italic underline underline-offset-2 ">
+          <p className="inline md:hidden text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
             Asia / Bangkok
           </p>
         </div>
       </Block>
 
-      <Block className="col-span-2 md:col-span-2 bg-accent">
-        <Link href="/blog" className="grid h-full place-content-center">
-          <Mail />
+      <Block className="col-span-2 grid aspect-square place-items-center bg-accent p-0 md:col-span-2">
+        <Link
+          href="/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open resume"
+          className="grid h-full w-full place-content-center rounded-2xl transition hover:bg-primary hover:text-primary-foreground"
+        >
+          <FileText />
         </Link>
       </Block>
 
-      <Block className="col-span-2 md:col-span-2 bg-blue-500">
-        <Link href="/blog" className="grid h-full place-content-center">
+      <Block className="col-span-2 grid aspect-square place-items-center bg-blue-500 p-0 md:col-span-2">
+        <Link
+          href="/blog"
+          className="grid h-full w-full place-content-center rounded-2xl"
+        >
           <LinkedInIcon />
         </Link>
       </Block>
 
-      <Block className="col-span-2 md:col-span-2 bg-accent">
-        <Link href="/blog" className="grid h-full place-content-center">
+      <Block className="col-span-2 grid aspect-square place-items-center bg-accent p-0 md:col-span-2">
+        <Link
+          href="/blog"
+          className="grid h-full w-full place-content-center rounded-2xl"
+        >
           <BrandIcon path={siGithub.path} title="Github" />
         </Link>
       </Block>
@@ -123,12 +135,12 @@ function AboutBlock() {
 
 function FocusBlock() {
   return (
-    <Block className="col-span-12 bg-muted/40 md:col-span-5">
+    <Block className="col-span-5 bg-muted/40">
       <Blocks className="mb-4 h-5 w-5 text-primary" />
       <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
         Current focus
       </p>
-      <p className="mt-2 text-lg font-medium">
+      <p className="mt-2 text-lg font-medium line-clamp-3">
         Building maintainable Next.js apps with clear architecture.
       </p>
     </Block>
@@ -137,16 +149,16 @@ function FocusBlock() {
 
 function ContactBlock() {
   return (
-    <Block className="col-span-12 md:col-span-7 bg-primary text-primary-foreground">
+    <Block className="col-span-7 bg-primary text-primary-foreground">
       <p className="text-xs uppercase tracking-[0.2em] opacity-75">
         Available for work
       </p>
-      <h2 className="mt-3 text-2xl font-semibold">
+      <h2 className="mt-2 text-2xl font-semibold">
         Have a project or role in mind?
       </h2>
       <Link
         href="mailto:khantwaiyan11@gmail.com?subject=Opportunity&body=Hi Khant,"
-        className="mt-5 inline-flex items-center gap-2 rounded-md bg-primary-foreground px-4 py-2 text-sm font-medium text-primary transition hover:opacity-90"
+        className="mt-2 sm:mt-5 inline-flex items-center gap-2 rounded-md bg-primary-foreground px-4 py-2 text-sm font-medium text-primary transition hover:opacity-90"
       >
         <Mail className="h-4 w-4" />
         Send email
