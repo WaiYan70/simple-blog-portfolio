@@ -92,13 +92,15 @@ export function MobileNavbar() {
   const [open, setOpen] = useState(false);
   const menuId = useId();
   return (
-    <div className="flex items-center gap-2 sm:hidden">
-      <ThemeToggle />
-      <AnimatedHamBurger
-        active={open}
-        controls={menuId}
-        onToggle={() => setOpen((previous) => !previous)}
-      />
+    <div className="relative flex items-center gap-2 sm:hidden">
+      <div className="relative z-70 flex items-center gap-2">
+        <ThemeToggle />
+        <AnimatedHamBurger
+          active={open}
+          controls={menuId}
+          onToggle={() => setOpen((previous) => !previous)}
+        />
+      </div>
       <AnimatePresence mode="wait">
         {open && <MobileMenu id={menuId} onNavigate={() => setOpen(false)} />}
       </AnimatePresence>
@@ -125,7 +127,8 @@ function AnimatedHamBurger({
         animate={active ? "open" : "closed"}
         aria-controls={controls}
         aria-expanded={active}
-        className="relative z-70 h-9 w-9 rounded-md border border-border bg-card text-foreground shadow-sm transition-colors hover:bg-muted"
+        aria-label={active ? "Close navigation menu" : "Open navigation menu"}
+        className="relative h-9 w-9 rounded-md border border-border bg-card text-foreground shadow-sm transition-colors hover:bg-muted"
         onClick={onToggle}
       >
         <motion.span
@@ -168,7 +171,7 @@ function MobileMenu({ id, onNavigate }: MobileMenuProps) {
       initial="initial"
       animate="enter"
       exit="exit"
-      className="fixed inset-0 z-60 flex min-h-dvh flex-col justify-between overflow-visible border-l border-border bg-card px-6 pb-8 pt-24 text-card-foreground shadow-2xl"
+      className="fixed inset-0 z-[60] flex min-h-dvh flex-col justify-between overflow-visible border-l border-border bg-card px-6 pb-8 pt-24 text-card-foreground shadow-2xl"
     >
       <MenuCurve />
       <div className="relative z-10">

@@ -10,7 +10,7 @@ export const ThemeToggle = () => {
   const [mounted, setMounted] = useState(false);
 
   const iconClassName =
-    "absolute h-4 w-4 transition-transform duration-700 ease-out";
+    "absolute z-10 h-4 w-4 transition-transform duration-700 ease-out";
 
   useEffect(() => {
     // async avoids React warning

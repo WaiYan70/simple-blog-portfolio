@@ -9,6 +9,7 @@ import { ProjectSection } from "@/features/home/components/ProjectSection";
 import { Skills } from "@/features/home/components/Skills";
 import { getAllPosts } from "@/features/blog/lib/post";
 import { getAllProjects } from "@/features/projects/lib/project";
+import { Bento } from "@/features/home/components/Bento";
 
 export default async function Home() {
   const posts = await getAllPosts();
@@ -18,7 +19,8 @@ export default async function Home() {
 
   return (
     <>
-      <Hero />
+      <Bento />
+      {/*<Hero />*/}
       <ProjectSection projects={lastThreeProjects} />
       <BlogSection posts={lastThreePosts} />
       <Highlight />
