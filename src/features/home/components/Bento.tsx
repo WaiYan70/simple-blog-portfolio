@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { motion, MotionProps } from "motion/react";
+import { motion, type MotionProps, type Variants } from "motion/react";
 import { twMerge } from "tailwind-merge";
 import { siGithub } from "simple-icons";
 import { Blocks, MapPin, Mail, FileText } from "lucide-react";
@@ -12,16 +12,48 @@ import { BrandIcon } from "@/components/shared/BrandIcon";
 import { TypeWriter } from "../animation/TypeWriter";
 import { Section } from "@/components/shared/Section";
 
+const bentoContainerVariants: Variants = {
+  initial: {},
+  animate: {
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const bentoBlockVariants: Variants = {
+  initial: {
+    y: 18,
+    opacity: 0,
+    scale: 0.98,
+  },
+  animate: {
+    y: 0,
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.45,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
+
 export function Bento() {
   return (
     <Section>
-      <div className="grid max-w-5xl grid-cols-12 items-center gap-2.5 sm:gap-3">
+      <motion.div
+        variants={bentoContainerVariants}
+        initial="initial"
+        animate="animate"
+        className="grid max-w-5xl grid-cols-12 items-center gap-2.5 sm:gap-3"
+      >
         <HeaderBlock />
         <SocialBlock />
         <AboutBlock />
         <FocusBlock />
         <ContactBlock />
-      </div>
+      </motion.div>
     </Section>
   );
 }
@@ -33,6 +65,7 @@ type BlockProps = {
 function Block({ className, ...rest }: BlockProps) {
   return (
     <motion.div
+      variants={bentoBlockVariants}
       className={twMerge(
         "col-span-4 rounded-2xl border border-border/70 bg-card p-5 shadow-sm",
         className,
@@ -76,7 +109,10 @@ function HeaderBlock() {
 function SocialBlock() {
   return (
     <>
-      <Block className="col-span-6 grid min-h-20 place-items-center md:col-span-2 md:aspect-square md:min-h-0">
+      <Block
+        whileHover={{ rotate: "2.5deg", scale: 1.1 }}
+        className="col-span-6 grid min-h-20 place-items-center md:col-span-2 md:aspect-square md:min-h-0"
+      >
         <div className="flex items-center justify-center gap-1.5">
           <MapPin />
           <p className="inline md:hidden text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
@@ -85,7 +121,10 @@ function SocialBlock() {
         </div>
       </Block>
 
-      <Block className="col-span-2 grid aspect-square place-items-center bg-accent p-0 md:col-span-2">
+      <Block
+        whileHover={{ rotate: "-2.5deg", scale: 1.1 }}
+        className="col-span-2 grid aspect-square place-items-center bg-accent p-0 md:col-span-2"
+      >
         <Link
           href="/"
           target="_blank"
@@ -97,7 +136,10 @@ function SocialBlock() {
         </Link>
       </Block>
 
-      <Block className="col-span-2 grid aspect-square place-items-center bg-blue-500 p-0 md:col-span-2">
+      <Block
+        whileHover={{ rotate: "-2.5deg", scale: 1.1 }}
+        className="col-span-2 grid aspect-square place-items-center bg-blue-500 p-0 md:col-span-2"
+      >
         <Link
           href="/blog"
           className="grid h-full w-full place-content-center rounded-2xl"
@@ -106,7 +148,10 @@ function SocialBlock() {
         </Link>
       </Block>
 
-      <Block className="col-span-2 grid aspect-square place-items-center bg-accent p-0 md:col-span-2">
+      <Block
+        whileHover={{ rotate: "2.5deg", scale: 1.1 }}
+        className="col-span-2 grid aspect-square place-items-center bg-accent p-0 md:col-span-2"
+      >
         <Link
           href="/blog"
           className="grid h-full w-full place-content-center rounded-2xl"
