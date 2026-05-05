@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 const phrases = [
   "how they work",
   "how they scale",
-  "their tradeoff",
-  "architectures",
+  "their tradeoffs",
+  "their architectures",
 ];
 
 export function TextFlip() {

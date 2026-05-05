@@ -5,7 +5,7 @@ import Image from "next/image";
 import { motion, MotionProps } from "motion/react";
 import { twMerge } from "tailwind-merge";
 import { siGithub } from "simple-icons";
-import { BookMarked, Blocks } from "lucide-react";
+import { BookMarked, Blocks, MapPin, Mail } from "lucide-react";
 import { TextFlip } from "../animation/TextFlip";
 import { LinkedInIcon } from "@/components/icons/LinkedIn";
 import { BrandIcon } from "@/components/shared/BrandIcon";
@@ -13,13 +13,12 @@ import { TypeWriter } from "../animation/TypeWriter";
 
 export function Bento() {
   return (
-    <div className="max-w-5xl grid grid-cols-12 gap-2">
+    <div className="max-w-5xl grid grid-cols-12 gap-2 grid-flow-dense">
       <HeaderBlock />
       <SocialBlock />
       <AboutBlock />
-      <Block>4</Block>
-      <Block>5</Block>
-      <Block>6</Block>
+      <LocationBlock />
+      <ContactBlock />
     </div>
   );
 }
@@ -32,7 +31,7 @@ function Block({ className, ...rest }: BlockProps) {
   return (
     <motion.div
       className={twMerge(
-        "col-span-4 rounded-lg border border-border p-6",
+        "col-span-4 rounded-lg border border-border p-5",
         className,
       )}
       {...rest}
@@ -60,7 +59,7 @@ function HeaderBlock() {
       </div>
 
       {/* Main headline */}
-      <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight leading-tight wrap-break-word">
+      <h1 className="mt-4 text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight leading-tight wrap-break-word">
         Building systems that explain{" "}
         <span className="text-primary">
           <TextFlip />
@@ -74,25 +73,28 @@ function HeaderBlock() {
 function SocialBlock() {
   return (
     <>
-      <Block className="col-span-3 md:col-span-2">
+      <Block className="col-span-6 grid place-items-center md:col-span-2">
+        <div className="flex items-center justify-center gap-1 md:gap-0">
+          <MapPin />
+          <p className="inline md:hidden text-xs italic underline underline-offset-2 ">
+            Asia / Bangkok
+          </p>
+        </div>
+      </Block>
+
+      <Block className="col-span-2 md:col-span-2 bg-accent">
         <Link href="/blog" className="grid h-full place-content-center">
-          <BookMarked />
+          <Mail />
         </Link>
       </Block>
 
-      <Block className="col-span-3 md:col-span-2">
-        <Link href="/blog" className="grid h-full place-content-center">
-          <Blocks />
-        </Link>
-      </Block>
-
-      <Block className="col-span-3 md:col-span-2">
+      <Block className="col-span-2 md:col-span-2 bg-blue-500">
         <Link href="/blog" className="grid h-full place-content-center">
           <LinkedInIcon />
         </Link>
       </Block>
 
-      <Block className="col-span-3 md:col-span-2">
+      <Block className="col-span-2 md:col-span-2 bg-accent">
         <Link href="/blog" className="grid h-full place-content-center">
           <BrandIcon path={siGithub.path} title="Github" />
         </Link>
@@ -112,6 +114,25 @@ function AboutBlock() {
     scalability, and practical tradeoffs."
         />
       </p>
+    </Block>
+  );
+}
+
+function LocationBlock() {
+  return (
+    <Block className="col-span-3">
+      <div className="flex justify-center gap-2">
+        <MapPin />
+        <p className="underline underline-offset-2 italic">Bangkok</p>
+      </div>
+    </Block>
+  );
+}
+
+function ContactBlock() {
+  return (
+    <Block className="col-span-9">
+      <div></div>
     </Block>
   );
 }
