@@ -17,7 +17,7 @@ export function Bento() {
       <HeaderBlock />
       <SocialBlock />
       <AboutBlock />
-      <LocationBlock />
+      <FocusBlock />
       <ContactBlock />
     </div>
   );
@@ -118,21 +118,36 @@ function AboutBlock() {
   );
 }
 
-function LocationBlock() {
+function FocusBlock() {
   return (
-    <Block className="col-span-3">
-      <div className="flex justify-center gap-2">
-        <MapPin />
-        <p className="underline underline-offset-2 italic">Bangkok</p>
-      </div>
+    <Block className="col-span-12 md:col-span-5">
+      <Blocks className="mb-4 h-5 w-5 text-primary" />
+      <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+        Current focus
+      </p>
+      <p className="mt-2 text-lg font-medium">
+        Building maintainable Next.js apps with clear architecture.
+      </p>
     </Block>
   );
 }
 
 function ContactBlock() {
   return (
-    <Block className="col-span-9">
-      <div></div>
+    <Block className="col-span-12 md:col-span-7 bg-primary text-primary-foreground">
+      <p className="text-xs uppercase tracking-[0.2em] opacity-75">
+        Available for work
+      </p>
+      <h2 className="mt-3 text-2xl font-semibold">
+        Have a project or role in mind?
+      </h2>
+      <Link
+        href="mailto:khantwaiyan11@gmail.com?subject=Opportunity&body=Hi Khant,"
+        className="mt-5 inline-flex items-center gap-2 rounded-md bg-primary-foreground px-4 py-2 text-sm font-medium text-primary"
+      >
+        <Mail className="h-4 w-4" />
+        Send email
+      </Link>
     </Block>
   );
 }
