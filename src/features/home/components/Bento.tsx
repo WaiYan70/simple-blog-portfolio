@@ -5,21 +5,24 @@ import Image from "next/image";
 import { motion, MotionProps } from "motion/react";
 import { twMerge } from "tailwind-merge";
 import { siGithub } from "simple-icons";
-import { BookMarked, Blocks, MapPin, Mail } from "lucide-react";
+import { Blocks, MapPin, Mail } from "lucide-react";
 import { TextFlip } from "../animation/TextFlip";
 import { LinkedInIcon } from "@/components/icons/LinkedIn";
 import { BrandIcon } from "@/components/shared/BrandIcon";
 import { TypeWriter } from "../animation/TypeWriter";
+import { Section } from "@/components/shared/Section";
 
 export function Bento() {
   return (
-    <div className="max-w-5xl grid grid-cols-12 gap-2 grid-flow-dense">
-      <HeaderBlock />
-      <SocialBlock />
-      <AboutBlock />
-      <FocusBlock />
-      <ContactBlock />
-    </div>
+    <Section>
+      <div className="grid max-w-5xl grid-cols-12 gap-2.5 sm:gap-3">
+        <HeaderBlock />
+        <SocialBlock />
+        <AboutBlock />
+        <FocusBlock />
+        <ContactBlock />
+      </div>
+    </Section>
   );
 }
 
@@ -31,7 +34,7 @@ function Block({ className, ...rest }: BlockProps) {
   return (
     <motion.div
       className={twMerge(
-        "col-span-4 rounded-lg border border-border p-5",
+        "col-span-4 rounded-2xl border border-border/70 bg-card p-5 shadow-sm",
         className,
       )}
       {...rest}
@@ -41,7 +44,7 @@ function Block({ className, ...rest }: BlockProps) {
 
 function HeaderBlock() {
   return (
-    <Block className="col-span-12 row-span-2 md:col-span-8">
+    <Block className="col-span-12 row-span-2 bg-linear-to-br from-card via-card to-muted/50 md:col-span-8 md:p-7">
       <div className="flex justify-start items-center gap-3">
         <Image
           width={56}
@@ -59,7 +62,7 @@ function HeaderBlock() {
       </div>
 
       {/* Main headline */}
-      <h1 className="mt-4 text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight leading-tight wrap-break-word">
+      <h1 className="mt-5 max-w-2xl text-2xl sm:text-3xl md:text-4xl font-semibold leading-tight tracking-tight ">
         Building systems that explain{" "}
         <span className="text-primary">
           <TextFlip />
@@ -120,7 +123,7 @@ function AboutBlock() {
 
 function FocusBlock() {
   return (
-    <Block className="col-span-12 md:col-span-5">
+    <Block className="col-span-12 bg-muted/40 md:col-span-5">
       <Blocks className="mb-4 h-5 w-5 text-primary" />
       <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
         Current focus
@@ -143,7 +146,7 @@ function ContactBlock() {
       </h2>
       <Link
         href="mailto:khantwaiyan11@gmail.com?subject=Opportunity&body=Hi Khant,"
-        className="mt-5 inline-flex items-center gap-2 rounded-md bg-primary-foreground px-4 py-2 text-sm font-medium text-primary"
+        className="mt-5 inline-flex items-center gap-2 rounded-md bg-primary-foreground px-4 py-2 text-sm font-medium text-primary transition hover:opacity-90"
       >
         <Mail className="h-4 w-4" />
         Send email
