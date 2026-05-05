@@ -5,7 +5,7 @@ import Image from "next/image";
 import { motion, type MotionProps, type Variants } from "motion/react";
 import { twMerge } from "tailwind-merge";
 import { siGithub } from "simple-icons";
-import { Blocks, MapPin, Mail, FileText } from "lucide-react";
+import { Blocks, MapPin, Mail, FileText, ArrowRight } from "lucide-react";
 import { TextFlip } from "../animation/TextFlip";
 import { LinkedInIcon } from "@/components/icons/LinkedIn";
 import { BrandIcon } from "@/components/shared/BrandIcon";
@@ -46,7 +46,7 @@ export function Bento() {
         variants={bentoContainerVariants}
         initial="initial"
         animate="animate"
-        className="grid max-w-5xl grid-cols-12 items-center gap-2.5 sm:gap-3"
+        className="grid max-w-5xl grid-cols-12 gap-2.5 sm:gap-3"
       >
         <HeaderBlock />
         <SocialBlock />
@@ -77,7 +77,7 @@ function Block({ className, ...rest }: BlockProps) {
 
 function HeaderBlock() {
   return (
-    <Block className="col-span-12 row-span-2 bg-linear-to-br from-card via-card to-muted/50 md:col-span-8 md:p-7">
+    <Block className="col-span-12 row-span-2 flex flex-col justify-between bg-linear-to-br from-card via-card to-muted/50 md:col-span-8 md:p-7">
       <div className="flex justify-start items-center gap-3">
         <Image
           width={56}
@@ -102,61 +102,90 @@ function HeaderBlock() {
         </span>{" "}
         — not just what they do.
       </h1>
+
+      <div className="flex items-center gap-4 pt-4">
+        <Link
+          href="/blog"
+          className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition hover:bg-primary-dark"
+        >
+          Read Blog
+        </Link>
+
+        <Link
+          href="/projects"
+          className="text-sm font-medium text-muted-foreground transition hover:text-primary group inline-flex items-center gap-1.5"
+        >
+          View Project
+          <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+        </Link>
+      </div>
     </Block>
   );
 }
+
+const socialCardClassName =
+  "col-span-2 grid aspect-square place-items-center p-0 md:col-span-2";
+
+const socialLinkClassName =
+  "grid h-full w-full place-content-center rounded-2xl transition-colors duration-300";
 
 function SocialBlock() {
   return (
     <>
       <Block
-        whileHover={{ rotate: "2.5deg", scale: 1.1 }}
-        className="col-span-6 grid min-h-20 place-items-center md:col-span-2 md:aspect-square md:min-h-0"
+        whileHover={{ y: -3, rotate: "2.5deg" }}
+        className="col-span-6 grid place-items-center bg-muted/40 text-foreground md:col-span-2 md:aspect-square"
       >
         <div className="flex items-center justify-center gap-1.5">
-          <MapPin />
-          <p className="inline md:hidden text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
+          <MapPin className="h-5 w-5 text-primary" />
+          <p className="inline text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground md:hidden">
             Asia / Bangkok
           </p>
         </div>
       </Block>
 
       <Block
-        whileHover={{ rotate: "-2.5deg", scale: 1.1 }}
-        className="col-span-2 grid aspect-square place-items-center bg-accent p-0 md:col-span-2"
+        whileHover={{ y: -3, rotate: "-2.5deg" }}
+        className={twMerge(socialCardClassName, "bg-accent text-foreground")}
       >
         <Link
           href="/"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Open resume"
-          className="grid h-full w-full place-content-center rounded-2xl transition hover:bg-primary hover:text-primary-foreground"
+          className={twMerge(
+            socialLinkClassName,
+            "hover:bg-primary hover:text-primary-foreground",
+          )}
         >
-          <FileText />
+          <FileText className="h-5 w-5" />
         </Link>
       </Block>
 
       <Block
-        whileHover={{ rotate: "-2.5deg", scale: 1.1 }}
-        className="col-span-2 grid aspect-square place-items-center bg-blue-500 p-0 md:col-span-2"
+        whileHover={{ y: -3, rotate: "-2.5deg" }}
+        className={twMerge(socialCardClassName, "bg-[#0A66C2] text-white")}
       >
         <Link
           href="/blog"
-          className="grid h-full w-full place-content-center rounded-2xl"
+          className={twMerge(socialLinkClassName, "hover:bg-[#084f96]")}
         >
-          <LinkedInIcon />
+          <LinkedInIcon size={20} />
         </Link>
       </Block>
 
       <Block
-        whileHover={{ rotate: "2.5deg", scale: 1.1 }}
-        className="col-span-2 grid aspect-square place-items-center bg-accent p-0 md:col-span-2"
+        whileHover={{ y: -3, rotate: "2.5deg" }}
+        className={twMerge(
+          socialCardClassName,
+          "bg-foreground text-background",
+        )}
       >
         <Link
           href="/blog"
-          className="grid h-full w-full place-content-center rounded-2xl"
+          className={twMerge(socialLinkClassName, "hover:opacity-85")}
         >
-          <BrandIcon path={siGithub.path} title="Github" />
+          <BrandIcon path={siGithub.path} title="Github" size={20} />
         </Link>
       </Block>
     </>
