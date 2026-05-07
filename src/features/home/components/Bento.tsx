@@ -124,20 +124,22 @@ function HeaderBlock() {
 }
 
 const socialCardClassName =
-  "col-span-2 grid aspect-square place-items-center p-0 md:col-span-2";
+  "col-span-2 grid aspect-square place-items-center p-0";
 
 const socialLinkClassName =
   "grid h-full w-full place-content-center rounded-2xl transition-colors duration-300";
+
+const socialIconClassName = "h-5 w-5 md:h-6 md:w-6 lg:h-7 lg:w-7";
 
 function SocialBlock() {
   return (
     <>
       <Block
         whileHover={{ y: -3, rotate: "2.5deg" }}
-        className="col-span-6 grid place-items-center bg-muted/40 text-foreground md:col-span-2 md:aspect-square"
+        className="col-span-6 md:col-span-2 grid place-items-center bg-muted/40 text-foreground md:aspect-square"
       >
         <div className="flex items-center justify-center gap-1.5">
-          <MapPin className="h-5 w-5 text-primary" />
+          <MapPin className={twMerge(socialIconClassName, "text-primary")} />
           <p className="inline text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground md:hidden">
             Asia / Bangkok
           </p>
@@ -158,7 +160,7 @@ function SocialBlock() {
             "hover:bg-primary hover:text-primary-foreground",
           )}
         >
-          <FileText className="h-5 w-5" />
+          <FileText className={socialIconClassName} />
         </Link>
       </Block>
 
@@ -170,7 +172,7 @@ function SocialBlock() {
           href="/blog"
           className={twMerge(socialLinkClassName, "hover:bg-[#084f96]")}
         >
-          <LinkedInIcon size={20} />
+          <LinkedInIcon className={socialIconClassName} />
         </Link>
       </Block>
 
@@ -185,7 +187,11 @@ function SocialBlock() {
           href="/blog"
           className={twMerge(socialLinkClassName, "hover:opacity-85")}
         >
-          <BrandIcon path={siGithub.path} title="Github" size={20} />
+          <BrandIcon
+            path={siGithub.path}
+            title="Github"
+            className={socialIconClassName}
+          />
         </Link>
       </Block>
     </>

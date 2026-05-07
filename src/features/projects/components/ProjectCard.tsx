@@ -13,8 +13,8 @@ export function ProjectCard({ project }: Props) {
   return (
     <BaseCard
       href={`/projects/${project.slug}`}
-      className="overflow-hidden p-0"
-      radius="lg"
+      className="overflow-hidden"
+      radius="xl"
     >
       <div className="space-y-4">
         {/* Image or preview Placeholder */}

@@ -1,9 +1,15 @@
-export const LinkedInIcon = ({ size = 16 }: { size?: number }) => {
+type LinkedInIconProps = {
+  size?: number;
+  className?: string;
+};
+
+export const LinkedInIcon = ({ size = 16, className }: LinkedInIconProps) => {
   return (
     <svg
       viewBox="0 0 93.06 93.06"
       width={size}
       height={size}
+      className={className}
       fill="currentColor"
       role="img"
       aria-label="LinkedIn"
