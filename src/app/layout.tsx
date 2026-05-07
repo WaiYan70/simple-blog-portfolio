@@ -6,6 +6,7 @@ import Navbar from "@/components/layout/Navbar";
 import { Container } from "@/components/layout/Container";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { ReloadScrollReset } from "@/components/provider/ScrollReset";
+import { Footer } from "@/components/layout/Footer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -56,6 +57,7 @@ export default function RootLayout({
           <main>
             <Container>{children}</Container>
           </main>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
