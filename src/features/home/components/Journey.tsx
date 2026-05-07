@@ -1,6 +1,8 @@
+"use client";
+
 import { Section } from "@/components/shared/Section";
 import { SectionHeader } from "@/components/shared/SectionHeader";
-import { StaggerReveal } from "../animation/StaggerReveal";
+import { motion, useReducedMotion, type Variants } from "motion/react";
 
 const journey = [
   {
@@ -35,7 +37,57 @@ const journey = [
   },
 ];
 
+const timelineListVariants: Variants = {
+  initial: {},
+  animate: {
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const timelineItemVariants: Variants = {
+  initial: {},
+  animate: {},
+};
+
+const getCardVariants = (isLeft: boolean): Variants => ({
+  initial: {
+    x: isLeft ? -28 : 28,
+    opacity: 0,
+    scale: 0.98,
+  },
+  animate: {
+    x: 0,
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.62,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+});
+
+const dotVariants: Variants = {
+  initial: {
+    scale: 0,
+    opacity: 0,
+  },
+  animate: {
+    scale: 1,
+    opacity: 1,
+    transition: {
+      delay: 0.16,
+      duration: 0.38,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
+
 export function Journey() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <Section>
       <SectionHeader
@@ -49,16 +101,32 @@ export function Journey() {
         {/* Vertical line */}
         <div className="absolute top-7 left-4 sm:left-1/2 sm:-translate-x-1/2 h-[82%] w-0.5 bg-border" />
 
-        <StaggerReveal className="space-y-6">
+        <motion.div
+          className="space-y-6"
+          variants={shouldReduceMotion ? undefined : timelineListVariants}
+          initial={shouldReduceMotion ? false : "initial"}
+          whileInView={shouldReduceMotion ? undefined : "animate"}
+          viewport={{ once: true, amount: 0.2 }}
+        >
           {journey.map((item, index) => {
             const isLeft = index % 2 === 0;
+            const cardVariants = shouldReduceMotion
+              ? undefined
+              : getCardVariants(isLeft);
 
             return (
-              <div key={item.title} className="relative flex items-start">
+              <motion.div
+                key={item.title}
+                className="relative flex items-start"
+                variants={timelineItemVariants}
+              >
                 {/* LEFT (desktop only) */}
                 <div className="hidden w-1/2 sm:block sm:pr-8 sm:text-right">
                   {isLeft && (
-                    <div className="inline-block rounded-xl border border-border bg-card p-5 transition hover:bg-muted/40">
+                    <motion.div
+                      variants={cardVariants}
+                      className="inline-block rounded-xl border border-border bg-card p-5 transition hover:bg-muted/40"
+                    >
                       <h3 className="font-semibold tracking-tight">
                         {item.title}
                       </h3>
@@ -68,20 +136,26 @@ export function Journey() {
                       <p className="mt-2 text-sm text-muted-foreground leading-6">
                         {item.description}
                       </p>
-                    </div>
+                    </motion.div>
                   )}
                 </div>
 
                 {/* DOT */}
-                <div className="absolute top-7 left-2.75 sm:left-1/2 sm:-translate-x-1/2">
+                <motion.div
+                  className="absolute top-7 left-2.75 sm:left-1/2 sm:-translate-x-1/2"
+                  variants={shouldReduceMotion ? undefined : dotVariants}
+                >
                   <span className="block h-3 w-3 rounded-full bg-primary" />
-                </div>
+                </motion.div>
 
                 {/* RIGHT (mobile + desktop) */}
                 <div className="w-full pl-10 sm:w-1/2 sm:pl-8">
                   {/* Desktop right */}
                   {!isLeft && (
-                    <div className="hidden sm:inline-block rounded-xl border border-border bg-card p-5 transition hover:bg-muted/40">
+                    <motion.div
+                      variants={cardVariants}
+                      className="hidden sm:block rounded-xl border border-border bg-card p-5 transition hover:bg-muted/40"
+                    >
                       <h3 className="font-semibold tracking-tight">
                         {item.title}
                       </h3>
@@ -91,12 +165,17 @@ export function Journey() {
                       <p className="mt-2 text-sm text-muted-foreground leading-6">
                         {item.description}
                       </p>
-                    </div>
+                    </motion.div>
                   )}
 
                   {/* Mobile (always right side) */}
                   <div className="sm:hidden">
-                    <div className="rounded-xl border border-border bg-card p-5 transition hover:bg-muted/40">
+                    <motion.div
+                      variants={
+                        shouldReduceMotion ? undefined : getCardVariants(false)
+                      }
+                      className="rounded-xl border border-border bg-card p-5 transition hover:bg-muted/40"
+                    >
                       <h3 className="font-semibold tracking-tight">
                         {item.title}
                       </h3>
@@ -106,13 +185,13 @@ export function Journey() {
                       <p className="mt-2 text-sm text-muted-foreground leading-6">
                         {item.description}
                       </p>
-                    </div>
+                    </motion.div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
-        </StaggerReveal>
+        </motion.div>
       </div>
     </Section>
   );

@@ -128,7 +128,7 @@ function AnimatedHamBurger({
         aria-controls={controls}
         aria-expanded={active}
         aria-label={active ? "Close navigation menu" : "Open navigation menu"}
-        className="relative h-9 w-9 rounded-md border border-border bg-card text-foreground shadow-sm transition-colors hover:bg-muted"
+        className="relative h-9 w-9 rounded-md border  text-foreground transition-colors border-border bg-background shadow-xs hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50"
         onClick={onToggle}
       >
         <motion.span
