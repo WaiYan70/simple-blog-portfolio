@@ -180,6 +180,7 @@ function MobileMenu({ id, onNavigate }: MobileMenuProps) {
         </p>
         <ul className="space-y-3">
           {navbarLinks.map((link, index) => {
+            const Icon = link.icon;
             const isActive =
               link.href === "/"
                 ? pathname === "/"
@@ -203,7 +204,10 @@ function MobileMenu({ id, onNavigate }: MobileMenuProps) {
                       : "text-card-foreground hover:bg-muted hover:text-foreground"
                   }`}
                 >
-                  {link.name}
+                  <span className="inline-flex items-center gap-3">
+                    <Icon className="h-6 w-6" aria-hidden="true" />
+                    {link.name}
+                  </span>
                 </Link>
               </motion.li>
             );

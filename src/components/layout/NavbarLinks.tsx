@@ -4,12 +4,19 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { motion } from "motion/react";
+import { Home, BookMarked, LayoutGrid, type LucideIcon } from "lucide-react";
+
+type NavbarLink = {
+  name: string;
+  href: string;
+  icon: LucideIcon;
+};
 
 export const navbarLinks = [
-  { name: "Home", href: "/" },
-  { name: "Blog", href: "/blog" },
-  { name: "Projects", href: "/projects" },
-] as const;
+  { name: "Home", href: "/", icon: Home },
+  { name: "Blog", href: "/blog", icon: BookMarked },
+  { name: "Projects", href: "/projects", icon: LayoutGrid },
+] satisfies NavbarLink[];
 
 export default function NavbarLinks() {
   const pathname = usePathname();
@@ -22,6 +29,7 @@ export default function NavbarLinks() {
         className="relative flex justify-center gap-2"
       >
         {navbarLinks.map((link) => {
+          const Icon = link.icon;
           const isActive =
             link.href === "/"
               ? pathname === "/"
@@ -33,7 +41,7 @@ export default function NavbarLinks() {
               <Link
                 href={link.href}
                 onMouseEnter={() => setHovered(link.name)}
-                className="relative block px-4 py-2 text-sm"
+                className="relative flex items-center gap-2 px-4 py-2 text-sm"
               >
                 {/* Active Pill */}
                 {isActive && (
@@ -55,8 +63,12 @@ export default function NavbarLinks() {
 
                 {/* Routes (Navbar links)*/}
                 <span
-                  className={`relative z-10 ${isActive ? "text-primary-foreground" : "text-muted-foreground"}`}
+                  className={`relative z-10 inline-flex items-center gap-1.5 ${isActive ? "text-primary-foreground" : "text-muted-foreground"}`}
                 >
+                  <Icon
+                    className={`h-3.5 w-3.5 stroke-[2.25] ${isActive ? "text-primary-foreground" : "text-muted-foreground"}`}
+                    aria-hidden="true"
+                  />
                   {link.name}
                 </span>
               </Link>
