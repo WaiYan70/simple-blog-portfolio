@@ -1,4 +1,4 @@
-import { StaggerContainer } from "@/features/home/animation/StaggerContainer";
+import { StaggerReveal } from "@/features/home/animation/StaggerReveal";
 import { ProjectCard } from "@/features/projects/components/ProjectCard";
 import { getAllProjects } from "@/features/projects/lib/project";
 
@@ -20,13 +20,11 @@ export default async function ProjectPage() {
         </p>
       </div>
 
-      <div className="flex flex-col gap-4">
-        <StaggerContainer>
-          {projects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
-          ))}
-        </StaggerContainer>
-      </div>
+      <StaggerReveal className="flex flex-col gap-4">
+        {projects.map((project) => (
+          <ProjectCard key={project.slug} project={project} />
+        ))}
+      </StaggerReveal>
     </section>
   );
 }
