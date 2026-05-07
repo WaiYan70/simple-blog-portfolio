@@ -1,6 +1,4 @@
 import { BlogSection } from "@/features/home/components/BlogSection";
-import { Contact } from "@/features/home/components/ContactMe";
-import Hero from "@/features/home/components/Hero";
 import { Highlight } from "@/features/home/components/HighLight";
 import { HowIThink } from "@/features/home/components/HowIThink";
 import { Journey } from "@/features/home/components/Journey";
@@ -20,14 +18,12 @@ export default async function Home() {
   return (
     <>
       <Bento />
-      {/*<Hero />*/}
       <ProjectSection projects={lastThreeProjects} />
       <BlogSection posts={lastThreePosts} />
       <Highlight />
       <Skills />
       <HowIThink />
       <Journey />
-      <Contact />
     </>
   );
 }

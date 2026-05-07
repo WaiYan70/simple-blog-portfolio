@@ -171,7 +171,7 @@ function MobileMenu({ id, onNavigate }: MobileMenuProps) {
       initial="initial"
       animate="enter"
       exit="exit"
-      className="fixed inset-0 z-[60] flex min-h-dvh flex-col justify-between overflow-visible border-l border-border bg-card px-6 pb-8 pt-24 text-card-foreground shadow-2xl"
+      className="fixed inset-0 z-60 flex min-h-dvh flex-col justify-between overflow-visible border-l border-border bg-card px-6 pb-8 pt-24 text-card-foreground shadow-2xl"
     >
       <MenuCurve />
       <div className="relative z-10">

@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { Section } from "@/components/shared/Section";
 import { ProjectCarousel } from "./ProjectCarousel";
+import { StaggerReveal } from "../animation/StaggerReveal";
 
 export function ProjectSection({ projects }: { projects: ProjectSummary[] }) {
   return (
@@ -27,11 +28,11 @@ export function ProjectSection({ projects }: { projects: ProjectSummary[] }) {
         <ProjectCarousel projects={projects} />
       </div>
 
-      <div className="hidden gap-4 sm:grid sm:grid-cols-2">
+      <StaggerReveal className="hidden gap-4 sm:grid sm:grid-cols-2">
         {projects.map((project) => (
           <ProjectCard key={project.slug} project={project} />
         ))}
-      </div>
+      </StaggerReveal>
     </Section>
   );
 }
