@@ -34,7 +34,7 @@ export function StaggerReveal({
   children,
   className,
   itemClassName,
-  stagger = 0.16,
+  stagger = 0.2,
   delay = 0.18,
   amount = 0.3,
 }: StaggerRevealProps) {
