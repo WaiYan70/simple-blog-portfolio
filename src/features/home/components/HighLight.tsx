@@ -49,7 +49,6 @@ export function Highlight() {
       <SectionHeader
         title="Highlights"
         description="The engineering areas I keep returning to in projects, writing, and system design decisions."
-        className="space-y-2"
       />
 
       <StaggerReveal className="grid gap-4 sm:grid-cols-2">

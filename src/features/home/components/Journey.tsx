@@ -93,7 +93,6 @@ export function Journey() {
       <SectionHeader
         title="Journey"
         description="A short timeline of my experience and how i got here"
-        className="space-y-2"
       />
 
       {/* Timeline */}

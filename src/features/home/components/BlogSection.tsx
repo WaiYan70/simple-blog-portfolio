@@ -15,13 +15,12 @@ export function BlogSection({ posts }: { posts: PostSummary[] }) {
         action={
           <Link
             href="/blog"
-            className="group inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition hover:text-primary"
+            className="group inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition hover:text-primary underline italic"
           >
             All Writing
             <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
           </Link>
         }
-        className="flex flex-col"
       />
       <StaggerReveal className="grid gap-3">
         {posts.map((post) => (

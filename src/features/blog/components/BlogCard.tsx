@@ -1,6 +1,6 @@
 import { BaseCard } from "@/components/shared/BaseCard";
 import { PostSummary } from "@/features/blog/lib/post";
-import { ArrowRight, Dot } from "lucide-react";
+import { ArrowRight, BookOpen, Dot } from "lucide-react";
 
 type Props = {
   post: PostSummary;
@@ -25,6 +25,7 @@ export function BlogCard({ post }: Props) {
         </div>
 
         <div className="inline-flex shrink-0 items-center gap-1.5 text-sm font-medium text-muted-foreground transition group-hover:text-primary">
+          <BookOpen className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
           Read
           <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
         </div>

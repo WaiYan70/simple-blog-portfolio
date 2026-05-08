@@ -34,7 +34,6 @@ export function ContactMe() {
         description="If you are interested in working together or have any questions, feel
         free to reach out. I am always open to discussing new opportunities
         and ideas."
-        className="space-y-2"
       />
 
       {/* Card */}

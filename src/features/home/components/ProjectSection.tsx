@@ -21,7 +21,6 @@ export function ProjectSection({ projects }: { projects: ProjectSummary[] }) {
             <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
           </Link>
         }
-        className="flex flex-col sm:gap-2 sm:flex-row sm:items-center sm:justify-between"
       />
 
       <div className="sm:hidden">

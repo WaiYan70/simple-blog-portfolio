@@ -130,7 +130,6 @@ export function Skills() {
         title="Skills"
         description="Tools and technologies I use to build full-stack systems with a focus
         on backend architecture and scalability."
-        className="space-y-2"
       />
 
       <StaggerReveal className="flex flex-col gap-6">

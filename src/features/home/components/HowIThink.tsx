@@ -32,7 +32,6 @@ export function HowIThink() {
       <SectionHeader
         title="How I Think"
         description="My approach to building systems and solving real-world problems."
-        className="space-y-2"
       />
 
       <StaggerReveal className="grid gap-3">
