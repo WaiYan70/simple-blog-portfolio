@@ -11,18 +11,19 @@ export function BlogSection({ posts }: { posts: PostSummary[] }) {
     <Section>
       <SectionHeader
         title="Latest Writing"
+        description="Short notes on architecture, implementation details, and the decisions behind the systems I build."
         action={
           <Link
             href="/blog"
-            className="group inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition hover:text-primary underline underline-offset-4"
+            className="group inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition hover:text-primary"
           >
             All Writing
             <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
           </Link>
         }
-        className="flex flex-col sm:flex-row sm:gap-2 sm:items-center sm:justify-between"
+        className="flex flex-col"
       />
-      <StaggerReveal className="flex flex-col gap-2">
+      <StaggerReveal className="grid gap-3">
         {posts.map((post) => (
           <BlogCard key={post.slug} post={post} />
         ))}
