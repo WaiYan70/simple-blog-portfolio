@@ -4,6 +4,7 @@ import { useId, useState } from "react";
 import { AnimatePresence, easeInOut, motion, MotionConfig } from "motion/react";
 import { ThemeToggle } from "../theme/ThemeToggle";
 import { navbarLinks } from "./NavbarLinks";
+import { socialLinks } from "./NavbarActions";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -214,10 +215,7 @@ function MobileMenu({ id, onNavigate }: MobileMenuProps) {
           })}
         </ul>
       </div>
-      <p className="relative z-10 text-sm leading-6 text-muted-foreground">
-        Software engineer portfolio documenting projects, writing, and system
-        design decisions.
-      </p>
+      <MobileFooter />
     </motion.nav>
   );
 }
@@ -237,5 +235,27 @@ function MenuCurve() {
         exit="exit"
       />
     </svg>
+  );
+}
+
+function MobileFooter() {
+  return (
+    <div>
+      <div className="flex justify-center">
+        {socialLinks.map((socialLink) => {
+          const Icon = socialLink.icon;
+          return (
+            <Link key={socialLink.label} href={socialLink.href}>
+              <Icon size={16} />
+              {socialLink.label}
+            </Link>
+          );
+        })}
+      </div>
+      <p className="relative z-10 text-sm leading-6 text-muted-foreground">
+        Software engineer portfolio documenting projects, writing, and system
+        design decisions.
+      </p>
+    </div>
   );
 }

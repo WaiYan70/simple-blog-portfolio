@@ -1,3 +1,4 @@
+import { BaseCard } from "@/components/shared/BaseCard";
 import { Section } from "@/components/shared/Section";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { StaggerReveal } from "../animation/StaggerReveal";
@@ -34,14 +35,29 @@ export function HowIThink() {
         className="space-y-2"
       />
 
-      <StaggerReveal className="space-y-6">
-        {principles.map((item) => (
-          <div key={item.title} className="max-w-3xl">
-            <h3 className="font-semibold tracking-tight">{item.title}</h3>
-            <p className="mt-1 text-sm text-muted-foreground leading-6">
-              {item.description}
-            </p>
-          </div>
+      <StaggerReveal className="grid gap-3">
+        {principles.map((item, index) => (
+          <BaseCard
+            key={item.title}
+            variant="outline"
+            radius="xl"
+            className="p-5 sm:p-6"
+          >
+            <div className="flex gap-4">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 font-mono text-xs font-semibold text-primary">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+
+              <div>
+                <h3 className="font-semibold tracking-tight transition group-hover:text-primary">
+                  {item.title}
+                </h3>
+                <p className="mt-1 max-w-3xl text-sm leading-6 text-muted-foreground">
+                  {item.description}
+                </p>
+              </div>
+            </div>
+          </BaseCard>
         ))}
       </StaggerReveal>
     </Section>

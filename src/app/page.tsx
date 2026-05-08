@@ -1,13 +1,14 @@
+import { Bento } from "@/features/home/components/Bento";
 import { BlogSection } from "@/features/home/components/BlogSection";
+import { ProjectSection } from "@/features/home/components/ProjectSection";
+import { Skills } from "@/features/home/components/Skills";
 import { Highlight } from "@/features/home/components/HighLight";
 import { HowIThink } from "@/features/home/components/HowIThink";
 import { Journey } from "@/features/home/components/Journey";
-import { ProjectSection } from "@/features/home/components/ProjectSection";
+import { ContactMe } from "@/features/home/components/ContactMe";
 
-import { Skills } from "@/features/home/components/Skills";
 import { getAllPosts } from "@/features/blog/lib/post";
 import { getAllProjects } from "@/features/projects/lib/project";
-import { Bento } from "@/features/home/components/Bento";
 
 export default async function Home() {
   const posts = await getAllPosts();
@@ -24,6 +25,7 @@ export default async function Home() {
       <Skills />
       <HowIThink />
       <Journey />
+      <ContactMe />
     </>
   );
 }

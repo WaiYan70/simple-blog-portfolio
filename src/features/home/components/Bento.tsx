@@ -9,7 +9,6 @@ import { Blocks, MapPin, Mail, FileText, ArrowRight } from "lucide-react";
 import { TextFlip } from "../animation/TextFlip";
 import { LinkedInIcon } from "@/components/icons/LinkedIn";
 import { BrandIcon } from "@/components/shared/BrandIcon";
-import { TypeWriter } from "../animation/TypeWriter";
 import { Section } from "@/components/shared/Section";
 
 const bentoContainerVariants: Variants = {
@@ -201,13 +200,16 @@ function SocialBlock() {
 function AboutBlock() {
   return (
     <Block className="col-span-12">
-      {/* Description */}
-      <p className="text-lg leading-7 text-muted-foreground sm:text-2xl">
-        <TypeWriter
-          text="I document real-world projects, architecture decisions, and the
-    reasoning behind the systems I build with a focus on clarity,
-    scalability, and practical tradeoffs."
-        />
+      <p className="max-w-4xl text-lg leading-8 text-muted-foreground sm:text-2xl sm:leading-9">
+        I document real-world{" "}
+        <span className="font-medium text-foreground">projects</span>,{" "}
+        <span className="font-medium text-foreground">
+          architecture decisions
+        </span>
+        , and the reasoning behind the systems I build with a focus on{" "}
+        <span className="font-semibold text-primary">clarity</span>,{" "}
+        <span className="font-semibold text-primary">scalability</span>, and{" "}
+        <span className="font-semibold text-primary">practical tradeoffs</span>.
       </p>
     </Block>
   );

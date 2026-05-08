@@ -4,7 +4,7 @@ import { LinkedInIcon } from "../icons/LinkedIn";
 import { ThemeToggle } from "../theme/ThemeToggle";
 import Link from "next/link";
 
-const socialLinks = [
+export const socialLinks = [
   {
     href: "https://github.com/WaiYan70",
     label: "GitHub",

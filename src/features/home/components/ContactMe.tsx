@@ -25,7 +25,7 @@ const socialLinks = [
   },
 ];
 
-export function Contact() {
+export function ContactMe() {
   return (
     <Section>
       {/* Header */}

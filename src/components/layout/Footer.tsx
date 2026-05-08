@@ -22,7 +22,7 @@ const navItems = [
 
 export function Footer() {
   return (
-    <footer className="mt-16 border-t border-border">
+    <footer className="mt-4 border-t border-border">
       <div className="mx-auto max-w-5xl px-4 py-8 text-center">
         <h2 className="text-lg font-semibold tracking-tight">
           Khant — Software Engineer
