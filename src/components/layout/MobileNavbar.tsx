@@ -7,6 +7,7 @@ import { navbarLinks } from "./NavbarLinks";
 import { socialLinks } from "./NavbarActions";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Mail } from "lucide-react";
 
 const menuSlide = {
   initial: { x: "100%" },
@@ -240,22 +241,41 @@ function MenuCurve() {
 
 function MobileFooter() {
   return (
-    <div>
-      <div className="flex justify-center">
+    <div className="relative z-10 space-y-4 border-t border-border pt-5">
+      <div>
+        <p className="text-xs font-medium uppercase tracking-[0.22em] text-muted-foreground">
+          Connect
+        </p>
+        <p className="mt-2 text-sm leading-6 text-muted-foreground">
+          Open to thoughtful projects, writing feedback, and engineering roles.
+        </p>
+      </div>
+
+      <div className="flex items-center gap-3">
+        <Link
+          href="mailto:khantwaiyan11@gmail.com?subject=Opportunity&body=Hi Khant,"
+          className="inline-flex flex-1 items-center justify-center gap-2 rounded-2xl bg-primary px-4 py-3 text-sm font-medium text-primary-foreground transition hover:bg-primary-dark"
+        >
+          <Mail className="h-4 w-4" />
+          Email me
+        </Link>
+
         {socialLinks.map((socialLink) => {
           const Icon = socialLink.icon;
           return (
-            <Link key={socialLink.label} href={socialLink.href}>
-              <Icon size={16} />
-              {socialLink.label}
+            <Link
+              key={socialLink.label}
+              href={socialLink.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={socialLink.label}
+              className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-border bg-background text-muted-foreground transition hover:bg-muted hover:text-foreground"
+            >
+              <Icon size={18} />
             </Link>
           );
         })}
       </div>
-      <p className="relative z-10 text-sm leading-6 text-muted-foreground">
-        Software engineer portfolio documenting projects, writing, and system
-        design decisions.
-      </p>
     </div>
   );
 }
