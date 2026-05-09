@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { MDXContent } from "@/features/blog/components/MDXContent";
 import { getAllPosts, getPostBySlug } from "@/features/blog/lib/post";
 import { TableOfContents } from "@/features/blog/components/TableOfContent";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Clock } from "lucide-react";
 import { ScrollProgress } from "@/features/blog/components/ScrollProgress";
 
 type Props = {
@@ -45,7 +45,7 @@ export default async function BlogDetailPage({ params }: Props) {
   if (!post) return notFound();
 
   return (
-    <div className="mx-auto flex max-w-5xl gap-10 px-4 py-2">
+    <div className="mx-auto flex max-w-5xl gap-10 py-2">
       <ScrollProgress />
       <article className="flex-1 max-w-3xl">
         <div className="mb-4 flex items-center gap-2 text-muted-foreground">
@@ -60,25 +60,36 @@ export default async function BlogDetailPage({ params }: Props) {
           </Link>
         </div>
 
-        <div className="rounded-3xl border border-border bg-card p-6 text-card-foreground shadow-sm">
+        <header className="rounded-3xl border border-border bg-card p-6 text-card-foreground shadow-sm">
+          <div className="mb-4 flex flex-wrap items-center gap-3 text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
+            <span>{post.date}</span>
+            <span className="inline-flex items-center gap-1.5">
+              <Clock className="h-3.5 w-3.5" />
+              {post.readingTime} min read
+            </span>
+          </div>
+
           <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
             {post.title}
           </h1>
           <p className="mt-3 text-sm leading-6 text-muted-foreground sm:text-base">
             {post.description}
           </p>
-        </div>
 
-        <div className="mt-4 flex flex-wrap gap-2">
-          {post.tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-full bg-muted px-2.5 py-1 text-xs text-muted-foreground"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
+          {post.tags.length > 0 && (
+            <div className="mt-5 flex flex-wrap gap-2">
+              {post.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-full bg-muted px-2.5 py-1 text-xs text-muted-foreground"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </header>
+
         <MDXContent content={post.content} />
       </article>
 

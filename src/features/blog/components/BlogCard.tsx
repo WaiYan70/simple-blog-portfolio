@@ -22,6 +22,19 @@ export function BlogCard({ post }: Props) {
           <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
             {post.description}
           </p>
+
+          {post.tags.length > 0 && (
+            <div className="mt-4 flex flex-wrap gap-2">
+              {post.tags.slice(0, 4).map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-full bg-muted px-2.5 py-1 text-xs text-muted-foreground"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="inline-flex shrink-0 items-center gap-1.5 text-sm font-medium text-muted-foreground transition group-hover:text-primary">
