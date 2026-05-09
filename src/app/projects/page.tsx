@@ -1,3 +1,4 @@
+import { Section } from "@/components/shared/Section";
 import { StaggerReveal } from "@/features/home/animation/StaggerReveal";
 import { ProjectCard } from "@/features/projects/components/ProjectCard";
 import { getAllProjects } from "@/features/projects/lib/project";
@@ -6,7 +7,7 @@ export default async function ProjectPage() {
   const projects = await getAllProjects();
 
   return (
-    <section className="space-y-6">
+    <Section>
       <div className="space-y-2">
         <p className="text-sm font-medium uppercase tracking-[0.18em] text-primary">
           Selected Work
@@ -25,6 +26,6 @@ export default async function ProjectPage() {
           <ProjectCard key={project.slug} project={project} />
         ))}
       </StaggerReveal>
-    </section>
+    </Section>
   );
 }
