@@ -47,7 +47,7 @@ export default async function BlogDetailPage({ params }: Props) {
   return (
     <div className="mx-auto flex max-w-5xl gap-10 py-2">
       <ScrollProgress />
-      <article className="flex-1 max-w-3xl">
+      <article className="flex-1 max-w-5xl overflow-hidden">
         <div className="mb-4 flex items-center gap-2 text-muted-foreground">
           <span aria-hidden="true">
             <ArrowLeft size={16} />
@@ -93,7 +93,7 @@ export default async function BlogDetailPage({ params }: Props) {
         <MDXContent content={post.content} />
       </article>
 
-      <aside className="sticky top-20 hidden h-fit w-60 rounded-2xl border border-border bg-card p-4 text-left text-card-foreground lg:block">
+      <aside className="lg:block sticky top-20 hidden h-fit w-60 rounded-2xl border border-border bg-card p-4 text-left text-card-foreground">
         <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.16em] text-muted-foreground">
           On this page
         </h3>

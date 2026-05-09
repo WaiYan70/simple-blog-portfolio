@@ -168,7 +168,7 @@ function SocialBlock() {
         className={twMerge(socialCardClassName, "bg-[#0A66C2] text-white")}
       >
         <Link
-          href="/blog"
+          href="/https://www.linkedin.com/in/khant-wai-yan-00b1241b9/"
           className={twMerge(socialLinkClassName, "hover:bg-[#084f96]")}
         >
           <LinkedInIcon className={socialIconClassName} />
@@ -183,7 +183,7 @@ function SocialBlock() {
         )}
       >
         <Link
-          href="/blog"
+          href="https://github.com/WaiYan70"
           className={twMerge(socialLinkClassName, "hover:opacity-85")}
         >
           <BrandIcon
