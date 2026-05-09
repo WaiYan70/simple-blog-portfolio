@@ -6,7 +6,10 @@ import {
 
 export const mdxComponents: MDXComponents = {
   h1: (props) => (
-    <h1 className="text-3xl font-bold mt-10 mb-4 tracking-tight" {...props} />
+    <h1
+      className="text-3xl sm:text-2xl font-bold mt-10 mb-4 tracking-tight"
+      {...props}
+    />
   ),
   h2: (props) => {
     const slug = slugifyHeading(extractTextFromNode(props.children));
@@ -14,7 +17,7 @@ export const mdxComponents: MDXComponents = {
     return (
       <h2
         id={slug}
-        className="scroll-mt-24 text-2xl font-semibold mt-8 mb-3 tracking-tight"
+        className="scroll-mt-24 text-2xl sm:text-xl font-semibold mt-8 mb-3 tracking-tight"
         {...props}
       />
     );
@@ -25,7 +28,7 @@ export const mdxComponents: MDXComponents = {
     return (
       <h3
         id={slug}
-        className="scroll-mt-24 text-xl font-semibold mt-6 mb-2 tracking-tight"
+        className="scroll-mt-24 text-xl sm:text-lg font-semibold mt-6 mb-2 tracking-tight"
         {...props}
       />
     );

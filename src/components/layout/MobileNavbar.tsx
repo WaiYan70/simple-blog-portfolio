@@ -8,6 +8,7 @@ import { socialLinks } from "./NavbarActions";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Mail } from "lucide-react";
+import { twMerge } from "tailwind-merge";
 
 const menuSlide = {
   initial: { x: "100%" },
@@ -254,10 +255,10 @@ function MobileFooter() {
       <div className="flex items-center gap-3">
         <Link
           href="mailto:khantwaiyan11@gmail.com?subject=Opportunity&body=Hi Khant,"
-          className="inline-flex flex-1 items-center justify-center gap-2 rounded-2xl bg-primary px-4 py-3 text-sm font-medium text-primary-foreground transition hover:bg-primary-dark"
+          className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-primary px-4 py-3 text-sm font-medium text-primary-foreground transition hover:bg-primary-dark"
         >
           <Mail className="h-4 w-4" />
-          Email me
+          Email Me
         </Link>
 
         {socialLinks.map((socialLink) => {
@@ -269,7 +270,10 @@ function MobileFooter() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={socialLink.label}
-              className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-border bg-background text-muted-foreground transition hover:bg-muted hover:text-foreground"
+              className={twMerge(
+                "inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-border transition hover:scale-105 active:scale-95",
+                socialLink.bgcolor,
+              )}
             >
               <Icon size={18} />
             </Link>

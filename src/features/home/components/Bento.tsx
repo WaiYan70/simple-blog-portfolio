@@ -164,18 +164,6 @@ function SocialBlock() {
       </Block>
 
       <Block
-        whileHover={{ y: -3, rotate: "-2.5deg" }}
-        className={twMerge(socialCardClassName, "bg-[#0A66C2] text-white")}
-      >
-        <Link
-          href="/https://www.linkedin.com/in/khant-wai-yan-00b1241b9/"
-          className={twMerge(socialLinkClassName, "hover:bg-[#084f96]")}
-        >
-          <LinkedInIcon className={socialIconClassName} />
-        </Link>
-      </Block>
-
-      <Block
         whileHover={{ y: -3, rotate: "2.5deg" }}
         className={twMerge(
           socialCardClassName,
@@ -191,6 +179,18 @@ function SocialBlock() {
             title="Github"
             className={socialIconClassName}
           />
+        </Link>
+      </Block>
+
+      <Block
+        whileHover={{ y: -3, rotate: "-2.5deg" }}
+        className={twMerge(socialCardClassName, "bg-[#0A66C2] text-white")}
+      >
+        <Link
+          href="/https://www.linkedin.com/in/khant-wai-yan-00b1241b9/"
+          className={twMerge(socialLinkClassName, "hover:bg-[#084f96]")}
+        >
+          <LinkedInIcon className={socialIconClassName} />
         </Link>
       </Block>
     </>

@@ -69,7 +69,7 @@ export default async function BlogDetailPage({ params }: Props) {
             </span>
           </div>
 
-          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight">
             {post.title}
           </h1>
           <p className="mt-3 text-sm leading-6 text-muted-foreground sm:text-base">
