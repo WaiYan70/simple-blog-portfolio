@@ -37,7 +37,7 @@ export function NavbarActions() {
             rel="noopener noreferrer"
             aria-label={socialLink.label}
             className={twMerge(
-              "flex items-center justify-center rounded-md p-2.5 text-muted-foreground transition hover:scale-105 active:scale-95",
+              "flex items-center justify-center rounded-md p-2.5 transition hover:scale-105 active:scale-95",
               socialLink.bgcolor,
             )}
           >

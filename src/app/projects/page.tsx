@@ -21,7 +21,7 @@ export default async function ProjectPage() {
         </p>
       </div>
 
-      <StaggerReveal className="flex flex-col gap-4">
+      <StaggerReveal className="grid sm:grid-cols-2 gap-4">
         {projects.map((project) => (
           <ProjectCard key={project.slug} project={project} />
         ))}
