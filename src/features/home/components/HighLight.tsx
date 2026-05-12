@@ -51,32 +51,32 @@ export function Highlight() {
         description="The engineering areas I keep returning to in projects, writing, and system design decisions."
       />
 
-      <StaggerReveal className="grid gap-4 sm:grid-cols-2">
+      <StaggerReveal className="grid gap-4 grid-cols-2">
         {highlights.map((highlight, index) => {
           const Icon = highlight.icon;
 
           return (
-          <BaseCard
-            key={highlight.title}
-            variant="default"
-            radius="xl"
-            className="relative overflow-hidden p-5 sm:p-6"
-          >
-            <div className="absolute right-4 top-4 text-4xl font-semibold tracking-tight text-muted-foreground/10">
-              0{index + 1}
-            </div>
+            <BaseCard
+              key={highlight.title}
+              variant="default"
+              radius="xl"
+              className="relative h-full overflow-hidden p-5 sm:p-6"
+            >
+              <div className="absolute right-4 top-4 text-4xl font-semibold tracking-tight text-muted-foreground/10">
+                0{index + 1}
+              </div>
 
-            <div className="mb-5 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
-              <Icon className="h-5 w-5" aria-hidden="true" />
-            </div>
+              <div className="mb-5 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <Icon className="h-5 w-5" aria-hidden="true" />
+              </div>
 
-            <h3 className="font-semibold tracking-tight transition group-hover:text-primary">
-              {highlight.title}
-            </h3>
-            <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              {highlight.description}
-            </p>
-          </BaseCard>
+              <h3 className="font-semibold tracking-tight transition group-hover:text-primary">
+                {highlight.title}
+              </h3>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                {highlight.description}
+              </p>
+            </BaseCard>
           );
         })}
       </StaggerReveal>

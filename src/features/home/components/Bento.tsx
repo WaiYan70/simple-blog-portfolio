@@ -117,7 +117,7 @@ function HeaderBlock() {
           href="/projects"
           className="text-sm font-medium text-muted-foreground transition hover:text-primary group inline-flex items-center gap-1.5"
         >
-          View Project
+          View Projects
           <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
         </Link>
       </div>
@@ -220,7 +220,7 @@ function BangkokClock() {
       dateTime={time}
       className="mt-1 rounded-full bg-primary/10 px-2 py-0.5 font-mono text-xs font-medium tabular-nums text-primary"
     >
-      {time || "---, --:--"}
+      {time || "---, --:--:--"}
     </time>
   );
 }
@@ -245,12 +245,12 @@ function AboutBlock() {
 
 function FocusBlock() {
   return (
-    <Block className="col-span-5 bg-muted/40">
+    <Block className="col-span-12 md:col-end-5 bg-muted/40">
       <Blocks className="mb-4 h-5 w-5 text-primary" />
       <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
         Current focus
       </p>
-      <p className="mt-2 text-lg font-medium line-clamp-3">
+      <p className="mt-2 text-lg font-medium">
         Building maintainable Next.js apps with clear architecture.
       </p>
     </Block>
@@ -259,7 +259,7 @@ function FocusBlock() {
 
 function ContactBlock() {
   return (
-    <Block className="col-span-7 bg-primary text-primary-foreground">
+    <Block className="col-span-12 md:col-span-7 bg-primary text-primary-foreground">
       <p className="text-xs uppercase tracking-[0.2em] opacity-75">
         Available for work
       </p>
@@ -279,7 +279,7 @@ function ContactBlock() {
           className="inline-flex items-center gap-2 rounded-md bg-primary-foreground px-4 py-2 text-sm font-medium text-primary transition hover:opacity-90"
         >
           <FileText className="h-4 w-4" />
-          Download CV
+          Review CV
         </Link>
       </div>
     </Block>
