@@ -124,7 +124,7 @@ function HeaderBlock() {
 }
 
 const socialCardClassName =
-  "col-span-3 grid aspect-square place-items-center p-0 md:col-span-2";
+  "col-span-3 md:col-span-2 grid place-items-center p-0";
 
 const socialLinkClassName =
   "grid h-full w-full place-content-center rounded-2xl transition-colors duration-300";
@@ -136,15 +136,15 @@ function SocialBlock() {
     <>
       <Block
         whileHover={{ y: -3, rotate: "2.5deg" }}
-        className="col-span-6 grid place-items-center bg-muted/40 text-foreground md:col-span-4"
+        className="col-span-6 md:col-span-4 flex flex-col items-center justify-center bg-muted/40 text-foreground"
       >
-        <div className="flex flex-col items-center justify-center gap-1.5 text-center">
+        <div className="flex items-center justify-center gap-1.5 text-center">
           <MapPin className={twMerge(socialIconClassName, "text-primary")} />
           <p className="inline text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
             Asia / Bangkok
           </p>
-          <BangkokClock />
         </div>
+        <BangkokClock />
       </Block>
 
       <Block
