@@ -21,9 +21,13 @@ export default async function ProjectPage() {
         </p>
       </div>
 
-      <StaggerReveal className="grid sm:grid-cols-2 gap-4">
-        {projects.map((project) => (
-          <ProjectCard key={project.slug} project={project} />
+      <StaggerReveal className="sm:grid sm:grid-cols-2 gap-8 [&>*:first-child]:sm:col-span-2">
+        {projects.map((project, index) => (
+          <ProjectCard
+            key={project.slug}
+            project={project}
+            variant={index === 0 ? "featured" : "default"}
+          />
         ))}
       </StaggerReveal>
     </Section>

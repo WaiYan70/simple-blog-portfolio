@@ -27,9 +27,13 @@ export function ProjectSection({ projects }: { projects: ProjectSummary[] }) {
         <ProjectCarousel projects={projects} />
       </div>
 
-      <StaggerReveal className="hidden gap-4 sm:grid sm:grid-cols-2">
-        {projects.map((project) => (
-          <ProjectCard key={project.slug} project={project} />
+      <StaggerReveal className="hidden sm:grid sm:grid-cols-2 gap-8 [&>*:first-child]:sm:col-span-2">
+        {projects.map((project, index) => (
+          <ProjectCard
+            key={project.slug}
+            project={project}
+            variant={index === 0 ? "featured" : "default"}
+          />
         ))}
       </StaggerReveal>
     </Section>

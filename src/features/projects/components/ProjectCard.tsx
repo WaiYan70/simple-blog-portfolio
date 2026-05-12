@@ -4,39 +4,65 @@ import Image from "next/image";
 import { Terminal } from "lucide-react";
 import { projectTechIcons } from "@/constants/project-tech-icons";
 import { statusStyles } from "@/types/project";
+import { cn } from "@/lib/utils";
 
 type Props = {
   project: ProjectSummary;
+  variant?: "default" | "featured";
 };
 
-export function ProjectCard({ project }: Props) {
+export function ProjectCard({ project, variant = "default" }: Props) {
+  const isFeatured = variant === "featured";
+
   return (
     <BaseCard
       href={`/projects/${project.slug}`}
       className="overflow-hidden"
       radius="xl"
+      variant="outline"
     >
-      <div className="space-y-4">
+      <div
+        className={cn(
+          "space-y-4",
+          isFeatured &&
+            "sm:grid sm:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] sm:space-y-0 ",
+        )}
+      >
         {/* Image or preview Placeholder */}
         {project.image ? (
-          <div className="relative aspect-video w-full bg-muted">
+          <div
+            className={cn(
+              "relative aspect-video w-full bg-muted",
+              isFeatured && "sm:h-full sm:min-h-80 sm:aspect-auto",
+            )}
+          >
             <Image
               src={project.image}
               alt={project.title}
               fill
               loading="eager"
-              sizes="(max-width: 640px) 100vw, 50vw"
+              sizes={
+                isFeatured
+                  ? "(max-width: 640px) 100vw, 430px"
+                  : "(max-width: 640px) 100vw, 50vw"
+              }
               className="object-cover transition-transform duration-300 group-hover:scale-105"
             />
           </div>
         ) : (
-          <div className="aspect-video w-full rounded-xl bg-muted flex items-center justify-center text-sm text-muted-foreground gap-2">
+          <div
+            className={cn(
+              "aspect-video w-full rounded-xl bg-muted flex items-center justify-center text-sm text-muted-foreground gap-2",
+              isFeatured &&
+                "sm:h-full sm:min-h-64 sm:aspect-auto sm:rounded-none",
+            )}
+          >
             <Terminal /> <span>Preview</span>
           </div>
         )}
 
         {/* Content */}
-        <div className="m-4 space-y-2">
+        <div className={cn("m-4 space-y-2", isFeatured && "sm:m-0 sm:p-6")}>
           <span
             className={`inline-flex items-center rounded-full px-2 py-0.75 mb-2 text-xs font-medium ${
               statusStyles[project.status]
@@ -46,11 +72,21 @@ export function ProjectCard({ project }: Props) {
             {project.status === "maintaining" && "Maintaining"}
             {project.status === "completed" && "Completed"}
           </span>
-          <h3 className="text-lg font-semibold tracking-tight transition group-hover:text-primary truncate">
+          <h3
+            className={cn(
+              "font-semibold tracking-tight transition group-hover:text-primary",
+              isFeatured ? "text-xl sm:text-2xl" : "text-lg truncate",
+            )}
+          >
             {project.title}
           </h3>
 
-          <p className="text-sm text-muted-foreground leading-6 line-clamp-2">
+          <p
+            className={cn(
+              "text-sm text-muted-foreground leading-6",
+              isFeatured ? "line-clamp-3" : "line-clamp-2",
+            )}
+          >
             {project.description}
           </p>
 

@@ -34,13 +34,13 @@ export function HowIThink() {
         description="My approach to building systems and solving real-world problems."
       />
 
-      <StaggerReveal className="grid gap-3">
+      <StaggerReveal className="grid md:grid-cols-2 gap-3">
         {principles.map((item, index) => (
           <BaseCard
             key={item.title}
             variant="outline"
             radius="xl"
-            className="p-5 sm:p-6"
+            className="relative h-full overflow-hidden p-5 sm:p-6"
           >
             <div className="flex gap-4">
               <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 font-mono text-xs font-semibold text-primary">

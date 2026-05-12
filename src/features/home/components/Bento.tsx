@@ -245,7 +245,7 @@ function AboutBlock() {
 
 function FocusBlock() {
   return (
-    <Block className="col-span-12 md:col-end-5 bg-muted/40">
+    <Block className="col-span-12 md:col-span-5 bg-muted/40">
       <Blocks className="mb-4 h-5 w-5 text-primary" />
       <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
         Current focus
