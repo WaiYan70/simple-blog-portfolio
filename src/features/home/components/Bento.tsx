@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, type MotionProps, type Variants } from "motion/react";
@@ -76,7 +77,7 @@ function Block({ className, ...rest }: BlockProps) {
 
 function HeaderBlock() {
   return (
-    <Block className="col-span-12 row-span-2 flex flex-col justify-between bg-linear-to-br from-card via-card to-muted/50 md:col-span-8 md:p-7">
+    <Block className="col-span-12 md:col-span-8 row-span-2 flex flex-col justify-between bg-linear-to-br from-card via-card to-muted/50 md:p-7">
       <div className="flex justify-start items-center gap-3">
         <Image
           width={56}
@@ -123,7 +124,7 @@ function HeaderBlock() {
 }
 
 const socialCardClassName =
-  "col-span-2 grid aspect-square place-items-center p-0";
+  "col-span-3 grid aspect-square place-items-center p-0 md:col-span-2";
 
 const socialLinkClassName =
   "grid h-full w-full place-content-center rounded-2xl transition-colors duration-300";
@@ -135,32 +136,15 @@ function SocialBlock() {
     <>
       <Block
         whileHover={{ y: -3, rotate: "2.5deg" }}
-        className="col-span-6 md:col-span-2 grid place-items-center bg-muted/40 text-foreground md:aspect-square"
+        className="col-span-6 grid place-items-center bg-muted/40 text-foreground md:col-span-4"
       >
-        <div className="flex items-center justify-center gap-1.5">
+        <div className="flex flex-col items-center justify-center gap-1.5 text-center">
           <MapPin className={twMerge(socialIconClassName, "text-primary")} />
-          <p className="inline text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground md:hidden">
+          <p className="inline text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
             Asia / Bangkok
           </p>
+          <BangkokClock />
         </div>
-      </Block>
-
-      <Block
-        whileHover={{ y: -3, rotate: "-2.5deg" }}
-        className={twMerge(socialCardClassName, "bg-accent text-foreground")}
-      >
-        <Link
-          href="/"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Open resume"
-          className={twMerge(
-            socialLinkClassName,
-            "hover:bg-primary hover:text-primary-foreground",
-          )}
-        >
-          <FileText className={socialIconClassName} />
-        </Link>
       </Block>
 
       <Block
@@ -187,13 +171,45 @@ function SocialBlock() {
         className={twMerge(socialCardClassName, "bg-[#0A66C2] text-white")}
       >
         <Link
-          href="/https://www.linkedin.com/in/khant-wai-yan-00b1241b9/"
+          href="https://www.linkedin.com/in/khant-wai-yan-00b1241b9/"
           className={twMerge(socialLinkClassName, "hover:bg-[#084f96]")}
         >
           <LinkedInIcon className={socialIconClassName} />
         </Link>
       </Block>
     </>
+  );
+}
+
+function BangkokClock() {
+  const [time, setTime] = useState("");
+
+  useEffect(() => {
+    const formatter = new Intl.DateTimeFormat("en-US", {
+      timeZone: "Asia/Bangkok",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    });
+
+    const updateTime = () => {
+      setTime(formatter.format(new Date()));
+    };
+
+    updateTime();
+    const interval = window.setInterval(updateTime, 1000);
+
+    return () => window.clearInterval(interval);
+  }, []);
+
+  return (
+    <time
+      dateTime={time}
+      className="font-mono text-xs font-medium tabular-nums text-foreground"
+    >
+      {time || "--:--:--"}
+    </time>
   );
 }
 
@@ -238,13 +254,22 @@ function ContactBlock() {
       <h2 className="mt-2 text-2xl font-semibold">
         Have a project or role in mind?
       </h2>
-      <Link
-        href="mailto:khantwaiyan11@gmail.com?subject=Opportunity&body=Hi Khant,"
-        className="mt-2 sm:mt-5 inline-flex items-center gap-2 rounded-md bg-primary-foreground px-4 py-2 text-sm font-medium text-primary transition hover:opacity-90"
-      >
-        <Mail className="h-4 w-4" />
-        Send email
-      </Link>
+      <div className="mt-2 sm:mt-5 flex gap-2">
+        <Link
+          href="mailto:khantwaiyan11@gmail.com?subject=Opportunity&body=Hi Khant,"
+          className="inline-flex items-center gap-2 rounded-md bg-primary-foreground px-4 py-2 text-sm font-medium text-primary transition hover:opacity-90"
+        >
+          <Mail className="h-4 w-4" />
+          Send email
+        </Link>
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 rounded-md bg-primary-foreground px-4 py-2 text-sm font-medium text-primary transition hover:opacity-90"
+        >
+          <FileText className="h-4 w-4" />
+          Download CV
+        </Link>
+      </div>
     </Block>
   );
 }
