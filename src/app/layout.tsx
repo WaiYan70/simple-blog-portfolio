@@ -31,6 +31,22 @@ export const metadata: Metadata = {
     siteName: "Khant Portfolio",
     type: "website",
   },
+  icons: {
+    icon: [
+      {
+        url: "/favicon-light.png",
+        media: "(prefers-color-scheme: light)",
+        type: "image/png",
+        sizes: "32x32",
+      },
+      {
+        url: "/favicon-dark.png",
+        media: "(prefers-color-scheme: dark)",
+        type: "image/png",
+        sizes: "32x32",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
