@@ -67,7 +67,7 @@ function Block({ className, ...rest }: BlockProps) {
     <motion.div
       variants={bentoBlockVariants}
       className={twMerge(
-        "col-span-4 rounded-2xl border border-border/70 bg-card p-5 shadow-sm",
+        "col-span-4 rounded-xl border border-border/70 bg-card p-5 shadow-sm",
         className,
       )}
       {...rest}
@@ -87,7 +87,9 @@ function HeaderBlock() {
           className="size-14 rounded-full"
         />
         <div>
-          <p className="text-sm font-medium text-primary">Hi, I’m Khant</p>
+          <p className="text-sm font-medium text-primary">
+            Hi, I’m Khant Wai Yan
+          </p>
           <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
             Software Engineer
           </p>
@@ -187,14 +189,24 @@ function BangkokClock() {
   useEffect(() => {
     const formatter = new Intl.DateTimeFormat("en-US", {
       timeZone: "Asia/Bangkok",
+      weekday: "short",
       hour: "2-digit",
       minute: "2-digit",
       second: "2-digit",
+      hourCycle: "h23",
       hour12: false,
     });
 
     const updateTime = () => {
-      setTime(formatter.format(new Date()));
+      const parts = formatter.formatToParts(new Date());
+      const weekday = parts.find((part) => part.type === "weekday")?.value;
+      const hour = parts.find((part) => part.type === "hour")?.value;
+      const minute = parts.find((part) => part.type === "minute")?.value;
+      const second = parts.find((part) => part.type === "second")?.value;
+
+      if (weekday && hour && minute) {
+        setTime(`${weekday}, ${hour}:${minute}:${second}`);
+      }
     };
 
     updateTime();
@@ -206,9 +218,9 @@ function BangkokClock() {
   return (
     <time
       dateTime={time}
-      className="font-mono text-xs font-medium tabular-nums text-foreground"
+      className="mt-1 rounded-full bg-primary/10 px-2 py-0.5 font-mono text-xs font-medium tabular-nums text-primary"
     >
-      {time || "--:--:--"}
+      {time || "---, --:--"}
     </time>
   );
 }
@@ -216,7 +228,7 @@ function BangkokClock() {
 function AboutBlock() {
   return (
     <Block className="col-span-12">
-      <p className="max-w-4xl text-lg leading-8 text-muted-foreground sm:text-2xl sm:leading-9">
+      <p className="text-lg leading-8 text-muted-foreground sm:text-2xl sm:leading-9">
         I document real-world{" "}
         <span className="font-medium text-foreground">projects</span>,{" "}
         <span className="font-medium text-foreground">

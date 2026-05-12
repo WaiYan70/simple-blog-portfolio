@@ -36,7 +36,7 @@ export function StaggerReveal({
   itemClassName,
   stagger = 0.2,
   delay = 0.18,
-  amount = 0.3,
+  amount = 0.25,
 }: StaggerRevealProps) {
   const shouldReduceMotion = useReducedMotion();
   const items = Children.toArray(children);
