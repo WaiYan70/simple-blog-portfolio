@@ -6,7 +6,7 @@ import Image from "next/image";
 import { motion, type MotionProps, type Variants } from "motion/react";
 import { twMerge } from "tailwind-merge";
 import { siGithub } from "simple-icons";
-import { Blocks, MapPin, Mail, FileText, ArrowRight } from "lucide-react";
+import { FileText, FolderKanban, Mail, MapPin, ArrowRight } from "lucide-react";
 import { TextFlip } from "../animation/TextFlip";
 import { LinkedInIcon } from "@/components/icons/LinkedIn";
 import { BrandIcon } from "@/components/shared/BrandIcon";
@@ -51,7 +51,7 @@ export function Bento() {
         <HeaderBlock />
         <SocialBlock />
         <AboutBlock />
-        <FocusBlock />
+        <ProofBlock />
         <ContactBlock />
       </motion.div>
     </Section>
@@ -204,7 +204,7 @@ function BangkokClock() {
       const minute = parts.find((part) => part.type === "minute")?.value;
       const second = parts.find((part) => part.type === "second")?.value;
 
-      if (weekday && hour && minute) {
+      if (weekday && hour && minute && second) {
         setTime(`${weekday}, ${hour}:${minute}:${second}`);
       }
     };
@@ -229,29 +229,41 @@ function AboutBlock() {
   return (
     <Block className="col-span-12">
       <p className="text-lg leading-8 text-muted-foreground sm:text-2xl sm:leading-9">
-        I document real-world{" "}
-        <span className="font-medium text-foreground">projects</span>,{" "}
+        I build full-stack systems with a backend focus, then document the{" "}
         <span className="font-medium text-foreground">
           architecture decisions
         </span>
-        , and the reasoning behind the systems I build with a focus on{" "}
-        <span className="font-semibold text-primary">clarity</span>,{" "}
-        <span className="font-semibold text-primary">scalability</span>, and{" "}
-        <span className="font-semibold text-primary">practical tradeoffs</span>.
+        , <span className="font-medium text-foreground">tradeoffs</span>, and{" "}
+        <span className="font-medium text-foreground">
+          implementation details
+        </span>{" "}
+        behind them.
       </p>
     </Block>
   );
 }
 
-function FocusBlock() {
+function ProofBlock() {
   return (
-    <Block className="col-span-12 md:col-span-5 bg-muted/40">
-      <Blocks className="mb-4 h-5 w-5 text-primary" />
-      <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-        Current focus
+    <Block className="col-span-12 md:col-span-6 bg-muted/40">
+      <div className="flex items-center gap-2">
+        <FolderKanban className="h-5 w-5 text-primary" />
+
+        <p className="text-xs uppercase tracking-[0.2em] text-muted-foregroun">
+          Project Proof
+        </p>
+      </div>
+      <p className="mt-2 flex items-baseline gap-2">
+        <span className="font-mono text-4xl font-semibold tracking-tight text-primary">
+          3
+        </span>
+        <span className="text-sm font-medium text-muted-foreground">
+          case studies
+        </span>
       </p>
-      <p className="mt-2 text-lg font-medium">
-        Building maintainable Next.js apps with clear architecture.
+      <p className="mt-3 text-sm leading-6 text-muted-foreground">
+        Auth systems, admin workflows, and content-driven apps documented from
+        implementation to tradeoffs.
       </p>
     </Block>
   );
@@ -259,7 +271,7 @@ function FocusBlock() {
 
 function ContactBlock() {
   return (
-    <Block className="col-span-12 md:col-span-7 bg-primary text-primary-foreground">
+    <Block className="col-span-12 md:col-span-6 bg-primary text-primary-foreground">
       <p className="text-xs uppercase tracking-[0.2em] opacity-75">
         Available for work
       </p>
