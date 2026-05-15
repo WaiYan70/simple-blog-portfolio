@@ -2,8 +2,7 @@ import { Bento } from "@/features/home/components/Bento";
 import { BlogSection } from "@/features/home/components/BlogSection";
 import { ProjectSection } from "@/features/home/components/ProjectSection";
 import { Skills } from "@/features/home/components/Skills";
-import { Highlight } from "@/features/home/components/HighLight";
-import { HowIThink } from "@/features/home/components/HowIThink";
+import { EngineeringFocus } from "@/features/home/components/EngineeringFocus";
 import { Journey } from "@/features/home/components/Journey";
 import { ContactMe } from "@/features/home/components/ContactMe";
 
@@ -21,9 +20,8 @@ export default async function Home() {
       <Bento />
       <ProjectSection projects={lastThreeProjects} />
       <BlogSection posts={lastThreePosts} />
-      <Highlight />
+      <EngineeringFocus />
       <Skills />
-      <HowIThink />
       <Journey />
       <ContactMe />
     </>
