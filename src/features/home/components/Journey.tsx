@@ -1,12 +1,12 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Section } from "@/components/shared/Section";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import {
   motion,
+  useMotionValue,
   useReducedMotion,
-  useScroll,
   useSpring,
   type Variants,
 } from "motion/react";
@@ -96,15 +96,43 @@ const dotVariants: Variants = {
 export function Journey() {
   const shouldReduceMotion = useReducedMotion();
   const timelineRef = useRef<HTMLDivElement | null>(null);
-  const { scrollYProgress } = useScroll({
-    target: timelineRef,
-    offset: ["start center", "end center"],
-  });
-  const timelineScaleY = useSpring(scrollYProgress, {
+  const timelineProgress = useMotionValue(0);
+  const timelineScaleY = useSpring(timelineProgress, {
     stiffness: 90,
     damping: 24,
     restDelta: 0.001,
   });
+
+  useEffect(() => {
+    if (shouldReduceMotion) {
+      timelineProgress.set(1);
+      return;
+    }
+
+    const updateTimelineProgress = () => {
+      const timeline = timelineRef.current;
+
+      if (!timeline) return;
+
+      const rect = timeline.getBoundingClientRect();
+      const viewportCenter = window.innerHeight / 2;
+      const progress = (viewportCenter - rect.top) / rect.height;
+      const clampedProgress = Math.min(Math.max(progress, 0), 1);
+
+      timelineProgress.set(clampedProgress);
+    };
+
+    updateTimelineProgress();
+    window.addEventListener("scroll", updateTimelineProgress, {
+      passive: true,
+    });
+    window.addEventListener("resize", updateTimelineProgress);
+
+    return () => {
+      window.removeEventListener("scroll", updateTimelineProgress);
+      window.removeEventListener("resize", updateTimelineProgress);
+    };
+  }, [shouldReduceMotion, timelineProgress]);
 
   return (
     <Section>
