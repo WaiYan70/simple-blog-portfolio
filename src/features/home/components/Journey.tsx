@@ -11,36 +11,80 @@ import {
   type Variants,
 } from "motion/react";
 
-const journey = [
+type JourneyItem = {
+  period: string;
+  title: string;
+  context: string;
+  stack: string;
+  description: string;
+  highlights: string[];
+};
+
+const journey: JourneyItem[] = [
   {
-    year: "2025",
-    title: "Blog-based portfolio",
+    period: "July 2025 - Present",
+    title: "Freelance Software Engineer",
+    context: "E-commerce platform with admin dashboard",
+    stack: "MERN Stack, TypeScript, Redis",
     description:
-      "Crafting my blog-based portfolio using Next.js with Bun, managing and presenting content through MDX files.",
+      "Building a production-focused commerce system with customer flows, admin operations, payment review, automation, and deployment ownership.",
+    highlights: [
+      "Built commerce workflows for inventory, order administration, delivery fee calculation, and product classification.",
+      "Implemented QR-based manual payment verification with proof uploads, admin review, resubmission requests, refunds, and cancellations.",
+      "Delivered secure auth with HttpOnly JWT cookies, refresh token rotation, Google OAuth, RBAC, Brevo email verification, and password reset flows.",
+      "Added SSE exchange-rate updates, product scraping for 100+ items from 3 brands, Cloudinary media storage, backend protections, and VPS deployment.",
+    ],
   },
   {
-    year: "2024",
-    title: "Building full-stack systems",
+    period: "August 2024 - Present",
+    title: "Freelance Software Engineer",
+    context: "Fleet management and expense tracking system",
+    stack: "MERN Stack, TypeScript",
     description:
-      "Developing a real-world e-commerce platform with authentication, admin tools, and scalable backend architecture.",
+      "Developing an internal operations system for a taxi service business managing around 20 vehicles.",
+    highlights: [
+      "Centralized driver records, vehicle tracking, expense management, license expiration notifications, and repair scheduling.",
+      "Implemented authentication and role-based authorization for owner-only financial and operations modules.",
+      "Built responsive dashboards and reports to improve financial visibility and daily fleet management workflows.",
+    ],
   },
   {
-    year: "2023",
-    title: "Freelance & independent projects",
+    period: "April 2023 - August 2023",
+    title: "Freelance Web Developer",
+    context: "Websites for local computer shops",
+    stack: "Next.js, TypeScript",
     description:
-      "Built multiple applications including a bookkeeping system, audio streaming app, and business websites.",
+      "Designed, developed, and deployed responsive business websites for 2 local computer shops in Myanmar.",
+    highlights: [
+      "Translated business requirements into clear frontend experiences for local customers.",
+      "Improved online visibility and accessibility with responsive layouts and practical content structure.",
+    ],
   },
   {
-    year: "2022",
-    title: "Backend engineering at MPT",
+    period: "September 2022 - February 2023",
+    title: "Junior Software Engineer",
+    context: "MPT (Myanmar Posts and Telecommunications)",
+    stack: "Spring Boot, Oracle SQL",
     description:
-      "Worked on Spring Boot systems, database optimization, and API integrations in a production environment.",
+      "Worked on internal financial tracking features and backend integrations in a production engineering environment.",
+    highlights: [
+      "Developed Spring Boot API features that helped streamline financial data workflows and reduce manual reporting time by 30%.",
+      "Optimized Oracle SQL queries, improving data retrieval performance by 25% and supporting more accurate financial reporting.",
+      "Collaborated on backend testing, debugging, API integration, and issue resolution to improve application stability.",
+    ],
   },
   {
-    year: "Before",
+    period: "Before",
     title: "Discovering software engineering",
+    context: "University",
+    stack: "HTML, CSS, JavaScript, Java, Python, C#",
     description:
-      "Started from curiosity about building systems and gradually developed a focus on backend engineering and architecture.",
+      "Worked on internal financial tracking features and backend integrations in a production engineering environment.",
+    highlights: [
+      "Developed Spring Boot API features that helped streamline financial data workflows and reduce manual reporting time by 30%.",
+      "Optimized Oracle SQL queries, improving data retrieval performance by 25% and supporting more accurate financial reporting.",
+      "Collaborated on backend testing, debugging, API integration, and issue resolution to improve application stability.",
+    ],
   },
 ];
 
@@ -93,6 +137,37 @@ const dotVariants: Variants = {
   },
 };
 
+const JourneyCardContent = ({ item }: { item: JourneyItem }) => (
+  <motion.div variants={textVariants}>
+    <h3 className="font-semibold tracking-tight">{item.title}</h3>
+    <p className="mt-1 text-sm font-medium text-foreground/80">
+      {item.context}
+    </p>
+
+    <div className="mt-3 flex flex-wrap gap-2">
+      <span className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground">
+        {item.period}
+      </span>
+      <span className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground">
+        {item.stack}
+      </span>
+    </div>
+
+    <p className="mt-4 text-sm leading-6 text-muted-foreground">
+      {item.description}
+    </p>
+
+    <ul className="mt-4 space-y-2 text-sm leading-6 text-muted-foreground">
+      {item.highlights.map((highlight) => (
+        <li key={highlight} className="flex gap-2">
+          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+          <span>{highlight}</span>
+        </li>
+      ))}
+    </ul>
+  </motion.div>
+);
+
 export function Journey() {
   const shouldReduceMotion = useReducedMotion();
   const timelineRef = useRef<HTMLDivElement | null>(null);
@@ -138,11 +213,11 @@ export function Journey() {
     <Section>
       <SectionHeader
         title="Journey"
-        description="A short timeline of my experience and how i got here"
+        description="A short timeline of my experience and how I got here"
       />
 
       <div ref={timelineRef} className="relative my-12">
-        <div className="absolute left-4 top-7 h-[82%] w-0.5 overflow-hidden bg-border sm:left-1/2 sm:-translate-x-1/2">
+        <div className="absolute bottom-7 left-4 top-7 w-0.5 overflow-hidden bg-border sm:left-1/2 sm:-translate-x-1/2">
           <motion.div
             className="h-full w-full origin-top bg-primary"
             style={{ scaleY: shouldReduceMotion ? 1 : timelineScaleY }}
@@ -158,7 +233,7 @@ export function Journey() {
 
             return (
               <motion.div
-                key={item.title}
+                key={item.period}
                 className="relative flex items-start"
                 initial={shouldReduceMotion ? false : "initial"}
                 whileInView={shouldReduceMotion ? undefined : "animate"}
@@ -168,19 +243,9 @@ export function Journey() {
                   {isLeft && (
                     <motion.div
                       variants={cardVariants}
-                      className="inline-block rounded-xl border border-border bg-card p-5 transition hover:bg-muted/40"
+                      className="inline-block w-full rounded-xl border border-border bg-card p-5 text-left transition hover:bg-muted/40"
                     >
-                      <motion.div variants={textVariants}>
-                        <h3 className="font-semibold tracking-tight">
-                          {item.title}
-                        </h3>
-                        <p className="mt-1 text-xs text-muted-foreground">
-                          {item.year}
-                        </p>
-                        <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                          {item.description}
-                        </p>
-                      </motion.div>
+                      <JourneyCardContent item={item} />
                     </motion.div>
                   )}
                 </div>
@@ -198,17 +263,7 @@ export function Journey() {
                       variants={cardVariants}
                       className="hidden sm:block rounded-xl border border-border bg-card p-5 transition hover:bg-muted/40"
                     >
-                      <motion.div variants={textVariants}>
-                        <h3 className="font-semibold tracking-tight">
-                          {item.title}
-                        </h3>
-                        <p className="mt-1 text-xs text-muted-foreground">
-                          {item.year}
-                        </p>
-                        <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                          {item.description}
-                        </p>
-                      </motion.div>
+                      <JourneyCardContent item={item} />
                     </motion.div>
                   )}
 
@@ -219,17 +274,7 @@ export function Journey() {
                       }
                       className="rounded-xl border border-border bg-card p-5 transition hover:bg-muted/40"
                     >
-                      <motion.div variants={textVariants}>
-                        <h3 className="font-semibold tracking-tight">
-                          {item.title}
-                        </h3>
-                        <p className="mt-1 text-xs text-muted-foreground">
-                          {item.year}
-                        </p>
-                        <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                          {item.description}
-                        </p>
-                      </motion.div>
+                      <JourneyCardContent item={item} />
                     </motion.div>
                   </div>
                 </div>
