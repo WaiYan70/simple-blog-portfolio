@@ -67,6 +67,34 @@ export function ContactMe() {
           );
         })}
       </div>
+      <div className="border border-border">
+        <form action="" className="flex flex-col space-y-4">
+          <input
+            type="name"
+            placeholder="Your Name"
+            className="border border-border"
+            required
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            className="border border-border"
+            required
+          />
+          <input
+            type="subject"
+            placeholder="Subject"
+            className="border border-border"
+            required
+          />
+          <textarea
+            name="message"
+            placeholder="Your message"
+            className="border border-border"
+            required
+          />
+        </form>
+      </div>
     </Section>
   );
 }
