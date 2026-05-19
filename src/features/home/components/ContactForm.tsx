@@ -1,6 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Send } from "lucide-react";
 import { SubmitEvent, useState } from "react";
 
 export function ContactForm() {
@@ -40,46 +44,71 @@ export function ContactForm() {
   }
 
   return (
-    <div className="border border-border">
-      <form onSubmit={handleSubmit} className="flex flex-col space-y-4 my-4">
-        <label>Name</label>
-        <input
-          name="name"
-          type="text"
-          placeholder="Your Name"
-          className="border border-border"
-          required
-        />
-        <label>Email</label>
-        <input
-          name="email"
-          type="email"
-          placeholder="Email"
-          className="border border-border"
-          required
-        />
-        <label>Subject</label>
-        <input
+    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+      <div className="grid gap-5 sm:grid-cols-2">
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="name">Name</Label>
+          <Input
+            id="name"
+            name="name"
+            type="text"
+            autoComplete="name"
+            placeholder="Your name"
+            required
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="email">Email</Label>
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            placeholder="you@example.com"
+            required
+          />
+        </div>
+      </div>
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="subject">Subject</Label>
+        <Input
+          id="subject"
           name="subject"
           type="text"
           placeholder="Subject"
-          className="border border-border"
           required
         />
-        <label>Message</label>
-        <textarea
+      </div>
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="message">Message</Label>
+        <Textarea
+          id="message"
           name="message"
           placeholder="Your message"
-          className="border border-border"
+          className="min-h-40 resize-y"
           required
         />
-
-        <Button type="submit" disabled={status === "loading"}>
-          {status === "loading" ? "Sending..." : "Send Message"}
-        </Button>
-        {status === "success" && <p>Message Sent Successfully</p>}
-        {status === "error" && <p>Something went wrong. Please try again </p>}
-      </form>
-    </div>
+      </div>
+      <Button
+        type="submit"
+        disabled={status === "loading"}
+        className="self-start sm:self-end"
+      >
+        <Send data-icon="inline-start" />
+        {status === "loading" ? "Sending..." : "Send message"}
+      </Button>
+      <div aria-live="polite">
+        {status === "success" && (
+          <p className="text-sm text-muted-foreground">
+            Message sent successfully.
+          </p>
+        )}
+        {status === "error" && (
+          <p className="text-sm text-destructive">
+            Something went wrong. Please try again.
+          </p>
+        )}
+      </div>
+    </form>
   );
 }

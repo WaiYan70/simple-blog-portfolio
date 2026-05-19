@@ -7,9 +7,10 @@ export const contactSchema = z.object({
     .min(2, "Name must be at least 2 characters")
     .max(80, "Name is too long"),
   email: z
-    .email("Please enter a valid email address.")
+    .string()
     .trim()
-    .max(120, "Email is too long."),
+    .max(120, "Email is too long.")
+    .pipe(z.email("Please enter a valid email address.")),
   subject: z
     .string()
     .trim()
@@ -18,7 +19,7 @@ export const contactSchema = z.object({
   message: z
     .string()
     .trim()
-    .min(10, "Message must be at least 3 characters")
+    .min(10, "Message must be at least 10 characters")
     .max(3000, "Message is too long"),
 });
 
