@@ -5,6 +5,7 @@ import { BrandIcon } from "@/components/shared/BrandIcon";
 import { LinkedInIcon } from "@/components/icons/LinkedIn";
 import { Section } from "@/components/shared/Section";
 import { SectionHeader } from "@/components/shared/SectionHeader";
+import { ContactForm } from "./ContactForm";
 
 type IconProps = { size: number };
 
@@ -67,34 +68,7 @@ export function ContactMe() {
           );
         })}
       </div>
-      <div className="border border-border">
-        <form action="" className="flex flex-col space-y-4">
-          <input
-            type="name"
-            placeholder="Your Name"
-            className="border border-border"
-            required
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            className="border border-border"
-            required
-          />
-          <input
-            type="subject"
-            placeholder="Subject"
-            className="border border-border"
-            required
-          />
-          <textarea
-            name="message"
-            placeholder="Your message"
-            className="border border-border"
-            required
-          />
-        </form>
-      </div>
+      <ContactForm />
     </Section>
   );
 }
