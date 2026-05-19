@@ -29,7 +29,11 @@ export async function POST(request: Request) {
       to: process.env.CONTACT_EMAIL!,
       replyTo: email,
       subject: `Portfolio contact: ${subject}`,
-      text: `Name: ${name} Email: ${email} Message:${message}`,
+      text: `
+        Name: ${name}
+        Email: ${email}
+        Message:${message}
+      `,
     });
 
     if (error) {

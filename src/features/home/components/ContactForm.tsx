@@ -11,9 +11,11 @@ export function ContactForm() {
   async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
 
+    const form = event.currentTarget;
+
     setStatus("loading");
 
-    const formData = new FormData(event.currentTarget);
+    const formData = new FormData(form);
 
     const payload = {
       name: String(formData.get("name") || ""),
@@ -34,7 +36,7 @@ export function ContactForm() {
     }
 
     setStatus("success");
-    event.currentTarget.reset();
+    form.reset();
   }
 
   return (
