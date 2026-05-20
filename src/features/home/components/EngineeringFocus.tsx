@@ -1,4 +1,4 @@
-import { BaseCard } from "@/components/shared/BaseCard";
+import { GlowCard } from "@/components/shared/GlowCard";
 import { Section } from "@/components/shared/Section";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { StaggerReveal } from "../animation/StaggerReveal";
@@ -59,13 +59,8 @@ export function EngineeringFocus() {
           const Icon = item.icon;
 
           return (
-            <BaseCard
-              key={item.title}
-              variant="outline"
-              radius="xl"
-              className="relative h-full overflow-hidden p-5 sm:p-6"
-            >
-              <div className="absolute right-4 top-4 font-mono text-4xl font-semibold tracking-tight text-muted-foreground/10">
+            <GlowCard key={item.title}>
+              <div className="absolute right-4 top-4 font-mono text-4xl font-semibold tracking-tight text-foreground/10">
                 {String(index + 1).padStart(2, "0")}
               </div>
 
@@ -79,7 +74,7 @@ export function EngineeringFocus() {
               <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
                 {item.description}
               </p>
-            </BaseCard>
+            </GlowCard>
           );
         })}
       </StaggerReveal>

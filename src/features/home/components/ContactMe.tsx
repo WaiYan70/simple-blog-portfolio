@@ -33,6 +33,7 @@ export function ContactMe() {
         <div className="relative isolate min-h-85 overflow-hidden bg-card text-foreground p-6 sm:p-8 lg:p-10">
           <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,color-mix(in_oklch,var(--foreground)_8%,transparent)_1px,transparent_1px),linear-gradient(to_bottom,color-mix(in_oklch,var(--foreground)_8%,transparent)_1px,transparent_1px)] bg-size-[96px_96px]" />
           <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_15%_25%,color-mix(in_oklch,var(--primary)_33%,transparent),transparent_34%)]" />
+          <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_88%_88%,color-mix(in_oklch,var(--primary)_33%,transparent),transparent_30%)]" />
 
           <div className="flex flex-col justify-between gap-12">
             <div className="max-w-xl">
