@@ -142,57 +142,114 @@ const dotVariants: Variants = {
   },
 };
 
-const SmallJourneyCard = ({ item }: { item: JourneyItem }) => (
-  <div className="rounded-xl border border-border bg-card p-4 transition-colors hover:bg-muted/30 md:p-5">
-    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
-      {item.label}
-    </p>
-    <p className="mt-3 text-sm font-medium text-muted-foreground">
-      {item.period}
-    </p>
-    <h3 className="mt-4 text-lg font-semibold tracking-tight">{item.stage}</h3>
-    <p className="mt-1 text-sm text-foreground/80">{item.role}</p>
-    <p className="mt-4 text-xs leading-5 text-muted-foreground">
-      {item.stack.slice(0, 3).join(" · ")}
-    </p>
-  </div>
-);
+function SmallJourneyCard({ item }: { item: JourneyItem }) {
+  return (
+    <div className="rounded-xl border border-border bg-card p-4 transition-colors hover:bg-muted/30 md:p-5">
+      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+        {item.label}
+      </p>
+      <p className="mt-3 text-sm font-medium text-muted-foreground">
+        {item.period}
+      </p>
+      <h3 className="mt-4 text-lg font-semibold tracking-tight">
+        {item.stage}
+      </h3>
+      <p className="mt-1 text-sm text-foreground/80">{item.role}</p>
+      <p className="mt-4 text-xs leading-5 text-muted-foreground">
+        {item.stack.slice(0, 3).join(" · ")}
+      </p>
+    </div>
+  );
+}
 
-const BigJourneyCard = ({ item }: { item: JourneyItem }) => (
-  <div className="rounded-xl border border-border bg-card p-5 transition-colors hover:bg-muted/30 md:p-6">
-    <p className="text-sm font-medium text-primary">{item.context}</p>
+function BigJourneyCard({ item }: { item: JourneyItem }) {
+  return (
+    <div className="rounded-xl border border-border bg-card p-5 transition-colors hover:bg-muted/30 md:p-6">
+      <p className="text-sm font-medium text-primary">{item.context}</p>
 
-    <div className="mt-5 grid gap-5 md:grid-cols-[0.95fr_1.05fr]">
+      <div className="mt-5 grid gap-5 md:grid-cols-[0.95fr_1.05fr]">
+        <div>
+          <h4 className="text-sm font-semibold tracking-tight">Summary</h4>
+          <p className="mt-2 text-sm leading-6 text-muted-foreground">
+            {item.summary}
+          </p>
+        </div>
+
+        <div>
+          <h4 className="text-sm font-semibold tracking-tight">
+            Engineering Growth
+          </h4>
+          <p className="mt-2 text-sm leading-6 text-muted-foreground">
+            {item.growth}
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-5">
+        <h4 className="text-sm font-semibold tracking-tight">Key Work</h4>
+        <ul className="mt-3 grid gap-2 text-sm leading-6 text-muted-foreground">
+          {item.highlights.map((highlight) => (
+            <li key={highlight} className="flex gap-2">
+              <span className="mt-2 size-1.5 shrink-0 rounded-full bg-primary" />
+              <span>{highlight}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function MobileJourneyCard({ item }: { item: JourneyItem }) {
+  return (
+    <div className="rounded-xl border border-border bg-card p-5 transition-colors hover:bg-muted/30">
       <div>
-        <h4 className="text-sm font-semibold tracking-tight">Summary</h4>
-        <p className="mt-2 text-sm leading-6 text-muted-foreground">
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+          {item.label}
+        </p>
+        <p className="mt-2 text-sm font-medium text-muted-foreground">
+          {item.period}
+        </p>
+      </div>
+
+      <div className="mt-5">
+        <h3 className="text-lg font-semibold tracking-tight">{item.stage}</h3>
+        <p className="mt-1 text-sm text-foreground/80">{item.role}</p>
+        <div className="mt-4 flex flex-wrap gap-2">
+          {item.stack.slice(0, 4).map((tech) => (
+            <span
+              key={tech}
+              className="rounded-full border border-border px-2.5 py-1 text-xs text-muted-foreground"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-5 border-t border-border pt-5">
+        <p className="text-sm font-medium text-primary">{item.context}</p>
+        <p className="mt-3 text-sm leading-6 text-muted-foreground">
           {item.summary}
         </p>
-      </div>
-
-      <div>
-        <h4 className="text-sm font-semibold tracking-tight">
-          Engineering Growth
-        </h4>
-        <p className="mt-2 text-sm leading-6 text-muted-foreground">
+        <p className="mt-3 text-sm leading-6 text-muted-foreground">
           {item.growth}
         </p>
+        <div className="mt-5">
+          <h4 className="text-sm font-semibold tracking-tight">Key Works</h4>
+          <ul className="mt-3 grid gap-2 text-sm leading-6 text-muted-foreground">
+            {item.highlights.map((highlight) => (
+              <li key={highlight} className="flex gap-2">
+                <span className="mt-2 size-1.5 shrink-0 rounded-full bg-primary" />
+                <span>{highlight}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
-
-    <div className="mt-5">
-      <h4 className="text-sm font-semibold tracking-tight">Key Work</h4>
-      <ul className="mt-3 grid gap-2 text-sm leading-6 text-muted-foreground">
-        {item.highlights.map((highlight) => (
-          <li key={highlight} className="flex gap-2">
-            <span className="mt-2 size-1.5 shrink-0 rounded-full bg-primary" />
-            <span>{highlight}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </div>
-);
+  );
+}
 
 export function Journey() {
   const shouldReduceMotion = useReducedMotion();
@@ -269,12 +326,19 @@ export function Journey() {
                 <span className="block size-3 rounded-full border-2 border-background bg-primary shadow-[0_0_0_4px_var(--card)]" />
               </motion.div>
 
-              <div className="col-start-2 md:col-start-1 row-start-1 pl-3 md:pl-0 md:pr-5">
+              {/* Desktop Small Card */}
+              <div className="hidden md:block md:col-start-1 row-start-1 pl-3 md:pl-0 md:pr-5">
                 <SmallJourneyCard item={item} />
               </div>
 
-              <div className="col-span-2 md:col-span-1 md:col-start-3 row-start-2 md:row-start-1 pl-11 md:pl-5">
+              {/* Desktop Big Card*/}
+              <div className="hidden md:block md:col-span-1 md:col-start-3 row-start-2 md:row-start-1 pl-11 md:pl-5">
                 <BigJourneyCard item={item} />
+              </div>
+
+              {/* Mobile and Small Screen Combine Card*/}
+              <div className="md:hidden col-start-2 row-start-1 pl-3">
+                <MobileJourneyCard item={item} />
               </div>
             </motion.article>
           ))}
