@@ -236,7 +236,7 @@ export function Journey() {
   }, [shouldReduceMotion, timelineProgress]);
 
   return (
-    <Section>
+    <Section reveal={false}>
       <SectionHeader
         title="Engineering Journey"
         description="A short timeline of my experience and how I got here."
@@ -259,7 +259,7 @@ export function Journey() {
               variants={shouldReduceMotion ? undefined : rowVariants}
               initial={shouldReduceMotion ? false : "initial"}
               whileInView={shouldReduceMotion ? undefined : "animate"}
-              viewport={{ once: true, amount: 0.35 }}
+              viewport={{ once: true, amount: 0.15 }}
             >
               {/* Timeline dot: centered in the timeline column for each journey item. */}
               <motion.div
