@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { Section } from "@/components/shared/Section";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import {
+  animate,
   motion,
   useMotionValue,
   useReducedMotion,
@@ -121,6 +122,52 @@ const rowVariants: Variants = {
     y: 0,
     transition: {
       duration: 0.7,
+      ease: [0.22, 1, 0.36, 1],
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+const smallCardVariants: Variants = {
+  initial: {
+    opacity: 0,
+    x: -24,
+  },
+  animate: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.58,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
+
+const bigCardVariants: Variants = {
+  initial: {
+    opacity: 0,
+    x: 24,
+  },
+  animate: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.58,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
+
+const mobileCardVariants: Variants = {
+  initial: {
+    opacity: 0,
+    y: 20,
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.58,
       ease: [0.22, 1, 0.36, 1],
     },
   },
@@ -327,19 +374,28 @@ export function Journey() {
               </motion.div>
 
               {/* Desktop Small Card */}
-              <div className="hidden md:block md:col-start-1 row-start-1 pl-3 md:pl-0 md:pr-5">
+              <motion.div
+                className="hidden md:block md:col-start-1 row-start-1 pl-3 md:pl-0 md:pr-5"
+                variants={shouldReduceMotion ? undefined : smallCardVariants}
+              >
                 <SmallJourneyCard item={item} />
-              </div>
+              </motion.div>
 
               {/* Desktop Big Card*/}
-              <div className="hidden md:block md:col-span-1 md:col-start-3 row-start-2 md:row-start-1 pl-11 md:pl-5">
+              <motion.div
+                className="hidden md:block md:col-span-1 md:col-start-3 row-start-2 md:row-start-1 pl-11 md:pl-5"
+                variants={shouldReduceMotion ? undefined : bigCardVariants}
+              >
                 <BigJourneyCard item={item} />
-              </div>
+              </motion.div>
 
               {/* Mobile and Small Screen Combine Card*/}
-              <div className="md:hidden col-start-2 row-start-1 pl-3">
+              <motion.div
+                className="md:hidden col-start-2 row-start-1 pl-3"
+                variants={shouldReduceMotion ? undefined : mobileCardVariants}
+              >
                 <MobileJourneyCard item={item} />
-              </div>
+              </motion.div>
             </motion.article>
           ))}
         </div>
