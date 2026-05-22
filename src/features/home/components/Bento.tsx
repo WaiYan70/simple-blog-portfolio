@@ -6,11 +6,29 @@ import Image from "next/image";
 import { motion, type MotionProps, type Variants } from "motion/react";
 import { twMerge } from "tailwind-merge";
 import { siGithub } from "simple-icons";
-import { FileText, FolderKanban, Mail, MapPin, ArrowRight } from "lucide-react";
+import {
+  ArrowRight,
+  Download,
+  ExternalLink,
+  FileText,
+  FolderKanban,
+  Mail,
+  MapPin,
+} from "lucide-react";
 import { TextFlip } from "../animation/TextFlip";
 import { LinkedInIcon } from "@/components/icons/LinkedIn";
 import { BrandIcon } from "@/components/shared/BrandIcon";
 import { Section } from "@/components/shared/Section";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const bentoContainerVariants: Variants = {
   initial: {},
@@ -270,6 +288,8 @@ function ProofBlock() {
 }
 
 function ContactBlock() {
+  const [openDialog, setOpenDialog] = useState(false);
+
   return (
     <Block className="col-span-12 md:col-span-6 bg-primary text-primary-foreground">
       <p className="text-xs uppercase tracking-[0.2em] opacity-75">
@@ -286,13 +306,45 @@ function ContactBlock() {
           <Mail className="h-4 w-4" />
           Send email
         </Link>
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 rounded-md bg-primary-foreground px-4 py-2 text-sm font-medium text-primary transition hover:opacity-90"
-        >
-          <FileText className="h-4 w-4" />
-          Review CV
-        </Link>
+        <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+          <DialogTrigger asChild>
+            <Button className="inline-flex items-center gap-2 rounded-md bg-primary-foreground px-4 py-2 text-sm font-medium text-primary transition hover:opacity-90">
+              <FileText className="h-4 w-4" />
+              Review CV
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-h-[90vh] gap-4 overflow-hidden p-0 sm:max-w-3xl">
+            <DialogHeader className="px-5 pt-5">
+              <DialogTitle>Khant Wai Yan - Resume</DialogTitle>
+              <DialogDescription>
+                Preview the resume here, or open the PDF in a new tab.
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="h-[65vh] border-y border-border bg-muted/30">
+              <iframe
+                src="/Resume.pdf"
+                title="Khant Wai Yan resume preview"
+                className="h-full w-full"
+              />
+            </div>
+
+            <DialogFooter className="px-5 pb-5">
+              <Button variant="outline" asChild>
+                <a href="/Resume.pdf" download>
+                  <Download className="h-4 w-4" />
+                  Download
+                </a>
+              </Button>
+              <Button asChild>
+                <a href="/Resume.pdf" target="_blank" rel="noreferrer">
+                  <ExternalLink className="h-4 w-4" />
+                  Open in new tab
+                </a>
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </Block>
   );

@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 import { Section } from "@/components/shared/Section";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import {
-  animate,
   motion,
   useMotionValue,
   useReducedMotion,
