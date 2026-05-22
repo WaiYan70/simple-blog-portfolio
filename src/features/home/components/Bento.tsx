@@ -299,16 +299,15 @@ function ContactBlock() {
         Have a project or role in mind?
       </h2>
       <div className="mt-2 sm:mt-5 flex gap-2">
-        <Link
-          href="mailto:khantwaiyan11@gmail.com?subject=Opportunity&body=Hi Khant,"
-          className="inline-flex items-center gap-2 rounded-md bg-primary-foreground px-4 py-2 text-sm font-medium text-primary transition hover:opacity-90"
-        >
-          <Mail className="h-4 w-4" />
-          Send email
+        <Link href="mailto:khantwaiyan11@gmail.com?subject=Opportunity&body=Hi Khant,">
+          <Button className="inline-flex items-center gap-2 rounded-sm bg-primary-foreground px-4 py-2 text-sm font-medium text-primary shadow-sm transition hover:-translate-y-0.5 hover:bg-primary-foreground/90 hover:shadow-md active:translate-y-0">
+            <Mail className="h-4 w-4" />
+            Send Email
+          </Button>
         </Link>
         <Dialog open={openDialog} onOpenChange={setOpenDialog}>
           <DialogTrigger asChild>
-            <Button className="inline-flex items-center gap-2 rounded-md bg-primary-foreground px-4 py-2 text-sm font-medium text-primary transition hover:opacity-90">
+            <Button className="inline-flex items-center gap-2 rounded-sm bg-primary-foreground px-4 py-2 text-sm font-medium text-primary shadow-sm transition hover:-translate-y-0.5 hover:bg-primary-foreground/90 hover:shadow-md active:translate-y-0">
               <FileText className="h-4 w-4" />
               Review CV
             </Button>
@@ -321,23 +320,25 @@ function ContactBlock() {
               </DialogDescription>
             </DialogHeader>
 
-            <div className="h-[65vh] border-y border-border bg-muted/30">
-              <iframe
-                src="/Resume.pdf"
-                title="Khant Wai Yan resume preview"
-                className="h-full w-full"
+            <div className="h-[65vh] overflow-y-auto border-y border-border bg-muted/30">
+              <Image
+                src="/resume/resume-preview.png"
+                alt="Preview of Khant Wai Yan's resume"
+                width={1275}
+                height={1650}
+                className="h-auto w-full border"
               />
             </div>
 
             <DialogFooter className="px-5 pb-5">
-              <Button variant="outline" asChild>
+              <Button variant="default" asChild>
                 <a href="/Resume.pdf" download>
                   <Download className="h-4 w-4" />
                   Download
                 </a>
               </Button>
               <Button asChild>
-                <a href="/Resume.pdf" target="_blank" rel="noreferrer">
+                <a href="/resume/resume.pdf" target="_blank" rel="noreferrer">
                   <ExternalLink className="h-4 w-4" />
                   Open in new tab
                 </a>
