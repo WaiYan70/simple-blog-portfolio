@@ -29,7 +29,7 @@ export function ResumeDialog({ openDialog, setOpenDialog }: ResumeDialogProps) {
         <DialogHeader className="px-5 pt-5">
           <DialogTitle>Khant Wai Yan - Resume</DialogTitle>
           <DialogDescription>
-            Preview the resume here, or open the PDF in a new tab.
+            Preview my resume here, or open the PDF in a new tab.
           </DialogDescription>
         </DialogHeader>
 

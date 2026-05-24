@@ -1,10 +1,10 @@
-import { Bento } from "@/features/home/components/Bento";
-import { BlogSection } from "@/features/home/components/BlogSection";
-import { ProjectSection } from "@/features/home/components/ProjectSection";
-import { Skills } from "@/features/home/components/Skills";
-import { EngineeringFocus } from "@/features/home/components/EngineeringFocus";
-import { Journey } from "@/features/home/components/Journey";
-import { ContactMe } from "@/features/home/components/ContactMe";
+import { Bento } from "@/features/home/sections/Bento";
+import { BlogSection } from "@/features/home/sections/BlogSection";
+import { ProjectSection } from "@/features/home/sections/ProjectSection";
+import { Skills } from "@/features/home/sections/Skills";
+import { EngineeringFocus } from "@/features/home/sections/EngineeringFocus";
+import { Journey } from "@/features/home/sections/Journey";
+import { ContactMe } from "@/features/home/sections/ContactMe";
 
 import { getAllPosts } from "@/features/blog/lib/post";
 import { getAllProjects } from "@/features/projects/lib/project";

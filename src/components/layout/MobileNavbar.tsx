@@ -4,7 +4,7 @@ import { useId, useState } from "react";
 import { AnimatePresence, easeInOut, motion, MotionConfig } from "motion/react";
 import { ThemeToggle } from "../theme/ThemeToggle";
 import { navbarLinks } from "./NavbarLinks";
-import { socialLinks } from "./NavbarActions";
+import { socialLinks } from "@/constants/social-links";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Mail } from "lucide-react";
@@ -272,7 +272,7 @@ function MobileFooter() {
               aria-label={socialLink.label}
               className={twMerge(
                 "inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-border transition hover:scale-105 active:scale-95",
-                socialLink.bgcolor,
+                socialLink.brandClassName,
               )}
             >
               <Icon size={18} />

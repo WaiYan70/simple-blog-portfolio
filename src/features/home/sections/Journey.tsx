@@ -339,7 +339,7 @@ export function Journey() {
   }, [shouldReduceMotion, timelineProgress]);
 
   return (
-    <Section reveal={false}>
+    <Section>
       <SectionHeader
         title="Engineering Journey"
         description="A short timeline of my experience and how I got here."

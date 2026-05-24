@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { Section } from "@/components/shared/Section";
-import { ProjectCarousel } from "./ProjectCarousel";
+import { ProjectCarousel } from "../components/project/ProjectCarousel";
 import { StaggerReveal } from "../animation/StaggerReveal";
 
 export function ProjectSection({ projects }: { projects: ProjectSummary[] }) {

@@ -26,7 +26,7 @@ export function ResumeDrawer() {
           <DrawerHeader>
             <DrawerTitle>Khant Wai Yan - Resume</DrawerTitle>
             <DrawerDescription>
-              Preview the resume here, or open the PDF in a new tab.
+              Preview my resume here, or open the PDF in a new tab.
             </DrawerDescription>
           </DrawerHeader>
           <div className="no-scrollbar overflow-y-auto px-4">
