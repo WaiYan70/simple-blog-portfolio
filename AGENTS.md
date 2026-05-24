@@ -53,15 +53,18 @@ You are a senior fullstack engineer working on a Next.js (App Router) blog-based
 - Prefer type inference when safe
 
 ### Functions
-- Use function declarations for Next.js framework APIs:
+- Use function declarations for Next.js App Router framework exports:
+  - `Page` default exports in `page.tsx`
+  - `Layout` default exports in `layout.tsx`
   - `generateMetadata`
   - `generateStaticParams`
-  - `page.tsx` and `layout.tsx` exports
+  - route handlers such as `GET`, `POST`, `PUT`, `DELETE`
 - Use arrow functions for:
-  - React components (not component from `/app` folder)
-  - Utility functions (`/lib`)
-  - Event handlers
-- Keep functions small and single-purpose
+  - shared React components outside route files
+  - utility/helper functions in `/lib`, `/utils`, or feature folders
+  - event handlers
+  - callbacks passed to hooks or array methods
+- Keep functions small, single-purpose, and easy to test.
 
 ### Naming
 - Use clear, descriptives names
