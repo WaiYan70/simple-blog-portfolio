@@ -20,7 +20,7 @@ export function ResumeDialog({ openDialog, setOpenDialog }: ResumeDialogProps) {
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
-        <Button className="inline-flex items-center gap-2 rounded-sm bg-primary-foreground px-4 py-2 text-sm font-medium text-primary shadow-sm transition hover:-translate-y-0.5 hover:bg-primary-foreground/90 hover:shadow-md active:translate-y-0">
+        <Button variant="transform">
           <FileText className="h-4 w-4" />
           Review CV
         </Button>

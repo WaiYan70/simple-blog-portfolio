@@ -6,30 +6,15 @@ import Image from "next/image";
 import { motion, type MotionProps, type Variants } from "motion/react";
 import { twMerge } from "tailwind-merge";
 import { siGithub } from "simple-icons";
-import {
-  ArrowRight,
-  Download,
-  ExternalLink,
-  FileText,
-  FolderKanban,
-  Mail,
-  MapPin,
-} from "lucide-react";
+import { ArrowRight, FolderKanban, Mail, MapPin } from "lucide-react";
 import { TextFlip } from "../animation/TextFlip";
 import { LinkedInIcon } from "@/components/icons/LinkedIn";
 import { BrandIcon } from "@/components/shared/BrandIcon";
 import { Section } from "@/components/shared/Section";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { ResumeDialog } from "./ResumeDialog";
+import { ResumeDrawer } from "./ResumeDrawer";
+import { useMediaQuery } from "./useMediaQuery";
 
 const bentoContainerVariants: Variants = {
   initial: {},
@@ -290,6 +275,7 @@ function ProofBlock() {
 
 function ContactBlock() {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   return (
     <Block className="col-span-12 md:col-span-6 bg-primary text-primary-foreground">
@@ -306,7 +292,11 @@ function ContactBlock() {
             Send Email
           </Button>
         </Link>
-        <ResumeDialog openDialog={openDialog} setOpenDialog={setOpenDialog} />
+        {isDesktop ? (
+          <ResumeDialog openDialog={openDialog} setOpenDialog={setOpenDialog} />
+        ) : (
+          <ResumeDrawer />
+        )}
       </div>
     </Block>
   );
