@@ -45,7 +45,7 @@ export function ResumeDialog({ openDialog, setOpenDialog }: ResumeDialogProps) {
 
         <DialogFooter className="px-5 pb-5">
           <Button variant="default" asChild>
-            <a href="/Resume.pdf" download>
+            <a href="/resume/resume.pdf" download>
               <Download className="h-4 w-4" />
               Download
             </a>
