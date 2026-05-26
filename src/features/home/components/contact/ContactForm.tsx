@@ -44,7 +44,10 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-6 bg-card p-6 sm:p-8 lg:p-10"
+    >
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="flex flex-col gap-2">
           <Label htmlFor="name">Name</Label>

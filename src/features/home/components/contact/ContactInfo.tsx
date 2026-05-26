@@ -23,14 +23,11 @@ export function ContactInfo() {
         </div>
 
         <div className="flex flex-col gap-5 text-sm text-foreground/75">
-          <Link
-            href="mailto:khantwaiyan11@gmail.com?subject=Opportunity&body=Hi Khant,"
-            className="flex items-center gap-3 transition-colors hover:text-foreground"
-          >
+          <div className="flex items-center gap-3 transition-colors hover:text-foreground">
             <Mail className="size-5 text-foreground/55" />
             khantwaiyan11@gmail.com
-          </Link>
-          <div className="flex items-center gap-3">
+          </div>
+          <div className="flex items-center gap-3 transition-colors hover:text-foreground">
             <MapPin className="size-5 text-foreground/55" />
             Asia / Bangkok
           </div>

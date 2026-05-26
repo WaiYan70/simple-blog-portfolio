@@ -22,12 +22,15 @@ export function ContactBlock() {
         Have a project or role in mind?
       </h2>
       <div className="mt-2 sm:mt-5 flex gap-2">
-        <Link href="mailto:khantwaiyan11@gmail.com?subject=Opportunity&body=Hi Khant,">
-          <Button className="inline-flex items-center gap-2 rounded-sm bg-primary-foreground px-4 py-2 text-sm font-medium text-primary shadow-sm transition hover:-translate-y-0.5 hover:bg-primary-foreground/90 hover:shadow-md active:translate-y-0">
+        <Button
+          asChild
+          className="inline-flex items-center gap-2 rounded-sm bg-primary-foreground px-4 py-2 text-sm font-medium text-primary shadow-sm transition hover:-translate-y-0.5 hover:bg-primary-foreground/90 hover:shadow-md active:translate-y-0"
+        >
+          <Link href="#contact">
             <Mail className="h-4 w-4" />
             Send Email
-          </Button>
-        </Link>
+          </Link>
+        </Button>
         {isDesktop ? (
           <ResumeDialog openDialog={openDialog} setOpenDialog={setOpenDialog} />
         ) : (
