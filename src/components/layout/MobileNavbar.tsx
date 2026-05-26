@@ -9,6 +9,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Mail } from "lucide-react";
 import { twMerge } from "tailwind-merge";
+import { Button } from "../ui/button";
 
 const menuSlide = {
   initial: { x: "100%" },
@@ -217,7 +218,7 @@ function MobileMenu({ id, onNavigate }: MobileMenuProps) {
           })}
         </ul>
       </div>
-      <MobileFooter />
+      <MobileFooter onNavigate={onNavigate} />
     </motion.nav>
   );
 }
@@ -240,7 +241,10 @@ function MenuCurve() {
   );
 }
 
-function MobileFooter() {
+function MobileFooter({ onNavigate }: { onNavigate: () => void }) {
+  const pathname = usePathname();
+  const contactHref = pathname === "/" ? "#contact" : "/#contact";
+
   return (
     <div className="relative z-10 space-y-4 border-t border-border pt-5">
       <div>
@@ -253,14 +257,16 @@ function MobileFooter() {
       </div>
 
       <div className="flex items-center gap-3">
-        <Link
-          href="mailto:khantwaiyan11@gmail.com?subject=Opportunity&body=Hi Khant,"
-          className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-primary px-4 py-3 text-sm font-medium text-primary-foreground transition hover:bg-primary-dark"
-        >
-          <Mail className="h-4 w-4" />
-          Email Me
-        </Link>
-
+        <Button asChild>
+          <Link
+            href={contactHref}
+            onClick={onNavigate}
+            className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-primary px-4 py-3 text-sm font-medium text-primary-foreground transition hover:bg-primary-dark"
+          >
+            <Mail className="h-4 w-4" />
+            Email Me
+          </Link>
+        </Button>
         {socialLinks.map((socialLink) => {
           const Icon = socialLink.icon;
           return (
