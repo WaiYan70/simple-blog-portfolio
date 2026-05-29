@@ -9,6 +9,15 @@ import { Button } from "@/components/ui/button";
 import { ResumeDialog } from "../resume/ResumeDialog";
 import { ResumeDrawer } from "../resume/ResumeDrawer";
 
+const handleScrollToContact = () => {
+  document.getElementById("contact")?.scrollIntoView({
+    behavior: "smooth",
+    block: "start",
+  });
+
+  window.history.pushState(null, "", "#contact");
+};
+
 export function ContactBlock() {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -23,13 +32,11 @@ export function ContactBlock() {
       </h2>
       <div className="mt-2 sm:mt-5 flex gap-2">
         <Button
-          asChild
+          onClick={handleScrollToContact}
           className="inline-flex items-center gap-2 rounded-sm bg-primary-foreground px-4 py-2 text-sm font-medium text-primary shadow-sm transition hover:-translate-y-0.5 hover:bg-primary-foreground/90 hover:shadow-md active:translate-y-0"
         >
-          <Link href="#contact">
-            <Mail className="h-4 w-4" />
-            Send Email
-          </Link>
+          <Mail className="h-4 w-4" />
+          Send Email
         </Button>
         {isDesktop ? (
           <ResumeDialog openDialog={openDialog} setOpenDialog={setOpenDialog} />

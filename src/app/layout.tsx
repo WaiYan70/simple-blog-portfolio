@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
-import Navbar from "@/components/layout/Navbar";
-import { Container } from "@/components/layout/Container";
-import { ThemeProvider } from "@/components/theme/ThemeProvider";
+
 import { ReloadScrollReset } from "@/components/provider/ScrollReset";
-import { Footer } from "@/components/layout/Footer";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import { cn } from "@/lib/utils";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -19,34 +17,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title:
-    "Khant Wai Yan | Software Engineer | Simple Blog Based Portfolio using only next.js",
+  title: "Khant Wai Yan | Software Engineer",
   description:
-    "A software engineer portfolio documenting my journey in building scalable systems, sharing projects, architecture decisions, and real-world implementations.",
-  openGraph: {
-    title: "Khant Wai Yan | Software Engineer",
-    description:
-      "Full-stack engineer building scalable systems and modern applications",
-    url: "https://khantwaiyan.cloud",
-    siteName: "Khant Portfolio",
-    type: "website",
-  },
-  icons: {
-    icon: [
-      {
-        url: "/favicon-light.png",
-        media: "(prefers-color-scheme: light)",
-        type: "image/png",
-        sizes: "32x32",
-      },
-      {
-        url: "/favicon-dark.png",
-        media: "(prefers-color-scheme: dark)",
-        type: "image/png",
-        sizes: "32x32",
-      },
-    ],
-  },
+    "A software engineer portfolio documenting projects, writing, and engineering decisions.",
 };
 
 export default function RootLayout({
@@ -66,14 +39,10 @@ export default function RootLayout({
       )}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ReloadScrollReset />
-          <Navbar />
-          <main>
-            <Container>{children}</Container>
-          </main>
-          <Footer />
+          {children}
         </ThemeProvider>
       </body>
     </html>
