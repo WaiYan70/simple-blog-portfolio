@@ -1,7 +1,7 @@
 "use client";
 
 import { ProjectCard } from "@/features/projects/components/ProjectCard";
-import { ProjectSummary } from "@/features/projects/lib/project";
+import type { ProjectSummary } from "@/features/projects/lib/project";
 import { motion, PanInfo } from "motion/react";
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";

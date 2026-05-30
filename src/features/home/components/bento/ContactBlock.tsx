@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 import { useMediaQuery } from "../hook/useMediaQuery";
 import { Mail } from "lucide-react";

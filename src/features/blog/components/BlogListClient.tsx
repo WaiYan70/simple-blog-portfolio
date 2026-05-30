@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { PostSummary } from "@/features/blog/lib/post";
+import type { PostSummary } from "@/features/blog/lib/post";
 import { Search, X } from "lucide-react";
 import { BlogCard } from "./BlogCard";
 import { Button } from "@/components/ui/button";

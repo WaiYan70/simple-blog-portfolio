@@ -1,4 +1,4 @@
-import { PostSummary } from "@/features/blog/lib/post";
+import type { PostSummary } from "@/features/blog/lib/post";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { SectionHeader } from "@/components/shared/SectionHeader";
