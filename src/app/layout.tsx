@@ -17,6 +17,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.khantwaiyan.cloud"),
   title: "Khant Wai Yan | Software Engineer",
   description:
     "A software engineer portfolio documenting projects, writing, and engineering decisions.",
