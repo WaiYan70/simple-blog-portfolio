@@ -1,4 +1,4 @@
-import type { ProjectSummary } from "@/features/projects/lib/project";
+import type { ProjectSummary } from "@/types/project";
 import { ProjectCard } from "@/features/projects/components/ProjectCard";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";

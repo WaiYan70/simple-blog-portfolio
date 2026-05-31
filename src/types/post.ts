@@ -14,3 +14,5 @@ export type Post = {
   readingTime: number;
   headings: Heading[];
 };
+
+export type PostSummary = Omit<Post, "content">;

@@ -12,6 +12,8 @@ export type Project = {
   status: ProjectStatus;
 };
 
+export type ProjectSummary = Omit<Project, "content">;
+
 export const statusStyles = {
   "in-progress": "bg-primary/10 text-primary",
   maintaining: "bg-yellow-500/10 text-yellow-600",

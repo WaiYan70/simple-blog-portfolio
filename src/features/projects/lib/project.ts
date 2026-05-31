@@ -1,3 +1,5 @@
+import "server-only";
+
 import { Project, ProjectStatus } from "@/types/project";
 import {
   isProjectTechIconKey,
@@ -6,10 +8,9 @@ import {
 import fs from "fs";
 import matter from "gray-matter";
 import path from "path";
+import type { ProjectSummary } from "@/types/project";
 
 const projectDirectory = path.join(process.cwd(), "src/content/projects");
-
-export type ProjectSummary = Omit<Project, "content">;
 
 export const getAllProjects = async (): Promise<ProjectSummary[]> => {
   const files = fs

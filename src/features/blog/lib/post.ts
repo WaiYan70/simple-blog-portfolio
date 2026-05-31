@@ -1,12 +1,13 @@
+import "server-only";
+
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { Heading, Post } from "@/types/post";
 import { slugifyHeading } from "@/features/blog/lib/heading";
+import type { PostSummary } from "@/types/post";
 
 const postDirectory = path.join(process.cwd(), "src/content/blog");
-
-export type PostSummary = Omit<Post, "content">;
 
 export const getAllPosts = async (): Promise<PostSummary[]> => {
   const files = fs

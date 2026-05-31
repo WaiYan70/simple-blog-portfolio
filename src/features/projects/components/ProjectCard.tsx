@@ -1,5 +1,5 @@
 import { BaseCard } from "@/components/shared/BaseCard";
-import type { ProjectSummary } from "@/features/projects/lib/project";
+import type { ProjectSummary } from "@/types/project";
 import Image from "next/image";
 import { Terminal } from "lucide-react";
 import { projectTechIcons } from "@/constants/project-tech-icons";
