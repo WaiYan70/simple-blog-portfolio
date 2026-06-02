@@ -1,4 +1,5 @@
 import AccountToggle from "./AccountToggle";
+import Plan from "./Plan";
 import RouteSelect from "./RouteSelect";
 import SearchBar from "./SearchBar";
 
@@ -12,6 +13,7 @@ export default function SideBar() {
         <RouteSelect />
       </div>
       {/* Plan toggle */}
+      <Plan />
     </div>
   );
 }
