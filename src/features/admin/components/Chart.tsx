@@ -26,7 +26,10 @@ const chartConfig = {
 
 export default function Chart() {
   return (
-    <ChartContainer config={chartConfig} className="col-span-12">
+    <ChartContainer
+      config={chartConfig}
+      className="col-span-12 border border-stone-300 rounded"
+    >
       <BarChart accessibilityLayer data={chartData}>
         <CartesianGrid vertical={false} />
         <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />

@@ -1,4 +1,4 @@
-import { Crown } from "lucide-react";
+import { PanelRight } from "lucide-react";
 import Image from "next/image";
 
 export default function Profile() {
@@ -20,7 +20,7 @@ export default function Profile() {
             status: <span className="text-primary">dev</span>
           </p>
         </div>
-        <Crown size={18} className="absolute right-1 top-1.5" />
+        <PanelRight size={18} className="absolute right-1 top-1.5" />
       </div>
     </div>
   );
