@@ -1,4 +1,4 @@
-import AccountToggle from "./AccountToggle";
+import Profile from "./Profile";
 import Plan from "./Plan";
 import RouteSelect from "./RouteSelect";
 import SearchBar from "./SearchBar";
@@ -8,7 +8,7 @@ export default function SideBar() {
     <div>
       <div className="overflow-y-scroll sticky top-4 h-[calc(100vh-32px-48px)]">
         {/* Main Sidebar content */}
-        <AccountToggle />
+        <Profile />
         <SearchBar />
         <RouteSelect />
       </div>
