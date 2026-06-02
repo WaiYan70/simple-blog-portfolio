@@ -1,7 +1,7 @@
 import Profile from "./Profile";
-import Plan from "./Plan";
 import RouteSelect from "./RouteSelect";
 import SearchBar from "./SearchBar";
+import Bottom from "./Bottom";
 
 export default function SideBar() {
   return (
@@ -13,7 +13,7 @@ export default function SideBar() {
         <RouteSelect />
       </div>
       {/* Plan toggle */}
-      <Plan />
+      <Bottom />
     </div>
   );
 }
