@@ -2,7 +2,7 @@ import { Command, Search } from "lucide-react";
 
 export default function SearchBar() {
   return (
-    <div className="bg-stone-200 mb-4 relative rounded flex items-center px-2 py-1.5 text-sm">
+    <div className="bg-stone-200 mx-2 relative rounded flex items-center px-2 py-1.5 text-sm">
       <Search className="mr-2" size={16} />
       <input
         type="text"

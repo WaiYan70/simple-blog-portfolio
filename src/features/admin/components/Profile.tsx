@@ -1,4 +1,4 @@
-import { PanelRight } from "lucide-react";
+import { Crown } from "lucide-react";
 import Image from "next/image";
 
 export default function Profile() {
@@ -10,7 +10,7 @@ export default function Profile() {
           height={32}
           src="/profile.jpeg"
           alt="avatar"
-          className="rounded-full"
+          className="rounded"
         />
         <div className="text-start">
           <p className="uppercase text-sm font-semibold tracking-tighter">
@@ -20,7 +20,7 @@ export default function Profile() {
             status: <span className="text-primary">dev</span>
           </p>
         </div>
-        <PanelRight size={18} className="absolute right-1 top-1.5" />
+        <Crown size={18} className="absolute right-1 top-1.5" />
       </div>
     </div>
   );

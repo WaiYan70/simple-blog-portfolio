@@ -7,9 +7,7 @@ export const RecentTransactions = () => {
         <h3 className="flex items-center gap-1.5 font-medium">
           <DollarSign size={14} /> Recent Transactions
         </h3>
-        <button className="text-sm text-violet-500 hover:underline">
-          See all
-        </button>
+        <button className="text-sm">See all</button>
       </div>
       <table className="w-full table-auto">
         <TableHead />
