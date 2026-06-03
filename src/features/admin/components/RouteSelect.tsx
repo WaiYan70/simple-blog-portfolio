@@ -1,13 +1,43 @@
-import { Button } from "@/components/ui/button";
+"use client";
+
 import { Home, BookMarked, LayoutGrid, type LucideIcon } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+const adminRoutes = [
+  { title: "Dashboard", href: "/admin", icon: Home },
+  { title: "Posts", href: "/admin/posts", icon: BookMarked },
+  { title: "Projects", href: "/admin/projects", icon: LayoutGrid },
+];
 
 export default function RouteSelect() {
+  const pathname = usePathname();
+
   return (
-    <div className="space-y-1">
-      <Route Icon={Home} selected={true} title="Dashbaord" />
-      <Route Icon={BookMarked} selected={false} title="Posts" />
-      <Route Icon={LayoutGrid} selected={false} title="Projects" />
-    </div>
+    <nav aria-label="Admin navigation" className="space-y-1">
+      {adminRoutes.map((route) => {
+        const Icon = route.icon;
+        const selected =
+          route.href === "/admin"
+            ? pathname === "/admin"
+            : pathname.startsWith(route.href);
+        return (
+          <Link
+            key={route.href}
+            href={route.href}
+            aria-current={selected ? "page" : undefined}
+            className={`flex w-full items-center justify-start gap-2 rounded px-2 py-1.5 text-sm transition-colors ${
+              selected
+                ? "bg-white text-stone-950 shadow"
+                : "bg-transparent text-stone-500 hover:bg-stone-200"
+            }`}
+          >
+            <Icon size={15} />
+            <span>{route.title}</span>
+          </Link>
+        );
+      })}
+    </nav>
   );
 }
 

@@ -28,7 +28,7 @@ export default function Chart() {
   return (
     <ChartContainer
       config={chartConfig}
-      className="col-span-12 border border-stone-300 rounded"
+      className="col-span-8 border border-stone-300 rounded"
     >
       <BarChart accessibilityLayer data={chartData}>
         <CartesianGrid vertical={false} />
