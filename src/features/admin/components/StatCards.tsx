@@ -1,63 +1,75 @@
+import { Badge } from "@/components/ui/badge";
+import {
+  Card,
+  CardAction,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { TrendingDown, TrendingUp } from "lucide-react";
 
-export default function StatCards() {
+const stateCardData = [
+  {
+    title: "Gross Revenue",
+    value: "$120,54.24",
+    pillText: "2.75%",
+    trend: "up",
+    period: "From Jan 1st - Jul 31st",
+  },
+  {
+    title: "Avg Order",
+    value: "$27.97",
+    pillText: "1.01%",
+    trend: "down",
+    period: "From Jan 1st - Jul 31st",
+  },
+  {
+    title: "Revenue",
+    value: "$120,04.24",
+    pillText: "2.75%",
+    trend: "up",
+    period: "From Jan 1st - Jul 31st",
+  },
+  {
+    title: "Trailing Year",
+    value: "$278,05.4",
+    pillText: "60.75%",
+    trend: "up",
+    period: "Previous 365 days",
+  },
+];
+
+export default function StateCard() {
   return (
-    <>
-      <Card
-        title="Gross Revenue"
-        value="$120,054.24"
-        pillText="2.75%"
-        trend="up"
-        period="From Jan 1st - Jul 31st"
-      />
-      <Card
-        title="Avg Order"
-        value="$27.97"
-        pillText="1.01%"
-        trend="down"
-        period="From Jan 1st - Jul 31st"
-      />
-      <Card
-        title="Trailing Year"
-        value="$278,054.24"
-        pillText="60.75%"
-        trend="up"
-        period="Previous 365 days"
-      />
-    </>
-  );
-}
-
-type CardProps = {
-  title: string;
-  value: string;
-  pillText: string;
-  trend: "up" | "down";
-  period: string;
-};
-
-function Card({ title, value, pillText, trend, period }: CardProps) {
-  return (
-    <div className="col-span-4 p-4 rounded border border-stone-300">
-      <div className="flex mb-8 items-start justify-between">
-        <div>
-          <h3 className="text-stone-500 mb-2 text-sm">{title}</h3>
-          <p className="text-3xl font-semibold">{value}</p>
-        </div>
-
-        <span
-          className={`text-xs flex items-center gap-1 font-medium px-2 py-1 rounded ${
-            trend === "up"
-              ? "bg-green-100 text-green-700"
-              : "bg-red-100 text-red-700"
-          }`}
-        >
-          {trend === "up" ? <TrendingUp size={12} /> : <TrendingDown />}
-          {pillText}
-        </span>
-      </div>
-
-      <p className="text-xs text-stone-500">{period}</p>
+    <div className="px-4 grid grid-cols-1 @xl/main:grid-cols-2 @5xl/main:grid-cols-4 gap-4 *:data-[slot=card]:bg-linear-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs dark:*:data-[slot=card]:bg-card">
+      {stateCardData.map((card) => (
+        <Card className="@container/card" key={card.title}>
+          <CardHeader>
+            <CardTitle>{card.title}</CardTitle>
+            <CardDescription className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+              {card.value}
+            </CardDescription>
+            <CardAction>
+              <Badge variant="outline">
+                {card.trend === "up" ? <TrendingUp /> : <TrendingDown />}
+                {card.pillText}
+              </Badge>
+            </CardAction>
+          </CardHeader>
+          <CardFooter className="flex-col items-start gap-1.5 text-sm">
+            <div className="line-clamp-1 flex gap-2 font-medium">
+              Trending up this month{" "}
+              {card.trend === "up" ? (
+                <TrendingUp size={18} />
+              ) : (
+                <TrendingDown size={18} />
+              )}
+            </div>
+            <div className="text-muted-foreground">{card.period}</div>
+          </CardFooter>
+        </Card>
+      ))}
     </div>
   );
 }
