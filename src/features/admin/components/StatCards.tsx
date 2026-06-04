@@ -46,10 +46,10 @@ export default function StateCard() {
       {stateCardData.map((card) => (
         <Card className="@container/card" key={card.title}>
           <CardHeader>
-            <CardTitle>{card.title}</CardTitle>
-            <CardDescription className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+            <CardDescription>{card.title}</CardDescription>
+            <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
               {card.value}
-            </CardDescription>
+            </CardTitle>
             <CardAction>
               <Badge variant="outline">
                 {card.trend === "up" ? <TrendingUp /> : <TrendingDown />}

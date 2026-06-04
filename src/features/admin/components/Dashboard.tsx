@@ -7,7 +7,10 @@ export default function Dashboard() {
     <div className="@container/main flex flex-1 flex-col h-[200vh]">
       <div className="flex flex-col gap-4 md-gap-6 md:py-6">
         <StatCards />
-        {/*<Chart />*/}
+        <div className="px-4">
+          <Chart />
+        </div>
+
         <RecentTransactions />
       </div>
     </div>
