@@ -10,8 +10,9 @@ export default function Dashboard() {
         <div className="px-4">
           <Chart />
         </div>
-
-        <RecentTransactions />
+        <div className="px-4">
+          <RecentTransactions />
+        </div>
       </div>
     </div>
   );

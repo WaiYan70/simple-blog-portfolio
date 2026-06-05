@@ -105,3 +105,45 @@ You are a senior fullstack engineer working on a Next.js (App Router) blog-based
 - Mixing UI and Business logic
 - Large files with mixed responsibilities
 - Magic values or hardcoded logic without explanation
+
+## Installed Skills and Security Rules
+
+Codex may use installed skills only when they are directly relevant, trusted, and helpful. Do not use a skill automatically just because it is installed.
+
+Before using any installed skill, explain:
+- The skill name
+- Why the skill is relevant
+- What files, commands, or tools it may affect
+- Whether it requires file system, terminal, network, database, or secret access
+
+### Skill Approval Rules
+
+- Better Auth skill may be used for authentication setup, session handling, protected routes, and auth-related guidance.
+- shadcn/ui skill may be used for UI component guidance and component generation.
+- Do not use Neon skill unless I explicitly approve it.
+- Do not use skills that show security warnings unless I explicitly approve them.
+- Prefer official documentation and official packages when the setup is simple.
+
+### Security-Sensitive Work
+
+For authentication, database, payment, deployment, environment variables, or security-related tasks:
+
+1. Inspect the project structure first.
+2. Explain the implementation plan before editing files.
+3. List the files that will be created or modified.
+4. Wait for approval before making major changes.
+5. Avoid unrelated refactoring.
+
+### Secret Handling
+
+- Do not read, print, copy, log, or expose secrets from `.env`, `.env.local`, deployment settings, or secret managers.
+- Do not reveal values such as `DATABASE_URL`, `BETTER_AUTH_SECRET`, OAuth secrets, API keys, tokens, or private credentials.
+- If environment variables are needed, reference only the variable names and explain where they should be added.
+
+### Package and Command Safety
+
+- Do not install new packages unless necessary.
+- Before installing packages, explain why they are needed.
+- Do not run migrations, modify database schema, or change authentication configuration without explaining the plan first.
+- Do not run destructive commands.
+- Avoid commands that delete files, reset git history, drop databases, or overwrite configuration unless I explicitly approve them.

@@ -2,7 +2,7 @@ import { ArrowUpDown, DollarSign, Ellipsis } from "lucide-react";
 
 export const RecentTransactions = () => {
   return (
-    <div className="col-span-12 p-4 rounded border border-stone-300">
+    <div className="p-4 rounded border border-stone-300">
       <div className="mb-4 flex items-center justify-between">
         <h3 className="flex items-center gap-1.5 font-medium">
           <DollarSign size={14} /> Recent Transactions
@@ -89,7 +89,7 @@ const TableRow = ({
   order: number;
 }) => {
   return (
-    <tr className={order % 2 ? "bg-stone-100 text-sm" : "text-sm"}>
+    <tr className={`text-sm ${order % 2 ? "bg-stone-100" : ""}`}>
       <td className="p-1.5">
         <a
           href="#"
