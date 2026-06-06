@@ -1,5 +1,5 @@
 import { Calendar } from "lucide-react";
-import AdminClock from "./AdminClock";
+import Greeting from "../dashboard/Greeting";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
@@ -12,7 +12,7 @@ export default function TopBar() {
         <div className="flex gap-2">
           <SidebarTrigger />
           <Separator orientation="vertical" />
-          <AdminClock />
+          <Greeting />
         </div>
 
         <div className="flex gap-4">

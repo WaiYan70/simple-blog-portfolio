@@ -27,7 +27,7 @@ function getGreeting(date: Date) {
   return "Good Evening";
 }
 
-export default function AdminClock() {
+export default function Greeting() {
   const [time, setTime] = useState<Date | null>(null);
 
   useEffect(() => {

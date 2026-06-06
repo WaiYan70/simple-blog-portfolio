@@ -1,6 +1,6 @@
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import AdminSidebar from "@/features/admin/components/AdminSidebar";
-import TopBar from "@/features/admin/components/TopBar";
+import SideBar from "@/features/admin/components/dashboard/Sidebar";
+import TopBar from "@/features/admin/components/layout/TopBar";
 
 export default function AdminLayout({
   children,
@@ -17,7 +17,7 @@ export default function AdminLayout({
         } as React.CSSProperties
       }
     >
-      <AdminSidebar />
+      <SideBar />
       <SidebarInset className="md:mt-4">
         <header>
           <TopBar />

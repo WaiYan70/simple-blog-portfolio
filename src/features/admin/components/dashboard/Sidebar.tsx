@@ -1,15 +1,15 @@
-import Profile from "./Profile";
-import SearchBar from "./SearchBar";
-import Bottom from "./Bottom";
+import Profile from "../layout/Profile";
+import SearchBar from "../layout/SearchBar";
+import Bottom from "../layout/Bottom";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
 } from "@/components/ui/sidebar";
-import AdminNav from "./AdminNav";
+import AdminNav from "../layout/Nav";
 
-export default function AdminSideBar() {
+export default function SideBar() {
   return (
     <Sidebar variant="inset">
       <SidebarHeader>
