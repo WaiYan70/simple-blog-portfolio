@@ -17,7 +17,7 @@ export function ResumeDrawer() {
     <div className="flex flex-wrap gap-2">
       <Drawer>
         <DrawerTrigger asChild>
-          <Button variant="transform">
+          <Button variant="default">
             <FileText className="h-4 w-4" />
             Review CV
           </Button>

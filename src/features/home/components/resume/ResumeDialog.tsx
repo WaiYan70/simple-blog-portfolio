@@ -20,7 +20,7 @@ export function ResumeDialog({ openDialog, setOpenDialog }: ResumeDialogProps) {
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
-        <Button variant="transform">
+        <Button variant="default">
           <FileText className="h-4 w-4" />
           Review CV
         </Button>
