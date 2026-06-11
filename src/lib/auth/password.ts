@@ -25,7 +25,7 @@ export async function verifyPassword(
   }
 
   try {
-    return verify(passwordHash, password);
+    return await verify(passwordHash, password);
   } catch {
     return false;
   }
