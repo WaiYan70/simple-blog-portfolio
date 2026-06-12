@@ -93,6 +93,13 @@ export async function createSession(
           ${metadata.ipAddress ?? null},
           ${expiresAt}
         )
+        returning
+          id,
+          user_id as "userId",
+          user_agent as "userAgent",
+          ip_address as "ipAddress",
+          create_at as "createAt",
+          expires_at as "expiresAt"
       `,
     ],
     {
@@ -103,6 +110,10 @@ export async function createSession(
   const existingRows = results[0] as Array<{ exists: boolean }>;
   const insertedRows = results[2] as SessionRow[];
   const insertedSession = insertedRows[0];
+
+  if (!insertedSession) {
+    throw new Error("Failed to create session");
+  }
 
   const cookieStore = await cookies();
 
