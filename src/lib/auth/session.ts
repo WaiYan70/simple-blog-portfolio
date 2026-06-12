@@ -11,7 +11,7 @@ interface Session {
   userId: string;
   userAgent: string | null;
   ipAddress: string | null;
-  createAt: Date;
+  createdAt: Date;
   expiresAt: Date;
 }
 
@@ -20,7 +20,7 @@ interface SessionRow {
   userId: string;
   userAgent: string | null;
   ipAddress: string | null;
-  createAt: string;
+  createdAt: string;
   expiresAt: string;
 }
 
@@ -48,7 +48,7 @@ function mapSessionRow(row: SessionRow): Session {
     userId: row.userId,
     userAgent: row.userAgent,
     ipAddress: row.ipAddress,
-    createAt: new Date(row.createAt),
+    createdAt: new Date(row.createdAt),
     expiresAt: new Date(row.expiresAt),
   };
 }
