@@ -140,6 +140,8 @@ export async function getCurrentSession(): Promise<Session | null> {
         expires_at as "expiresAt"
       from sessions
       where session_token_hash = ${sessionTokenHash}
+       and expires_at > now()
+       limit 1
       `) as SessionRow[];
 
   const session = rows[0];
