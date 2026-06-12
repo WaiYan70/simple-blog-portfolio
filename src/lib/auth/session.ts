@@ -147,7 +147,7 @@ export async function getCurrentSession(): Promise<Session | null> {
         user_id as "userId",
         user_agent as "userAgent",
         ip_address as "ipAddress",
-        create_at as "createAt",
+        created_at as "createdAt",
         expires_at as "expiresAt"
       from sessions
       where session_token_hash = ${sessionTokenHash}
