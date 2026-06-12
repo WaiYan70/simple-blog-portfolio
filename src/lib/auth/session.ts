@@ -65,7 +65,7 @@ export async function createSession(
   const results = await sql.transaction(
     (transaction) => [
       transaction`
-        selecet exists(
+        select exists(
           select 1
           from sessions
           where user_id = ${userId}
@@ -118,4 +118,35 @@ export async function createSession(
     session: mapSessionRow(insertedSession),
     replacedExistingSession: existingRows[0]?.exists === true,
   };
+}
+
+export async function getCurrentSession(): Promise<Session | null> {
+  const cookieStore = await cookies();
+  const sessionToken = cookieStore.get(SESSION_COOKIE_NAME)?.value;
+
+  if (!sessionToken) {
+    return null;
+  }
+
+  const sessionTokenHash = hashSessionToken(sessionToken);
+
+  const rows = (await sql`
+      select
+        id,
+        user_id as "userId",
+        user_agent as "userAgent",
+        ip_address as "ipAddress",
+        create_at as "createAt",
+        expires_at as "expiresAt"
+      from sessions
+      where session_token_hash = ${sessionTokenHash}
+      `) as SessionRow[];
+
+  const session = rows[0];
+
+  if (!session) {
+    return null;
+  }
+
+  return mapSessionRow(session);
 }
