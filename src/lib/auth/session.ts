@@ -1,4 +1,6 @@
-import { createHash, randomBytes } from "node:crypto";
+import { sql } from "@/db/client";
+import { cookies } from "next/headers";
+import { createHash, randomBytes, randomUUID } from "node:crypto";
 import "server-only";
 
 const SESSION_COOKIE_NAME = "admin_session";
@@ -10,7 +12,7 @@ interface Session {
   userAgent: string | null;
   ipAddress: string | null;
   createAt: Date;
-  expireAt: Date;
+  expiresAt: Date;
 }
 
 interface SessionRow {
@@ -19,7 +21,7 @@ interface SessionRow {
   userAgent: string | null;
   ipAddress: string | null;
   createAt: string;
-  expireAt: string;
+  expiresAt: string;
 }
 
 interface SessionMetaData {
@@ -47,6 +49,73 @@ function mapSessionRow(row: SessionRow): Session {
     userAgent: row.userAgent,
     ipAddress: row.ipAddress,
     createAt: new Date(row.createAt),
-    expireAt: new Date(row.expireAt),
+    expiresAt: new Date(row.expiresAt),
+  };
+}
+
+export async function createSession(
+  userId: string,
+  metadata: SessionMetaData = {},
+): Promise<CreateSessionResult> {
+  const sessionId = randomUUID();
+  const sessionToken = generateSessionToken();
+  const sessionTokenHash = hashSessionToken(sessionToken);
+  const expiresAt = new Date(Date.now() + SESSION_DURATION_MS);
+
+  const results = await sql.transaction(
+    (transaction) => [
+      transaction`
+        selecet exists(
+          select 1
+          from sessions
+          where user_id = ${userId}
+            and expires_at > now()
+        ) as "exists"
+      `,
+      transaction`
+        delete from sessions
+        where user_id = ${userId}
+      `,
+      transaction`
+        insert into sessions (
+          id,
+          user_id,
+          session_token_hash,
+          user_agent,
+          ip_address,
+          expires_at
+        )
+        values (
+          ${sessionId},
+          ${userId},
+          ${sessionTokenHash},
+          ${metadata.userAgent ?? null},
+          ${metadata.ipAddress ?? null},
+          ${expiresAt}
+        )
+      `,
+    ],
+    {
+      isolationLevel: "Serializable",
+    },
+  );
+
+  const existingRows = results[0] as Array<{ exists: boolean }>;
+  const insertedRows = results[2] as SessionRow[];
+  const insertedSession = insertedRows[0];
+
+  const cookieStore = await cookies();
+
+  cookieStore.set(SESSION_COOKIE_NAME, sessionToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    expires: expiresAt,
+  });
+
+  return {
+    session: mapSessionRow(insertedSession),
+    replacedExistingSession: existingRows[0]?.exists === true,
   };
 }
