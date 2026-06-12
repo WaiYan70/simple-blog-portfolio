@@ -152,3 +152,18 @@ export async function getCurrentSession(): Promise<Session | null> {
 
   return mapSessionRow(session);
 }
+
+export async function deleteSession(): Promise<void> {
+  const cookieStore = await cookies();
+  const sessionToken = cookieStore.get(SESSION_COOKIE_NAME)?.value;
+
+  if (sessionToken) {
+    const sessionTokenHash = hashSessionToken(sessionToken);
+
+    await sql`
+      delete from sessions
+      where session_token_hash = ${sessionTokenHash}
+    `;
+  }
+  cookieStore.delete(SESSION_COOKIE_NAME);
+}
