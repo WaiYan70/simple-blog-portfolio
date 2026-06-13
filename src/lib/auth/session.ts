@@ -1,7 +1,7 @@
+import "server-only";
 import { sql } from "@/db/client";
 import { cookies } from "next/headers";
 import { createHash, randomBytes, randomUUID } from "node:crypto";
-import "server-only";
 
 const SESSION_COOKIE_NAME = "admin_session";
 const SESSION_DURATION_MS = 12 * 60 * 60 * 1000;
