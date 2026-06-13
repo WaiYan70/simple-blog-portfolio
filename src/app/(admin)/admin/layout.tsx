@@ -1,13 +1,17 @@
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import SideBar from "@/features/admin/components/dashboard/Sidebar";
 import TopBar from "@/features/admin/components/layout/TopBar";
+import { requireAdmin } from "@/lib/auth/require-admin";
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   // return <div className="text-stone-950 bg-stone-100">{children}</div>;
+
+  await requireAdmin();
+
   return (
     <SidebarProvider
       style={
