@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { LoginForm } from "./LoginForm";
 import Image from "next/image";
 import { Feather } from "lucide-react";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 
 export default async function LoginPage() {
   const user = await getCurrentUser();
@@ -23,9 +24,9 @@ export default async function LoginPage() {
           alt="a person overlooking green mountain farms beneath a blue sky"
           fill
           priority
-          sizes="(max-widht: 899px, 100vw, 50vw)"
+          sizes="(min-width: 900px) 50vw, 100vw"
           loading="eager"
-          className="object-cover object-[center_90%] saturate-[1.16] contrast-[1.02]"
+          className="object-cover object-[center_90%]"
         />
         {/* Welcome Text */}
         <div className="relative mt-[6.7vh] ml-[8.9%]">
@@ -53,7 +54,14 @@ export default async function LoginPage() {
       </section>
 
       {/* Login Form*/}
-      <section className="flex min-[521px]:items-center min-h-svh items-start justify-center bg-background px-5 pt-14 pb-10 min-[521px]:p-12 min-[521px]:px-6 min-[900px]:px-[clamp(3rem,5.65vw,6.2rem)] min-[900px]:py-25">
+      <section className="relative flex min-h-svh items-start justify-center bg-background px-5 pt-14 pb-10 min-[521px]:items-center min-[521px]:p-12 min-[521px]:px-6 min-[900px]:px-[clamp(3rem,5.65vw,6.2rem)] min-[900px]:py-25">
+        <div className="absolute top-12 right-12 min-[521px]:top-20 min-[521px]:right-20">
+          <ThemeToggle
+            className="size-16 rounded-full border-dashed"
+            iconClassName="size-6"
+          />
+        </div>
+
         <div className="w-full max-w-md min-[900px]:max-w-lg">
           <h1 className="text-[1rem] leading-[1.15] font-[750] tracking-[-0.04em] text-primary min-[521px]:text-[clamp(1rem,1vw,1.5rem)]">
             Blog-Based Portfolio
