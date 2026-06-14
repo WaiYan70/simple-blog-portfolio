@@ -7,7 +7,7 @@ import z from "zod";
 import { sql } from "@/db/client";
 import { verifyPassword } from "@/lib/auth/password";
 
-export interface LoginAction {
+export interface LoginState {
   error: string | null;
 }
 
@@ -33,10 +33,10 @@ async function getRequestMetadata() {
   return { userAgent, ipAddess };
 }
 
-export async function LoginInAction(
-  _previousState: LoginAction,
+export async function loginInAction(
+  _previousState: LoginState,
   formData: FormData,
-): Promise<LoginAction> {
+): Promise<LoginState> {
   // Validation
   const validationResult = loginSchema.safeParse({
     email: formData.get("email"),
