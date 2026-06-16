@@ -1,3 +1,5 @@
+import { logoutAction } from "@/app/(auth)/login/actions";
+import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 
 export default function Bottom() {
@@ -8,10 +10,15 @@ export default function Bottom() {
           <p className="font-bold">Really?</p>
           <p className="text-stone-500">Are you sure?</p>
         </div>
-        <button className="flex items-center justify-start gap-2 px-2 py-1.5 font-medium bg-destructive/15 transition-colors rounded">
-          <LogOut size={14} className="text-destructive/60" />
-          <span className="text-xs text-destructive/60">Log out</span>
-        </button>
+        <form action={logoutAction}>
+          <Button
+            className="flex items-center justify-start gap-2 px-2 py-1.5 font-medium bg-destructive/15 transition-colors rounded"
+            type="submit"
+          >
+            <LogOut size={14} className="text-destructive/60" />
+            <span className="text-xs text-destructive/60">Log out</span>
+          </Button>
+        </form>
       </div>
     </div>
   );
