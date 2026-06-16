@@ -51,7 +51,7 @@ export default async function LoginPage() {
       </section>
 
       {/* Login Form*/}
-      <section className="relative flex min-h-svh items-start justify-center bg-background px-5 pt-14 pb-10 min-[521px]:items-center min-[521px]:p-12 min-[521px]:px-6 min-[900px]:px-[clamp(3rem,5.65vw,6.2rem)] min-[900px]:py-25">
+      <section className="relative flex min-h-svh items-center justify-center bg-background px-5 pt-14 pb-10  min-[521px]:p-12 min-[521px]:px-6 min-[900px]:px-[clamp(3rem,5.65vw,6.2rem)] min-[900px]:py-25">
         <div className="absolute top-12 right-12 min-[521px]:top-20 min-[521px]:right-20">
           <ThemeToggle
             className="size-16 rounded-full border-dashed"
