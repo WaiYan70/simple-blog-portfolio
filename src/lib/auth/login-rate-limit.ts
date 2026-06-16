@@ -33,7 +33,7 @@ export async function isLoginAllowed(
 export async function recordFailedLogin(
   email: string,
   ipAddress: string | null,
-) {
+): Promise<void> {
   const identifierHash = hashIdentifier(email, ipAddress);
   const lockedUntil = new Date(Date.now() + LOCK_DURATION_MS);
 
@@ -46,7 +46,7 @@ export async function recordFailedLogin(
         locked_until
     )
     values(
-        ${identifierHash}
+        ${identifierHash},
         1,
         now(),
         now(),
@@ -54,9 +54,17 @@ export async function recordFailedLogin(
     )
     on conflict (identifier_hash)
     do update set
-        failed_attempt_count = login_attempts.failed_attempt_count + 1
+        failed_attempt_count = case
+            when login_attempts.locked_until is not null
+              and login_attempts.locked_until <= now()
+            then 1
+            else login_attempts.failed_attempt_count + 1
+        end,
         last_failed_at = now(),
         locked_until = case
+            when login_attempts.locked_until is not null
+              and login_attempts.locked_until <= now()
+            then null
             when login_attempts.failed_attempt_count + 1 >= ${MAX_FAILED_ATTEMPTS}
             then ${lockedUntil}
             else login_attempts.locked_until
@@ -72,6 +80,6 @@ export async function clearFailedLogins(
 
   await sql`
         delete from login_attempts
-        where identifierHash = ${identifierHash}
+        where identifier_hash = ${identifierHash}
     `;
 }

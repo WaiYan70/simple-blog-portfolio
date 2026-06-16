@@ -42,6 +42,8 @@ export async function loginAction(
   _previousState: LoginState,
   formData: FormData,
 ): Promise<LoginState> {
+  const metaData = await getRequestMetadata();
+
   // Validation
   const validationResult = loginSchema.safeParse({
     email: formData.get("email"),
@@ -54,6 +56,14 @@ export async function loginAction(
   }
 
   const { email, password } = validationResult.data;
+
+  const allowed = await isLoginAllowed(email, metaData.ipAddress);
+  if (!allowed) {
+    return {
+      error: "Too many failed login attempts. Please try again later.",
+    };
+  }
+
   let replacedExistingSession = false;
 
   try {
@@ -73,22 +83,15 @@ export async function loginAction(
 
     // valdie the user
     if (!user || user.role !== "admin") {
+      await recordFailedLogin(email, metaData.ipAddress);
       return { error: "Invalid Email and Password" };
     }
 
     const passwordIsValid = await verifyPassword(password, user.passwordHash);
 
     if (!passwordIsValid) {
+      await recordFailedLogin(email, metaData.ipAddress);
       return { error: "Invalid Email and Password" };
-    }
-
-    const metaData = await getRequestMetadata();
-
-    const allowed = await isLoginAllowed(email, metaData.ipAddress);
-    if (!allowed) {
-      return {
-        error: "Too many failed login attempts. Please try again later.",
-      };
     }
 
     await clearFailedLogins(email, metaData.ipAddress);
