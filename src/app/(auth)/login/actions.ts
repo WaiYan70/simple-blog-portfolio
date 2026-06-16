@@ -6,6 +6,11 @@ import { createSession, deleteSession } from "@/lib/auth/session";
 import z from "zod";
 import { sql } from "@/db/client";
 import { verifyPassword } from "@/lib/auth/password";
+import {
+  clearFailedLogins,
+  isLoginAllowed,
+  recordFailedLogin,
+} from "@/lib/auth/login-rate-limit";
 
 export interface LoginState {
   error: string | null;
@@ -78,6 +83,15 @@ export async function loginAction(
     }
 
     const metaData = await getRequestMetadata();
+
+    const allowed = await isLoginAllowed(email, metaData.ipAddress);
+    if (!allowed) {
+      return {
+        error: "Too many failed login attempts. Please try again later.",
+      };
+    }
+
+    await clearFailedLogins(email, metaData.ipAddress);
     const result = await createSession(user.id, metaData);
 
     replacedExistingSession = result.replacedExistingSession;
