@@ -1,11 +1,11 @@
 import { getCurrentUser } from "@/lib/auth/user";
 import { redirect } from "next/navigation";
 import { LoginForm } from "./LoginForm";
-import Image from "next/image";
 import { Feather } from "lucide-react";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import Greeting from "@/features/admin/components/dashboard/Greeting";
 import BackGround from "./Background";
+import LoginGreeting from "./LoginGreeting";
 
 export default async function LoginPage() {
   const user = await getCurrentUser();
@@ -21,15 +21,8 @@ export default async function LoginPage() {
         <BackGround />
 
         {/* Welcome Text */}
-        <div className="relative mt-[6.7vh] ml-[8.9%]">
-          <h2 className="font-[750] text-black text-2xl text-[clamp(2rem, 2.65vw, 2.875rem)] leading-[1.1] tracking-[-0.035em]">
-            Welcome Back!
-          </h2>
-          <Greeting />
-          <p className="font-medium text-black/80 mt-[1.6rem] text-[clamp(1rem,1.42vw,1.5rem)] leading-[1.55] tracking-[-0.012em]">
-            Access your dashboard to <br /> manage your blog and portfolio
-          </p>
-        </div>
+        <LoginGreeting />
+
         {/* Quote what are you doing*/}
         <div className="relative mb-[6.7vh] ml-[8.9%]">
           <span
