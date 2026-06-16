@@ -15,10 +15,7 @@ export default async function LoginPage() {
   return (
     <main className="font-mono min-[900px]:grid min-[900px]:grid-cols-2 min-h-svh bg-background">
       {/* Image section*/}
-      <section
-        className="relative hidden min-h-svh overflow-hidden min-[900px]:flex min-[900px]:flex-col min-[900px]:justify-between"
-        aria-labelledby="welcome-heading"
-      >
+      <section className="relative hidden min-h-svh overflow-hidden min-[900px]:flex min-[900px]:flex-col min-[900px]:justify-between">
         <Image
           src="/profile/clear-sky.png"
           alt="a person overlooking green mountain farms beneath a blue sky"

@@ -28,19 +28,19 @@ async function getRequestMetadata() {
 
   const userAgent = headerStore.get("user-agent")?.slice(0, 500) ?? null;
   const forwardFor = headerStore.get("x-forwarded-for");
-  const ipAddess = forwardFor?.split(",")[0]?.trim().slice(0, 64) ?? null;
+  const ipAddress = forwardFor?.split(",")[0]?.trim().slice(0, 64) ?? null;
 
-  return { userAgent, ipAddess };
+  return { userAgent, ipAddress };
 }
 
-export async function loginInAction(
+export async function loginAction(
   _previousState: LoginState,
   formData: FormData,
 ): Promise<LoginState> {
   // Validation
   const validationResult = loginSchema.safeParse({
     email: formData.get("email"),
-    PassThrough: formData.get("password"),
+    password: formData.get("password"),
   });
 
   // if !Validation
@@ -49,7 +49,7 @@ export async function loginInAction(
   }
 
   const { email, password } = validationResult.data;
-  let replaceExisitngSession = false;
+  let replacedExistingSession = false;
 
   try {
     // run the query to find the admin email
@@ -57,7 +57,7 @@ export async function loginInAction(
         select
           id,
           email,
-          passward_hash as "passwordHash",
+          password_hash as "passwordHash",
           role
         from users
         where email = ${email}
@@ -67,25 +67,25 @@ export async function loginInAction(
     const user = rows[0];
 
     // valdie the user
-    if (!user || user.role) {
-      return { error: "Invalid Email" };
+    if (!user || user.role !== "admin") {
+      return { error: "Invalid Email and Password" };
     }
 
     const passwordIsValid = await verifyPassword(password, user.passwordHash);
 
     if (!passwordIsValid) {
-      return { error: "Invalide Password" };
+      return { error: "Invalid Email and Password" };
     }
 
     const metaData = await getRequestMetadata();
     const result = await createSession(user.id, metaData);
 
-    replaceExisitngSession = result.replacedExistingSession;
+    replacedExistingSession = result.replacedExistingSession;
   } catch {
     return { error: "Unable to sign in right now. Please try again" };
   }
 
-  redirect(replaceExisitngSession ? "/admin?session=replaced" : "/admin");
+  redirect(replacedExistingSession ? "/admin?session=replaced" : "/admin");
 }
 
 export async function logoutAction(): Promise<never> {

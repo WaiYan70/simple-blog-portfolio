@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import { loginInAction, type LoginState } from "./actions";
+import { loginAction, type LoginState } from "./actions";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,7 @@ const initialState: LoginState = { error: null };
 
 export function LoginForm() {
   const [state, formAction, pending] = useActionState(
-    loginInAction,
+    loginAction,
     initialState,
   );
 
@@ -28,7 +28,7 @@ export function LoginForm() {
         />
       </div>
       <div className="space-y-2">
-        <Label>Password</Label>
+        <Label htmlFor="password">Password</Label>
         <Input
           id="password"
           name="password"
