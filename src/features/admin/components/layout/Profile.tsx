@@ -4,13 +4,13 @@ import Image from "next/image";
 export default function Profile() {
   return (
     <div className="border-b mb-4 mt-2 pb-4 border-stone-300">
-      <div className="flex items-center gap-2 p-0.5 rounded transition-colors relative w-full">
+      <div className="relative w-auto flex items-center gap-2 p-0.5 transition-colors rounded">
         <Image
-          width={32}
-          height={32}
+          fill
           src="/profile.jpeg"
           alt="avatar"
-          className="rounded"
+          sizes="32px"
+          className="object-cover"
         />
         <div className="text-start">
           <p className="uppercase text-sm font-semibold tracking-tighter">

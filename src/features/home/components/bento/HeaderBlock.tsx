@@ -8,13 +8,15 @@ export function HeaderBlock() {
   return (
     <Block className="col-span-12 md:col-span-8 row-span-2 flex flex-col justify-between bg-linear-to-br from-card via-card to-muted/50 md:p-7">
       <div className="flex justify-start items-center gap-3">
-        <Image
-          width={56}
-          height={56}
-          src="/profile.jpeg"
-          alt="avatar"
-          className="size-14 rounded-full"
-        />
+        <div className="relative size-11 overflow-hidden rounded-full">
+          <Image
+            fill
+            src="/profile.jpeg"
+            alt="avatar"
+            sizes="44px"
+            className="object-cover"
+          />
+        </div>
         <div>
           <p className="text-sm font-medium text-primary">
             Hi, I’m Khant Wai Yan
