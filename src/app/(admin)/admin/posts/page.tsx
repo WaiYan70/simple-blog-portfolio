@@ -1,3 +1,3 @@
 export default function PostPage() {
-  return <div>Post Page</div>;
+  return <div>View All Posts Page</div>;
 }
