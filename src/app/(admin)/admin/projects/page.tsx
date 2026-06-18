@@ -1,3 +1,3 @@
 export default function ProjectPage() {
-  return <div>Project Page</div>;
+  return <div>View All Projects Page</div>;
 }
