@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 function getBackgroundForHour(hour: number): string {
-  if (hour >= 5 && hour < 12) {
+  if (hour >= 6 && hour < 12) {
     return "/background-images/cloudy-sky.webp";
   }
 
@@ -12,11 +12,11 @@ function getBackgroundForHour(hour: number): string {
     return "/background-images/clear-sky.webp";
   }
 
-  if (hour >= 17 && hour < 21) {
-    return "/background-images/night-sky.webp";
+  if (hour >= 17 && hour < 2) {
+    return "/background-images/storm-sky.webp";
   }
 
-  return "/background-images/storm-sky.webp";
+  return "/background-images/night-sky.webp";
 }
 
 export default function BackGround() {
