@@ -13,21 +13,23 @@ export default async function AdminLayout({
   await requireAdmin();
 
   return (
-    <SidebarProvider
-      style={
-        {
-          "--sidebar-width": "calc(var(--spacing) * 60)",
-          "--header-height": "calc(var(--spacing) * 12)",
-        } as React.CSSProperties
-      }
-    >
-      <SideBar />
-      <SidebarInset className="md:mt-4">
-        <header>
-          <TopBar />
-        </header>
-        <div>{children}</div>
-      </SidebarInset>
-    </SidebarProvider>
+    <div className="theme-admin min-h-screen bg-background text-foreground font-mono">
+      <SidebarProvider
+        style={
+          {
+            "--sidebar-width": "calc(var(--spacing) * 60)",
+            "--header-height": "calc(var(--spacing) * 12)",
+          } as React.CSSProperties
+        }
+      >
+        <SideBar />
+        <SidebarInset className="md:mt-4">
+          <header>
+            <TopBar />
+          </header>
+          <div>{children}</div>
+        </SidebarInset>
+      </SidebarProvider>
+    </div>
   );
 }

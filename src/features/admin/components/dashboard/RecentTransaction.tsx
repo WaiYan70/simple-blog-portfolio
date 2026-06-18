@@ -89,7 +89,7 @@ const TableRow = ({
   order: number;
 }) => {
   return (
-    <tr className={`text-sm ${order % 2 ? "bg-stone-100" : ""}`}>
+    <tr className={`text-sm ${order % 2 ? "bg-accent" : ""}`}>
       <td className="p-1.5">
         <a
           href="#"

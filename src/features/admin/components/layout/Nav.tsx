@@ -29,7 +29,7 @@ const routes = {
     {
       category: "Posts",
       name: "Edit Posts",
-      href: "/admin/projects",
+      href: "/admin/posts",
       icon: LayoutGrid,
     },
   ],
