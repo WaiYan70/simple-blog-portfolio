@@ -1,12 +1,9 @@
 import "server-only";
 import { getCurrentSession } from "./session";
-import { sql } from "@/db/client";
-
-export interface CurrentUser {
-  id: string;
-  email: string;
-  role: "admin";
-}
+import {
+  type CurrentUser,
+  findCurrentUserById,
+} from "@/db/repositories/user-repository";
 
 export async function getCurrentUser(): Promise<CurrentUser | null> {
   const session = await getCurrentSession();
@@ -15,9 +12,5 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
     return null;
   }
 
-  const row = (await sql`
-      select id, email, role from users where id = ${session.userId} limit 1
-    `) as CurrentUser[];
-
-  return row[0] ?? null;
+  return findCurrentUserById(session.id);
 }

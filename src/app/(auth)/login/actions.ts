@@ -11,6 +11,7 @@ import {
   isLoginAllowed,
   recordFailedLogin,
 } from "@/lib/auth/login-rate-limit";
+import { findAdminCredentialsByEmails } from "@/db/repositories/user-repository";
 
 export interface LoginState {
   error: string | null;
@@ -67,19 +68,8 @@ export async function loginAction(
   let replacedExistingSession = false;
 
   try {
-    // run the query to find the admin email
-    const rows = (await sql`
-        select
-          id,
-          email,
-          password_hash as "passwordHash",
-          role
-        from users
-        where email = ${email}
-        limit 1
-      `) as AdminCredentialsRow[];
     // get the first user
-    const user = rows[0];
+    const user = await findAdminCredentialsByEmails(email);
 
     // valdie the user
     if (!user || user.role !== "admin") {
