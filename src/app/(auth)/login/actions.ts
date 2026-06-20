@@ -4,7 +4,6 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createSession, deleteSession } from "@/lib/auth/session";
 import z from "zod";
-import { sql } from "@/db/client";
 import { verifyPassword } from "@/lib/auth/password";
 import {
   clearFailedLogins,
@@ -15,13 +14,6 @@ import { findAdminCredentialsByEmails } from "@/db/repositories/user-repository"
 
 export interface LoginState {
   error: string | null;
-}
-
-interface AdminCredentialsRow {
-  id: string;
-  email: string;
-  passwordHash: string;
-  role: string;
 }
 
 const loginSchema = z.object({

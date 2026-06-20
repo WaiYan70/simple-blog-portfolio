@@ -12,5 +12,5 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
     return null;
   }
 
-  return findCurrentUserById(session.id);
+  return findCurrentUserById(session.userId);
 }

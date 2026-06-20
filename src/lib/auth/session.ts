@@ -2,6 +2,11 @@ import "server-only";
 import { sql } from "@/db/client";
 import { cookies } from "next/headers";
 import { createHash, randomBytes, randomUUID } from "node:crypto";
+import {
+  createSessionRecord,
+  deleteSessionByTokenHash,
+  findActionSessionByTokenHash,
+} from "@/db/repositories/session-repository";
 
 const SESSION_COOKIE_NAME = "admin_session";
 const SESSION_DURATION_MS = 12 * 60 * 60 * 1000;
@@ -42,17 +47,6 @@ function hashSessionToken(token: string): string {
   return createHash("sha256").update(token).digest("hex");
 }
 
-function mapSessionRow(row: SessionRow): Session {
-  return {
-    id: row.id,
-    userId: row.userId,
-    userAgent: row.userAgent,
-    ipAddress: row.ipAddress,
-    createdAt: new Date(row.createdAt),
-    expiresAt: new Date(row.expiresAt),
-  };
-}
-
 export async function createSession(
   userId: string,
   metadata: SessionMetaData = {},
@@ -62,58 +56,14 @@ export async function createSession(
   const sessionTokenHash = hashSessionToken(sessionToken);
   const expiresAt = new Date(Date.now() + SESSION_DURATION_MS);
 
-  const results = await sql.transaction(
-    (transaction) => [
-      transaction`
-        select exists(
-          select 1
-          from sessions
-          where user_id = ${userId}
-            and expires_at > now()
-        ) as "exists"
-      `,
-      transaction`
-        delete from sessions
-        where user_id = ${userId}
-      `,
-      transaction`
-        insert into sessions (
-          id,
-          user_id,
-          session_token_hash,
-          user_agent,
-          ip_address,
-          expires_at
-        )
-        values (
-          ${sessionId},
-          ${userId},
-          ${sessionTokenHash},
-          ${metadata.userAgent ?? null},
-          ${metadata.ipAddress ?? null},
-          ${expiresAt}
-        )
-        returning
-          id,
-          user_id as "userId",
-          user_agent as "userAgent",
-          ip_address as "ipAddress",
-          created_at as "createdAt",
-          expires_at as "expiresAt"
-      `,
-    ],
-    {
-      isolationLevel: "Serializable",
-    },
-  );
-
-  const existingRows = results[0] as Array<{ exists: boolean }>;
-  const insertedRows = results[2] as SessionRow[];
-  const insertedSession = insertedRows[0];
-
-  if (!insertedSession) {
-    throw new Error("Failed to create session");
-  }
+  const result = await createSessionRecord({
+    id: sessionId,
+    userId,
+    sessionTokenHash,
+    userAgent: metadata.userAgent ?? null,
+    ipAddress: metadata.ipAddress ?? null,
+    expiresAt,
+  });
 
   const cookieStore = await cookies();
 
@@ -125,10 +75,7 @@ export async function createSession(
     expires: expiresAt,
   });
 
-  return {
-    session: mapSessionRow(insertedSession),
-    replacedExistingSession: existingRows[0]?.exists === true,
-  };
+  return result;
 }
 
 export async function getCurrentSession(): Promise<Session | null> {
@@ -141,27 +88,7 @@ export async function getCurrentSession(): Promise<Session | null> {
 
   const sessionTokenHash = hashSessionToken(sessionToken);
 
-  const rows = (await sql`
-      select
-        id,
-        user_id as "userId",
-        user_agent as "userAgent",
-        ip_address as "ipAddress",
-        created_at as "createdAt",
-        expires_at as "expiresAt"
-      from sessions
-      where session_token_hash = ${sessionTokenHash}
-       and expires_at > now()
-       limit 1
-      `) as SessionRow[];
-
-  const session = rows[0];
-
-  if (!session) {
-    return null;
-  }
-
-  return mapSessionRow(session);
+  return findActionSessionByTokenHash(sessionTokenHash);
 }
 
 export async function deleteSession(): Promise<void> {
@@ -171,10 +98,7 @@ export async function deleteSession(): Promise<void> {
   if (sessionToken) {
     const sessionTokenHash = hashSessionToken(sessionToken);
 
-    await sql`
-      delete from sessions
-      where session_token_hash = ${sessionTokenHash}
-    `;
+    await deleteSessionByTokenHash(sessionTokenHash);
   }
   cookieStore.delete(SESSION_COOKIE_NAME);
 }
