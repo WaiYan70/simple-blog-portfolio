@@ -43,8 +43,8 @@ export async function recordFailedLoginAttempt(
         failed_attempt_count = case
             when login_attempts.locked_until is not null
               and login_attempts.locked_until <= now()
-            then 1
-            else login_attempts.failed_attempt_count + 1
+            then now()
+            else login_attempts.first_failed_at
         end,
         last_failed_at = now(),
         locked_until = case
