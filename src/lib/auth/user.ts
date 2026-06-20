@@ -5,6 +5,8 @@ import {
   findCurrentUserById,
 } from "@/db/repositories/user-repository";
 
+export type { CurrentUser };
+
 export async function getCurrentUser(): Promise<CurrentUser | null> {
   const session = await getCurrentSession();
 

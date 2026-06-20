@@ -1,11 +1,10 @@
 import "server-only";
-import { sql } from "@/db/client";
 import { cookies } from "next/headers";
 import { createHash, randomBytes, randomUUID } from "node:crypto";
 import {
   createSessionRecord,
   deleteSessionByTokenHash,
-  findActionSessionByTokenHash,
+  findActiveSessionByTokenHash,
 } from "@/db/repositories/session-repository";
 
 const SESSION_COOKIE_NAME = "admin_session";
@@ -18,15 +17,6 @@ interface Session {
   ipAddress: string | null;
   createdAt: Date;
   expiresAt: Date;
-}
-
-interface SessionRow {
-  id: string;
-  userId: string;
-  userAgent: string | null;
-  ipAddress: string | null;
-  createdAt: string;
-  expiresAt: string;
 }
 
 interface SessionMetaData {
@@ -88,7 +78,7 @@ export async function getCurrentSession(): Promise<Session | null> {
 
   const sessionTokenHash = hashSessionToken(sessionToken);
 
-  return findActionSessionByTokenHash(sessionTokenHash);
+  return findActiveSessionByTokenHash(sessionTokenHash);
 }
 
 export async function deleteSession(): Promise<void> {

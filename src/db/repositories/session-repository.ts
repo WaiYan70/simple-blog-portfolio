@@ -71,7 +71,7 @@ export async function createSessionRecord(
           expires_at
         )
         values (
-          ${input.sessionId},
+          ${input.id},
           ${input.userId},
           ${input.sessionTokenHash},
           ${input.userAgent ?? null},
@@ -106,7 +106,7 @@ export async function createSessionRecord(
   };
 }
 
-export async function findActionSessionByTokenHash(
+export async function findActiveSessionByTokenHash(
   sessionTokenHash: string,
 ): Promise<Session | null> {
   const result = (await sql`
@@ -123,19 +123,20 @@ export async function findActionSessionByTokenHash(
        limit 1
       `) as SessionRow[];
 
-  if (!result) {
+  const session = result[0];
+
+  if (!session) {
     return null;
   }
 
-  return result[0];
+  return mapSessionRow(session);
 }
 
 export async function deleteSessionByTokenHash(
   sessionTokenHash: string,
 ): Promise<void> {
-  const result = await sql`
+  await sql`
     delete from sessions
     where session_token_hash = ${sessionTokenHash}
   `;
-  return result;
 }
