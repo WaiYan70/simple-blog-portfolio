@@ -1,6 +1,10 @@
-import { sql } from "@/db/client";
-import { createHash } from "node:crypto";
 import "server-only";
+import {
+  deleteLoginAttempt,
+  findLoginAttemptLock,
+  recordFailedLoginAttempt,
+} from "@/db/repositories/login-attempt-repository";
+import { createHash } from "node:crypto";
 
 const MAX_FAILED_ATTEMPTS = 5;
 const LOCK_DURATION_MS = 15 * 60 * 1000;
@@ -16,14 +20,7 @@ export async function isLoginAllowed(
 ): Promise<boolean> {
   const identifierHash = hashIdentifier(email, ipAddress);
 
-  const rows = (await sql`
-      select locked_until as "lockedUntil"
-      from login_attempts
-      where identifier_hash = ${identifierHash}
-      limit 1
-    `) as Array<{ lockedUntil: string | null }>;
-
-  const attempt = rows[0];
+  const attempt = await findLoginAttemptLock(identifierHash);
 
   if (!attempt?.lockedUntil) return true;
 
@@ -37,39 +34,11 @@ export async function recordFailedLogin(
   const identifierHash = hashIdentifier(email, ipAddress);
   const lockedUntil = new Date(Date.now() + LOCK_DURATION_MS);
 
-  await sql`
-    insert into login_attempts(
-        identifier_hash,
-        failed_attempt_count,
-        first_failed_at,
-        last_failed_at,
-        locked_until
-    )
-    values(
-        ${identifierHash},
-        1,
-        now(),
-        now(),
-        null
-    )
-    on conflict (identifier_hash)
-    do update set
-        failed_attempt_count = case
-            when login_attempts.locked_until is not null
-              and login_attempts.locked_until <= now()
-            then 1
-            else login_attempts.failed_attempt_count + 1
-        end,
-        last_failed_at = now(),
-        locked_until = case
-            when login_attempts.locked_until is not null
-              and login_attempts.locked_until <= now()
-            then null
-            when login_attempts.failed_attempt_count + 1 >= ${MAX_FAILED_ATTEMPTS}
-            then ${lockedUntil}
-            else login_attempts.locked_until
-        end
-    `;
+  await recordFailedLoginAttempt(
+    identifierHash,
+    lockedUntil,
+    MAX_FAILED_ATTEMPTS,
+  );
 }
 
 export async function clearFailedLogins(
@@ -78,8 +47,5 @@ export async function clearFailedLogins(
 ): Promise<void> {
   const identifierHash = hashIdentifier(email, ipAddress);
 
-  await sql`
-        delete from login_attempts
-        where identifier_hash = ${identifierHash}
-    `;
+  await deleteLoginAttempt(identifierHash);
 }
