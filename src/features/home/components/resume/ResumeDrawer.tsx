@@ -32,7 +32,7 @@ export function ResumeDrawer() {
           <div className="no-scrollbar overflow-y-auto px-4">
             <div className="h-[65vh] overflow-y-auto border-y border-border bg-muted/30">
               <Image
-                src="/resume/resume-preview.png"
+                src="/resume/KhantWaiYan_Resume.png"
                 alt="Preview of Khant Wai Yan's resume"
                 width={1275}
                 height={1650}
@@ -42,7 +42,7 @@ export function ResumeDrawer() {
           </div>
           <DrawerFooter>
             <Button variant="default" asChild>
-              <a href="/resume/resume.pdf" download>
+              <a href="/resume/KhantWaiYan_Resume.pdf" download>
                 <Download className="h-4 w-4" />
                 Download
               </a>

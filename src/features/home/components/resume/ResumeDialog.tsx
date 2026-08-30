@@ -35,7 +35,7 @@ export function ResumeDialog({ openDialog, setOpenDialog }: ResumeDialogProps) {
 
         <div className="h-[65vh] overflow-y-auto border-y border-border bg-muted/30">
           <Image
-            src="/resume/resume-preview.png"
+            src="/resume/KhantWaiYan_Resume.png"
             alt="Preview of Khant Wai Yan's resume"
             width={1275}
             height={1650}
@@ -45,13 +45,17 @@ export function ResumeDialog({ openDialog, setOpenDialog }: ResumeDialogProps) {
 
         <DialogFooter className="px-5 pb-5">
           <Button variant="default" asChild>
-            <a href="/resume/resume.pdf" download>
+            <a href="/resume/KhantWaiYan_Resume.pdf" download>
               <Download className="h-4 w-4" />
               Download
             </a>
           </Button>
           <Button asChild>
-            <a href="/resume/resume.pdf" target="_blank" rel="noreferrer">
+            <a
+              href="/resume/KhantWaiYan_Resume.pdf"
+              target="_blank"
+              rel="noreferrer"
+            >
               <ExternalLink className="h-4 w-4" />
               Open in new tab
             </a>
