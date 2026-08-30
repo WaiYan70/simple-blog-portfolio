@@ -33,12 +33,13 @@ export function ResumeDialog({ openDialog, setOpenDialog }: ResumeDialogProps) {
           </DialogDescription>
         </DialogHeader>
 
-        <div className="h-[65vh] overflow-y-auto border-y border-border bg-muted/30">
+        <div className="h-[65vh] overflow-y-auto overscroll-contain border-y border-border bg-muted/30">
           <Image
-            src="/resume/KhantWaiYan_Resume.png"
+            src="/resume/KhantWaiYan_Resume_150.png"
             alt="Preview of Khant Wai Yan's resume"
-            width={1275}
-            height={1650}
+            width={1240}
+            height={1753}
+            unoptimized
             className="h-auto w-full border"
           />
         </div>
