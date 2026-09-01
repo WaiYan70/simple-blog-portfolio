@@ -65,12 +65,6 @@ export async function createPostAction(
     };
   }
 
-  return {
-    status: "validated",
-    fieldErrors: {},
-    message: `Validation passed for "${post.title}".`,
-  };
-
   revalidatePath("/admin/posts");
   revalidatePath("/blog");
   revalidatePath(`/blog/${post.slug}`);

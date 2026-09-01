@@ -20,7 +20,7 @@ const isNodeError = (error: unknown): error is NodeJS.ErrnoException => {
   return error instanceof Error && "code" in error;
 };
 
-export const createPostFile = async (post: CreatePostData) => {
+export const createPostFile = async (post: CreatePostData): Promise<void> => {
   if (!slugPattern.test(post.slug)) {
     throw new Error("invalid post slug");
   }
@@ -51,5 +51,6 @@ export const createPostFile = async (post: CreatePostData) => {
     if (isNodeError(error) && error.code === "EEXIST") {
       throw new PostFileAlreadyExistsError(post.slug);
     }
+    throw error;
   }
 }
