@@ -1,3 +1,8 @@
+"use client";
+
+import Link from "next/link";
+import { createPostAction, type CreatePostState } from "../actions";
+import { useActionState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,12 +15,12 @@ import {
 import {
   Field,
   FieldDescription,
+  FieldError,
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import Link from "next/link";
 
 type PostEditorValues = {
   title: string;
@@ -41,15 +46,34 @@ const emptyValues: PostEditorValues = {
 };
 
 export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
+
   const values = {
     ...emptyValues,
     ...defaultValues,
   };
 
+  const initialState: CreatePostState = {
+    status: "idle",
+    fieldErrors: {},
+    message: null,
+  };
+
+  const [state, formAction, pending] = useActionState(
+    createPostAction,
+    initialState,
+  );
+
   const isEditing = mode === "edit";
 
+  const titleErrors = state.fieldErrors.title;
+  const slugErrors = state.fieldErrors.slug;
+  const descriptionErrors = state.fieldErrors.description;
+  const dateErrors = state.fieldErrors.date;
+  const tagsErrors = state.fieldErrors.tags;
+  const contentErrors = state.fieldErrors.content;
+
   return (
-    <form>
+    <form action={formAction}>
       <Card>
         <CardHeader>
           <CardTitle>{isEditing ? "Edit post" : "create a new post"}</CardTitle>
@@ -70,6 +94,9 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
                 placeholder="e.g Build a secure admin dashboard"
                 required
               />
+              <FieldError
+                errors={titleErrors?.map((message) => ({ message }))}
+              />
             </Field>
 
             {/* Slug */}
@@ -80,7 +107,11 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
                 name="slug"
                 defaultValue={values.slug}
                 placeholder="building-a-secure-admin-dashboard"
+                readOnly={isEditing}
                 required
+              />
+              <FieldError
+                errors={slugErrors?.map((message) => ({ message }))}
               />
             </Field>
 
@@ -92,6 +123,10 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
                 name="description"
                 defaultValue={values.description}
                 placeholder="A short summary of the article"
+                required
+              />
+              <FieldError
+                errors={descriptionErrors?.map((message) => ({ message }))}
               />
             </Field>
 
@@ -105,9 +140,12 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
                 defaultValue={values.date}
                 required
               />
+              <FieldError
+                errors={dateErrors?.map((message) => ({ message }))}
+              />
             </Field>
 
-            {/* Tag */}
+            {/* Tags */}
             <Field>
               <FieldLabel htmlFor="tags">Tags</FieldLabel>
               <Input
@@ -115,6 +153,9 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
                 name="tags"
                 defaultValue={values.tags.join(", ")}
                 placeholder="Next.js, TypeScript, Secuirty"
+              />
+              <FieldError
+                errors={tagsErrors?.map((message) => ({ message }))}
               />
               <FieldDescription>Separate tags using commas</FieldDescription>
             </Field>
@@ -130,6 +171,9 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
                 className="min-h-128 resize-y"
                 required
               />
+              <FieldError
+                errors={contentErrors?.map((message) => ({ message }))}
+              />
               <FieldDescription>
                 Write only the article body here. The form will generate the
                 frontmatter later
@@ -137,12 +181,16 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
             </Field>
           </FieldGroup>
         </CardContent>
-        <CardFooter>
+        <CardFooter className="justify-between">
           <Button variant="outline" asChild>
             <Link href="/admin/posts">Cancel</Link>
           </Button>
-          <Button type="button">
-            {isEditing ? "Saves changs" : "Create post"}
+          <Button type="submit" disabled={pending}>
+            {pending
+              ? "Validating..."
+              : isEditing
+                ? "Saves changes"
+                : "Create post"}
           </Button>
         </CardFooter>
       </Card>
