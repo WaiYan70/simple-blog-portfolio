@@ -85,7 +85,7 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
         <CardContent>
           <FieldGroup>
             {/* Title */}
-            <Field>
+            <Field data-invalid={Boolean(titleErrors?.length)}>
               <FieldLabel htmlFor="title">Title</FieldLabel>
               <Input
                 id="title"
@@ -93,6 +93,7 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
                 defaultValue={values.title}
                 placeholder="e.g Build a secure admin dashboard"
                 required
+                aria-invalid={Boolean(titleErrors?.length)}
               />
               <FieldError
                 errors={titleErrors?.map((message) => ({ message }))}
@@ -100,7 +101,7 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
             </Field>
 
             {/* Slug */}
-            <Field>
+            <Field data-invalid={Boolean(slugErrors?.length)}>
               <FieldLabel htmlFor="slug">Slug</FieldLabel>
               <Input
                 id="slug"
@@ -109,6 +110,7 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
                 placeholder="building-a-secure-admin-dashboard"
                 readOnly={isEditing}
                 required
+                aria-invalid={Boolean(slugErrors?.length)}
               />
               <FieldError
                 errors={slugErrors?.map((message) => ({ message }))}
@@ -116,7 +118,7 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
             </Field>
 
             {/* Description */}
-            <Field>
+            <Field data-invalid={Boolean(descriptionErrors?.length)}>
               <FieldLabel htmlFor="description">Description</FieldLabel>
               <Input
                 id="description"
@@ -124,6 +126,7 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
                 defaultValue={values.description}
                 placeholder="A short summary of the article"
                 required
+                aria-invalid={Boolean(descriptionErrors?.length)}
               />
               <FieldError
                 errors={descriptionErrors?.map((message) => ({ message }))}
@@ -131,7 +134,7 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
             </Field>
 
             {/* Date */}
-            <Field>
+            <Field data-invalid={Boolean(dateErrors?.length)}>
               <FieldLabel htmlFor="date">Publication Date</FieldLabel>
               <Input
                 id="date"
@@ -139,6 +142,7 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
                 type="date"
                 defaultValue={values.date}
                 required
+                aria-invalid={Boolean(dateErrors?.length)}
               />
               <FieldError
                 errors={dateErrors?.map((message) => ({ message }))}
@@ -146,13 +150,14 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
             </Field>
 
             {/* Tags */}
-            <Field>
+            <Field data-invalid={Boolean(tagsErrors?.length)}>
               <FieldLabel htmlFor="tags">Tags</FieldLabel>
               <Input
                 id="tags"
                 name="tags"
                 defaultValue={values.tags.join(", ")}
                 placeholder="Next.js, TypeScript, Secuirty"
+                aria-invalid={Boolean(tagsErrors?.length)}
               />
               <FieldError
                 errors={tagsErrors?.map((message) => ({ message }))}
@@ -161,7 +166,7 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
             </Field>
 
             {/* Content */}
-            <Field>
+            <Field data-invalid={Boolean(contentErrors?.length)}>
               <FieldLabel htmlFor="content">Markdown content</FieldLabel>
               <Textarea
                 id="content"
@@ -170,6 +175,7 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
                 placeholder="# Introduction"
                 className="min-h-128 resize-y"
                 required
+                aria-invalid={Boolean(contentErrors?.length)}
               />
               <FieldError
                 errors={contentErrors?.map((message) => ({ message }))}
@@ -181,6 +187,7 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
             </Field>
           </FieldGroup>
         </CardContent>
+
         <CardFooter className="justify-between">
           <Button variant="outline" asChild>
             <Link href="/admin/posts">Cancel</Link>
@@ -193,6 +200,16 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
                 : "Create post"}
           </Button>
         </CardFooter>
+
+        <div aria-live="polite">
+          {state.status === "error" && state.message ? (
+            <FieldError errors={[{ message: state.message }]} />
+          ) : null}
+
+          {state.status === "validated" && state.message ? (
+            <p className="text-sm text-muted-foreground">{state.message}</p>
+          ) : null}
+        </div>
       </Card>
     </form>
   );

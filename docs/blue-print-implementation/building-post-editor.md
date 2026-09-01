@@ -11,11 +11,27 @@ The Goal is to build Simple Source Editor for markdown file to create, edit and 
 ## Mental Mode
 
 From Admin Page:
-
 1. Server Component loads post data
 2. Client editor manages form state
 3. File repository creates/updates/deletes .mdx files
 4. Public blog continues reading those same files
+
+## Files and Folder structure
+```text
+src/features/admin/posts/
+├── actions/
+│   └── post-actions.ts
+├── components/
+│   ├── PostEditorForm.tsx
+│   ├── PostList.tsx
+│   └── DeletePostDialog.tsx
+├── lib/
+│   └── post-file-repository.ts
+├── schema/
+│   └── post.schema.ts
+└── types/
+    └── post-editor.ts
+```
 
 ## Step by step (Build Order)
 
@@ -23,14 +39,27 @@ From Admin Page:
 2. Create Post Action and Post Schema (Validate wiht Zod)
 3. Create Post File (gray-matter serialize the file)
 
-### Building UI
+### Step - 1: Building UI
 
 Building "Markdown editor" sound like complex and use external library or package. we can use a normal element like <textarea> to begin wiht. we can use third-party library like Monaco, or another library.
 
-**But i want to build the simple editor using normal HTML elements**
+I want to build the simple editor using normal HTML elements.
 
-### Create Post Action and Post Schema
+**Don't connect filesystems writes until form looks and behaves correctly**
 
-### Connect the form
+ There will be two parts: Form Field and Markdown Field.
 
-### Create Post File
+| Form Field  | Markdown Field |
+| ---         | -- |
+| `title`     |  `content` |
+| `slug`      | `written in a textarea` |
+| `description` |
+| `date` |
+| `tags` |
+| `content` |
+
+### Step - 2: Create Post Action and Post Schema
+
+### Step - 3: Connect the form
+
+### Step - 4: Create Post File
