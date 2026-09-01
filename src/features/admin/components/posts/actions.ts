@@ -3,6 +3,12 @@
 import { requireAdmin } from "@/lib/auth/require-admin";
 import { CreatePostData, createPostSchema } from "./schema/post-schema";
 import z from "zod";
+import {
+  createPostFile,
+  PostFileAlreadyExistsError,
+} from "./lib/post-file-repository";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 type PostField = keyof CreatePostData;
 
@@ -39,10 +45,35 @@ export async function createPostAction(
 
   // Next step
   // await createPostFile(post)
+  try {
+    await createPostFile(post);
+  } catch (error) {
+    if (error instanceof PostFileAlreadyExistsError) {
+      return {
+        status: "error",
+        fieldErrors: {
+          slug: ["A post with this slug already exists."],
+        },
+        message: "Choose a different slug",
+      };
+    }
+
+    return {
+      status: "error",
+      fieldErrors: {},
+      message: "Unable to create the post. Please try again.",
+    };
+  }
 
   return {
     status: "validated",
     fieldErrors: {},
     message: `Validation passed for "${post.title}".`,
   };
+
+  revalidatePath("/admin/posts");
+  revalidatePath("/blog");
+  revalidatePath(`/blog/${post.slug}`);
+
+  redirect(`/blog/${post.slug}`);
 }

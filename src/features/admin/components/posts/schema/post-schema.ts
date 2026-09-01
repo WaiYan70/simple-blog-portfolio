@@ -21,7 +21,7 @@ export const createPostSchema = z.object({
     .string()
     .trim()
     .min(1, "Description is required")
-    .max(300, "Description mut be 300 characters or fewer"),
+    .max(300, "Description must be 300 characters or fewer"),
   date: z.iso.date("Choose a valid publication date"),
   tags: z
     .string()

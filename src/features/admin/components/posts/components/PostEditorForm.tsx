@@ -196,8 +196,8 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
             {pending
               ? "Validating..."
               : isEditing
-                ? "Saves changes"
-                : "Create post"}
+                ? "Save changes"
+                : "Create a new post"}
           </Button>
         </CardFooter>
 
