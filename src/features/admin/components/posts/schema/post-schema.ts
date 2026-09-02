@@ -45,3 +45,11 @@ export const createPostSchema = z.object({
 });
 
 export type CreatePostData = z.infer<typeof createPostSchema>;
+
+export const postContentSchema = z
+  .string()
+  .max(200_000, "Markdown content is too large")
+  .refine(
+    (content) => content.trim().length > 0,
+    "Markdown content is required",
+  );

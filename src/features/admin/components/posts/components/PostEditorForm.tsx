@@ -206,9 +206,6 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
             <FieldError errors={[{ message: state.message }]} />
           ) : null}
 
-          {state.status === "validated" && state.message ? (
-            <p className="text-sm text-muted-foreground">{state.message}</p>
-          ) : null}
         </div>
       </Card>
     </form>
