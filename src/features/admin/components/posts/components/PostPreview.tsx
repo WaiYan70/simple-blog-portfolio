@@ -1,13 +1,16 @@
 "use client";
 
 import { mdxComponents } from "@/features/blog/components/MDXComponents";
-import { MDXRemote } from "next-mdx-remote/rsc";
-import { sources } from "next/dist/compiled/webpack/webpack";
+import { MDXRemote, type MDXRemoteSerializeResult } from "next-mdx-remote";
 
-export const PostPreview = () => {
+type PostPreviewProps = {
+  source: MDXRemoteSerializeResult;
+};
+
+export const PostPreview = ({ source }: PostPreviewProps) => {
   return (
     <div className="prose mt-8 max-w-none dark:prose-invert">
-      <MDXRemote {...sources} components={mdxComponents} />
+      <MDXRemote {...source} components={mdxComponents} />
     </div>
   );
 };

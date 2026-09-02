@@ -1,7 +1,7 @@
 import "server-only";
 
 import path from "node:path";
-import { CreatePostData } from "../schema/post-schema";
+import type { CreatePostData } from "../schema/post-schema";
 import matter from "gray-matter";
 import { writeFile } from "node:fs/promises";
 

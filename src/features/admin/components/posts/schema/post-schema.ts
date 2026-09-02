@@ -1,5 +1,13 @@
 import { z } from "zod";
 
+export const postContentSchema = z
+  .string()
+  .max(200_000, "Markdown content is too large")
+  .refine(
+    (content) => content.trim().length > 0,
+    "Markdown content is required",
+  );
+
 export const createPostSchema = z.object({
   title: z
     .string()
@@ -36,20 +44,7 @@ export const createPostSchema = z.object({
         .array(z.string().max(30, "Each tag must be 30 characters or fewer"))
         .max(10, "Use no more than 10 tags"),
     ),
-  content: z
-    .string()
-    .refine(
-      (content) => content.trim().length > 0,
-      "Markdown content is required",
-    ),
+  content: postContentSchema,
 });
 
 export type CreatePostData = z.infer<typeof createPostSchema>;
-
-export const postContentSchema = z
-  .string()
-  .max(200_000, "Markdown content is too large")
-  .refine(
-    (content) => content.trim().length > 0,
-    "Markdown content is required",
-  );

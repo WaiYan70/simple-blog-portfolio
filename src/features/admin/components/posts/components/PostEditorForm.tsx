@@ -1,8 +1,15 @@
 "use client";
 
+import { useActionState, useState, useTransition } from "react";
 import Link from "next/link";
-import { createPostAction, type CreatePostState } from "../actions";
-import { useActionState } from "react";
+import type { MDXRemoteSerializeResult } from "next-mdx-remote";
+import {
+  createPostAction,
+  previewPostAction,
+  type CreatePostState,
+} from "../actions";
+import { PostPreview } from "./PostPreview";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -62,6 +69,41 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
     createPostAction,
     initialState,
   );
+
+  const [content, setContent] = useState(values.content);
+  const [view, setView] = useState<"write" | "preview">("write");
+  const [previewSource, setPreviewSource] =
+    useState<MDXRemoteSerializeResult | null>(null);
+  const [previewError, setPreviewError] = useState<string | null>(null);
+  const [previewPending, startPreviewTransition] = useTransition();
+
+  const handleViewChange = (nextView: string): void => {
+    if (nextView !== "write" && nextView !== "preview") {
+      return;
+    }
+
+    if (nextView === "write") {
+      setView("write");
+      return;
+    }
+
+    setView("preview");
+    setPreviewSource(null);
+    setPreviewError(null);
+
+    startPreviewTransition(async () => {
+      try {
+        const result = await previewPostAction(content);
+        if (result.success) {
+          setPreviewSource(result.source);
+          return;
+        }
+        setPreviewError(result.message);
+      } catch {
+        setPreviewError("Unable to render the preview");
+      }
+    });
+  };
 
   const isEditing = mode === "edit";
 
@@ -167,16 +209,68 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
 
             {/* Content */}
             <Field data-invalid={Boolean(contentErrors?.length)}>
-              <FieldLabel htmlFor="content">Markdown content</FieldLabel>
-              <Textarea
-                id="content"
-                name="content"
-                defaultValue={values.content}
-                placeholder="# Introduction"
-                className="min-h-128 resize-y"
-                required
-                aria-invalid={Boolean(contentErrors?.length)}
-              />
+              <div className="flex items-center justify-between gap-4">
+                <FieldLabel htmlFor="content">Markdown content</FieldLabel>
+
+                <ToggleGroup
+                  type="single"
+                  value={view}
+                  onValueChange={handleViewChange}
+                  variant="outline"
+                  spacing={0}
+                  aria-label="Markdown editor view"
+                >
+                  <ToggleGroupItem
+                    type="button"
+                    value="write"
+                    aria-label="Preview Markdown"
+                  >
+                    Write
+                  </ToggleGroupItem>
+                  <ToggleGroupItem
+                    type="button"
+                    value="preview"
+                    aria-label="Preview Markdown"
+                  >
+                    Preview
+                  </ToggleGroupItem>
+                </ToggleGroup>
+              </div>
+
+              {view === "write" ? (
+                <Textarea
+                  id="content"
+                  name="content"
+                  value={content}
+                  onChange={(event) => {
+                    setContent(event.target.value);
+                  }}
+                  placeholder="# Introduction"
+                  className="min-h-128 resize-y"
+                  required
+                  aria-invalid={Boolean(contentErrors?.length)}
+                />
+              ) : (
+                <>
+                  <input type="hidden" name="content" value={content} />
+                  <div className="min-h-128 rounded-md border p-6">
+                    {previewPending ? (
+                      <p className="text-sm text-mutedtext-muted-foreground">
+                        Rendering Preview...
+                      </p>
+                    ) : null}
+                    {!previewPending && previewError ? (
+                      <p role="alert" className="text-sm text-destructive">
+                        {previewError}
+                      </p>
+                    ) : null}
+                    {!previewPending && !previewError && previewSource ? (
+                      <PostPreview source={previewSource} />
+                    ) : null}
+                  </div>
+                </>
+              )}
+
               <FieldError
                 errors={contentErrors?.map((message) => ({ message }))}
               />
