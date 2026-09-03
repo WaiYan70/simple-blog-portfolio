@@ -1,7 +1,7 @@
 "use server";
 
 import { serialize } from "next-mdx-remote/serialize";
-import { MDXRemoteSerializeResult } from "next-mdx-remote/rsc";
+import type { MDXRemoteSerializeResult } from "next-mdx-remote/rsc";
 import { requireAdmin } from "@/lib/auth/require-admin";
 import {
   CreatePostData,
@@ -20,7 +20,7 @@ import rehypePrettyCode from "rehype-pretty-code";
 type PostField = keyof CreatePostData;
 
 export type CreatePostState = {
-  status: "idle" | "error" | "validated";
+  status: "idle" | "error";
   fieldErrors: Partial<Record<PostField, string[]>>;
   message: string | null;
 };

@@ -1,6 +1,7 @@
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import SideBar from "@/features/admin/components/dashboard/Sidebar";
-import TopBar from "@/features/admin/components/layout/TopBar";
+import SideBar from "@/features/admin/dashboard/Sidebar";
+import TopBar from "@/features/admin/layout/TopBar";
+
 import { requireAdmin } from "@/lib/auth/require-admin";
 
 export default async function AdminLayout({

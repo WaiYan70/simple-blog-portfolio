@@ -1,6 +1,7 @@
-import Chart from "@/features/admin/components/dashboard/Chart";
-import { RecentTransactions } from "@/features/admin/components/dashboard/RecentTransaction";
-import StateCard from "@/features/admin/components/dashboard/StatCards";
+import Chart from "@/features/admin/dashboard/Chart";
+import { RecentTransactions } from "@/features/admin/dashboard/RecentTransaction";
+import StateCard from "@/features/admin/dashboard/StatCards";
+
 
 export default function AdminHomePage() {
   return (

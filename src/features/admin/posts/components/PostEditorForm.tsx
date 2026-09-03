@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState, useTransition } from "react";
+import { useActionState, useRef, useState, useTransition } from "react";
 import Link from "next/link";
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 import {
@@ -53,7 +53,6 @@ const emptyValues: PostEditorValues = {
 };
 
 export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
-
   const values = {
     ...emptyValues,
     ...defaultValues,
@@ -77,15 +76,19 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
   const [previewError, setPreviewError] = useState<string | null>(null);
   const [previewPending, startPreviewTransition] = useTransition();
 
+  const previewRequestId = useRef(0);
   const handleViewChange = (nextView: string): void => {
     if (nextView !== "write" && nextView !== "preview") {
       return;
     }
 
     if (nextView === "write") {
+      previewRequestId.current += 1;
       setView("write");
       return;
     }
+
+    const requestId = ++previewRequestId.current;
 
     setView("preview");
     setPreviewSource(null);
@@ -94,12 +97,18 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
     startPreviewTransition(async () => {
       try {
         const result = await previewPostAction(content);
+        if (requestId !== previewRequestId.current) {
+          return;
+        }
         if (result.success) {
           setPreviewSource(result.source);
           return;
         }
         setPreviewError(result.message);
       } catch {
+        if (requestId !== previewRequestId.current) {
+          return;
+        }
         setPreviewError("Unable to render the preview");
       }
     });
@@ -253,7 +262,11 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
               ) : (
                 <>
                   <input type="hidden" name="content" value={content} />
-                  <div className="min-h-128 rounded-md border p-6">
+                  <div
+                    className="min-h-128 rounded-md border p-6"
+                    aria-live="polite"
+                    aria-busy={previewPending}
+                  >
                     {previewPending ? (
                       <p className="text-sm text-muted-foreground">
                         Rendering Preview...
@@ -299,7 +312,6 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
           {state.status === "error" && state.message ? (
             <FieldError errors={[{ message: state.message }]} />
           ) : null}
-
         </div>
       </Card>
     </form>

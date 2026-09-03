@@ -1,4 +1,4 @@
-import { PostEditorForm } from "@/features/admin/components/posts/components/PostEditorForm";
+import { PostEditorForm } from "@/features/admin/posts/components/PostEditorForm";
 
 export default function CreateNewPostPage() {
   return (

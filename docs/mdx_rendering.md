@@ -185,6 +185,7 @@ next-mdx-remote/rsc
 The renderer uses `MDXRemote` from:
 
 ```ts
+import { MDXRemote } from "next-mdx-remote";
 import { MDXRemote } from "next-mdx-remote/rsc";
 ```
 
