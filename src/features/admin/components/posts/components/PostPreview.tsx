@@ -1,6 +1,7 @@
 "use client";
 
 import { mdxComponents } from "@/features/blog/components/MDXComponents";
+import { MDXContentShell } from "@/features/blog/components/MDXContentShell";
 import { MDXRemote, type MDXRemoteSerializeResult } from "next-mdx-remote";
 
 type PostPreviewProps = {
@@ -9,8 +10,8 @@ type PostPreviewProps = {
 
 export const PostPreview = ({ source }: PostPreviewProps) => {
   return (
-    <div className="prose mt-8 max-w-none dark:prose-invert">
+    <MDXContentShell>
       <MDXRemote {...source} components={mdxComponents} />
-    </div>
+    </MDXContentShell>
   );
 };

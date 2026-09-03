@@ -223,7 +223,7 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
                   <ToggleGroupItem
                     type="button"
                     value="write"
-                    aria-label="Preview Markdown"
+                    aria-label="Write Markdown"
                   >
                     Write
                   </ToggleGroupItem>
@@ -255,7 +255,7 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
                   <input type="hidden" name="content" value={content} />
                   <div className="min-h-128 rounded-md border p-6">
                     {previewPending ? (
-                      <p className="text-sm text-mutedtext-muted-foreground">
+                      <p className="text-sm text-muted-foreground">
                         Rendering Preview...
                       </p>
                     ) : null}
