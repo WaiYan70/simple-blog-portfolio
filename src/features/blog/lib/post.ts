@@ -3,11 +3,17 @@ import "server-only";
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import type { MDXContent } from "mdx/types";
 import { Heading, Post } from "@/types/post";
 import { slugifyHeading } from "@/features/blog/lib/heading";
 import type { PostSummary } from "@/types/post";
 
 const postDirectory = path.join(process.cwd(), "src/content/blog");
+const postSlugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+type PostMdxModule = {
+  default: MDXContent;
+};
 
 export const getAllPosts = async (): Promise<PostSummary[]> => {
   const files = fs
@@ -34,6 +40,8 @@ export const getAllPosts = async (): Promise<PostSummary[]> => {
 };
 
 export const getPostBySlug = async (slug: string): Promise<Post | null> => {
+  if (!postSlugPattern.test(slug)) return null;
+
   const filePath = path.join(postDirectory, `${slug}.mdx`);
 
   if (!fs.existsSync(filePath)) return null;
@@ -43,6 +51,22 @@ export const getPostBySlug = async (slug: string): Promise<Post | null> => {
   const { data, content } = matter(fileContent);
 
   return normalizePostFormatter(slug, data, content);
+};
+
+export const getPostContent = async (
+  slug: string,
+): Promise<MDXContent | null> => {
+  if (!postSlugPattern.test(slug)) return null;
+
+  const filePath = path.join(postDirectory, `${slug}.mdx`);
+
+  if (!fs.existsSync(filePath)) return null;
+
+  const postModule = (await import(
+    `@/content/blog/${slug}.mdx`
+  )) as PostMdxModule;
+
+  return postModule.default;
 };
 
 // Core Normalization  (single truth of source)

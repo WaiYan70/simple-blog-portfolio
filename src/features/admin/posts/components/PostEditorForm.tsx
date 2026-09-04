@@ -1,14 +1,18 @@
 "use client";
 
-import { useActionState, useRef, useState, useTransition } from "react";
+import {
+  type ReactNode,
+  useActionState,
+  useRef,
+  useState,
+  useTransition,
+} from "react";
 import Link from "next/link";
-import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 import {
   createPostAction,
   previewPostAction,
   type CreatePostState,
 } from "../actions";
-import { PostPreview } from "./PostPreview";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Button } from "@/components/ui/button";
 import {
@@ -52,27 +56,26 @@ const emptyValues: PostEditorValues = {
   content: "",
 };
 
+const initialCreatePostState: CreatePostState = {
+  status: "idle",
+  fieldErrors: {},
+  message: null,
+};
+
 export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
   const values = {
     ...emptyValues,
     ...defaultValues,
   };
 
-  const initialState: CreatePostState = {
-    status: "idle",
-    fieldErrors: {},
-    message: null,
-  };
-
   const [state, formAction, pending] = useActionState(
     createPostAction,
-    initialState,
+    initialCreatePostState,
   );
 
   const [content, setContent] = useState(values.content);
   const [view, setView] = useState<"write" | "preview">("write");
-  const [previewSource, setPreviewSource] =
-    useState<MDXRemoteSerializeResult | null>(null);
+  const [previewContent, setPreviewContent] = useState<ReactNode>(null);
   const [previewError, setPreviewError] = useState<string | null>(null);
   const [previewPending, startPreviewTransition] = useTransition();
 
@@ -91,7 +94,7 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
     const requestId = ++previewRequestId.current;
 
     setView("preview");
-    setPreviewSource(null);
+    setPreviewContent(null);
     setPreviewError(null);
 
     startPreviewTransition(async () => {
@@ -101,7 +104,7 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
           return;
         }
         if (result.success) {
-          setPreviewSource(result.source);
+          setPreviewContent(result.preview);
           return;
         }
         setPreviewError(result.message);
@@ -207,7 +210,7 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
                 id="tags"
                 name="tags"
                 defaultValue={values.tags.join(", ")}
-                placeholder="Next.js, TypeScript, Secuirty"
+                placeholder="Next.js, TypeScript, Security"
                 aria-invalid={Boolean(tagsErrors?.length)}
               />
               <FieldError
@@ -264,11 +267,14 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
                   <input type="hidden" name="content" value={content} />
                   <div
                     className="min-h-128 rounded-md border p-6"
-                    aria-live="polite"
                     aria-busy={previewPending}
                   >
                     {previewPending ? (
-                      <p className="text-sm text-muted-foreground">
+                      <p
+                        role="status"
+                        aria-live="polite"
+                        className="text-sm text-muted-foreground"
+                      >
                         Rendering Preview...
                       </p>
                     ) : null}
@@ -277,9 +283,7 @@ export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
                         {previewError}
                       </p>
                     ) : null}
-                    {!previewPending && !previewError && previewSource ? (
-                      <PostPreview source={previewSource} />
-                    ) : null}
+                    {!previewPending && !previewError ? previewContent : null}
                   </div>
                 </>
               )}

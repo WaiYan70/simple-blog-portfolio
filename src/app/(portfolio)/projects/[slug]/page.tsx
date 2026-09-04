@@ -1,6 +1,7 @@
-import { MDXContent } from "@/features/blog/components/MDXContent";
+import { MDXContentShell } from "@/features/blog/components/MDXContentShell";
 import {
   getAllProjects,
+  getProjectContent,
   getProjectBySlug,
 } from "@/features/projects/lib/project";
 import { Metadata } from "next";
@@ -47,9 +48,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProjectDetailPage({ params }: Props) {
   const { slug } = await params;
-  const project = await getProjectBySlug(slug);
+  const [project, ProjectContent] = await Promise.all([
+    getProjectBySlug(slug),
+    getProjectContent(slug),
+  ]);
 
-  if (!project) return notFound();
+  if (!project || !ProjectContent) return notFound();
 
   return (
     <article className="space-y-8 mt-12">
@@ -134,7 +138,9 @@ export default async function ProjectDetailPage({ params }: Props) {
         </div>
       </header>
 
-      <MDXContent content={project.content} />
+      <MDXContentShell>
+        <ProjectContent />
+      </MDXContentShell>
     </article>
   );
 }

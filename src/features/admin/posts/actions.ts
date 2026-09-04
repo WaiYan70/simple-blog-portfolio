@@ -1,7 +1,6 @@
 "use server";
 
-import { serialize } from "next-mdx-remote/serialize";
-import type { MDXRemoteSerializeResult } from "next-mdx-remote/rsc";
+import type { ReactNode } from "react";
 import { requireAdmin } from "@/lib/auth/require-admin";
 import {
   CreatePostData,
@@ -15,7 +14,8 @@ import {
 } from "./lib/post-file-repository";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import rehypePrettyCode from "rehype-pretty-code";
+import { compileMarkdownPreview } from "./lib/compile-markdown-preview";
+import { validatePostContent } from "./lib/validate-post-content";
 
 type PostField = keyof CreatePostData;
 
@@ -53,6 +53,16 @@ export async function createPostAction(
   // Next step
   // await createPostFile(post)
   try {
+    const postContentValidation = await validatePostContent(post.content);
+    if (!postContentValidation.success) {
+      return {
+        status: "error",
+        fieldErrors: {
+          content: [postContentValidation.message],
+        },
+        message: "Fix the article content before saving",
+      };
+    }
     await createPostFile(post);
   } catch (error) {
     if (error instanceof PostFileAlreadyExistsError) {
@@ -82,7 +92,7 @@ export async function createPostAction(
 export type PostPreviewResult =
   | {
       success: true;
-      source: MDXRemoteSerializeResult;
+      preview: ReactNode;
     }
   | {
       success: false;
@@ -103,29 +113,15 @@ export async function previewPostAction(
   }
 
   try {
-    const source = await serialize(validationResult.data, {
-      blockJS: true,
-      blockDangerousJS: true,
-      mdxOptions: {
-        rehypePlugins: [
-          [
-            rehypePrettyCode,
-            {
-              theme: "tokyo-night",
-              keepBackground: false,
-            },
-          ],
-        ],
-      },
-    });
+    const preview = await compileMarkdownPreview(validationResult.data);
     return {
       success: true,
-      source,
+      preview,
     };
   } catch {
     return {
       success: false,
-      message: "The Markdown contains invalid MDX syntax.",
+      message: "The Markdown could not be compiled for preview.",
     };
   }
 }

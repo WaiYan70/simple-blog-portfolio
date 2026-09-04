@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { MDXContent } from "@/features/blog/components/MDXContent";
-import { getAllPosts, getPostBySlug } from "@/features/blog/lib/post";
+import { MDXContentShell } from "@/features/blog/components/MDXContentShell";
+import {
+  getAllPosts,
+  getPostBySlug,
+  getPostContent,
+} from "@/features/blog/lib/post";
 import { TableOfContents } from "@/features/blog/components/TableOfContent";
 import { ArrowLeft, Clock } from "lucide-react";
 import { ScrollProgress } from "@/features/blog/components/ScrollProgress";
@@ -40,9 +44,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function BlogDetailPage({ params }: Props) {
   const { slug } = await params;
 
-  const post = await getPostBySlug(slug);
+  const [post, PostContent] = await Promise.all([
+    getPostBySlug(slug),
+    getPostContent(slug),
+  ]);
 
-  if (!post) return notFound();
+  if (!post || !PostContent) return notFound();
 
   return (
     <div className="mx-auto flex max-w-5xl gap-10 py-2">
@@ -90,7 +97,9 @@ export default async function BlogDetailPage({ params }: Props) {
           )}
         </header>
 
-        <MDXContent content={post.content} />
+        <MDXContentShell>
+          <PostContent />
+        </MDXContentShell>
       </article>
 
       <aside className="lg:block sticky top-20 hidden h-fit w-60 rounded-2xl border border-border bg-card p-4 text-left text-card-foreground">

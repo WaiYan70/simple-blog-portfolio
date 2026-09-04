@@ -8,9 +8,15 @@ import {
 import fs from "fs";
 import matter from "gray-matter";
 import path from "path";
+import type { MDXContent } from "mdx/types";
 import type { ProjectSummary } from "@/types/project";
 
 const projectDirectory = path.join(process.cwd(), "src/content/projects");
+const projectSlugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+type ProjectMdxModule = {
+  default: MDXContent;
+};
 
 export const getAllProjects = async (): Promise<ProjectSummary[]> => {
   const files = fs
@@ -35,6 +41,8 @@ export const getAllProjects = async (): Promise<ProjectSummary[]> => {
 export const getProjectBySlug = async (
   slug: string,
 ): Promise<Project | null> => {
+  if (!projectSlugPattern.test(slug)) return null;
+
   const filePath = path.join(projectDirectory, `${slug}.mdx`);
 
   if (!fs.existsSync(filePath)) return null;
@@ -44,6 +52,22 @@ export const getProjectBySlug = async (
   const { data, content } = matter(fileContent);
 
   return normalizeProjectFormatter(slug, data, content);
+};
+
+export const getProjectContent = async (
+  slug: string,
+): Promise<MDXContent | null> => {
+  if (!projectSlugPattern.test(slug)) return null;
+
+  const filePath = path.join(projectDirectory, `${slug}.mdx`);
+
+  if (!fs.existsSync(filePath)) return null;
+
+  const projectModule = (await import(
+    `@/content/projects/${slug}.mdx`
+  )) as ProjectMdxModule;
+
+  return projectModule.default;
 };
 
 // Core Normalization (single truth of source)
