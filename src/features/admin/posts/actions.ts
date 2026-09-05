@@ -113,6 +113,10 @@ export async function previewPostAction(
   }
 
   try {
+    const contentValidation = await validatePostContent(validationResult.data);
+    if (!contentValidation.success) {
+      return contentValidation;
+    }
     const preview = await compileMarkdownPreview(validationResult.data);
     return {
       success: true,

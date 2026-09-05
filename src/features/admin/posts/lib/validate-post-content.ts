@@ -27,7 +27,7 @@ export const validatePostContent = async (
   } catch {
     return {
       success: false,
-      message: "This content contains invalide MDX syntax",
+      message: "This content contains invalid MDX syntax",
     };
   }
 }
