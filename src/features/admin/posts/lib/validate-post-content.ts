@@ -52,6 +52,7 @@ export const validatePostContent = async (
   try {
     await compile(content, {
       format: "mdx",
+      remarkPlugins: [remarkMarkdownOnly],
       rehypePlugins: [
         [
           rehypePrettyCode,
