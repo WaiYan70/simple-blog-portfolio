@@ -82,6 +82,7 @@ export async function createPostAction(
     };
   }
 
+  revalidatePath("/");
   revalidatePath("/admin/posts");
   revalidatePath("/blog");
   revalidatePath(`/blog/${post.slug}`);
