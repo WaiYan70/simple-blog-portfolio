@@ -7,6 +7,9 @@ import type { MDXContent } from "mdx/types";
 import { Heading, Post } from "@/types/post";
 import { slugifyHeading } from "@/features/blog/lib/heading";
 import type { PostSummary } from "@/types/post";
+import { createProcessor } from "@mdx-js/mdx";
+import remarkFrontmatter from "remark-frontmatter";
+import { collectHeadings } from "../../admin/posts/lib/remark-headings.mjs";
 
 const postDirectory = path.join(process.cwd(), "src/content/blog");
 const postSlugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -122,21 +125,12 @@ const calculateReadingTime = (content: string): number => {
   return Math.ceil(words / 225);
 };
 
-const extractHeadings = (content: string) => {
-  const regex = /^(#+)\s+(.*)/gm;
+const headingParser = createProcessor({
+  format: "mdx",
+  remarkPlugins: [remarkFrontmatter],
+});
 
-  const matches = content.matchAll(regex);
-
-  const headings: Heading[] = [];
-
-  for (const match of matches) {
-    const level = match[1].length;
-    const text = match[2];
-    const slug = slugifyHeading(text);
-
-    if (level >= 2) {
-      headings.push({ level, text, slug });
-    }
-  }
-  return headings;
+const extractHeadings = (content: string): Heading[] => {
+  const tree = headingParser.parse(content);
+  return collectHeadings(tree);
 };

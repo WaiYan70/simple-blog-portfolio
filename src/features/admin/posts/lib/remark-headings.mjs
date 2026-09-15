@@ -3,7 +3,7 @@
  *   type: string;
  *   depth?: number;
  *   value?: string;
- *   alt?: string;
+ *   alt?: string | null;
  *   children?: MarkdownNode[];
  *   data?: { hProperties?: Record<string, unknown> };
  * }} MarkdownNode
