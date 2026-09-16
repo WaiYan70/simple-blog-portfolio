@@ -12,37 +12,29 @@ export const mdxComponents: MDXComponents = {
     />
   ),
   h2: (props) => {
-    const slug = slugifyHeading(extractTextFromNode(props.children));
 
-    return (
+
       <h2
-        id={slug}
         className="scroll-mt-24 text-2xl sm:text-xl font-semibold mt-8 mb-3 tracking-tight"
         {...props}
       />
-    );
+
   },
   h3: (props) => {
-    const slug = slugifyHeading(extractTextFromNode(props.children));
 
-    return (
       <h3
-        id={slug}
         className="scroll-mt-24 text-xl sm:text-lg font-semibold mt-6 mb-2 tracking-tight"
         {...props}
       />
-    );
+
   },
   h4: (props) => {
-    const slug = slugifyHeading(extractTextFromNode(props.children));
 
-    return (
       <h4
-        id={slug}
         className="scroll-mt-24 text-lg font-semibold mt-4 mb-1 tracking-tight"
         {...props}
       />
-    );
+
   },
   p: (props) => (
     <p className="leading-7 text-muted-foreground mb-4" {...props} />
