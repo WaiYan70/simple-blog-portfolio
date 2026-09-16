@@ -6,6 +6,7 @@ import rehypePrettyCode from "rehype-pretty-code";
 import type { ReactNode } from "react";
 import { mdxComponents } from "@/features/blog/components/MDXComponents";
 import { MDXContentShell } from "@/features/blog/components/MDXContentShell";
+import remarkHeadings from "./remark-headings.mjs";
 
 export const compileMarkdownPreview = async (
   content: string,
@@ -13,6 +14,7 @@ export const compileMarkdownPreview = async (
   const { default: PreviewContent } = await evaluate(content, {
     ...runtime,
     format: "md",
+    remarkPlugins: [remarkHeadings],
     rehypePlugins: [
       [
         rehypePrettyCode,
