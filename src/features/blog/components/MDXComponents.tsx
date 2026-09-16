@@ -12,8 +12,6 @@ export const mdxComponents: MDXComponents = {
     />
   ),
   h2: (props) => {
-
-
       <h2
         className="scroll-mt-24 text-2xl sm:text-xl font-semibold mt-8 mb-3 tracking-tight"
         {...props}
@@ -21,7 +19,6 @@ export const mdxComponents: MDXComponents = {
 
   },
   h3: (props) => {
-
       <h3
         className="scroll-mt-24 text-xl sm:text-lg font-semibold mt-6 mb-2 tracking-tight"
         {...props}
@@ -29,7 +26,6 @@ export const mdxComponents: MDXComponents = {
 
   },
   h4: (props) => {
-
       <h4
         className="scroll-mt-24 text-lg font-semibold mt-4 mb-1 tracking-tight"
         {...props}
