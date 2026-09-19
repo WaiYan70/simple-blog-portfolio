@@ -19,16 +19,16 @@ import { validatePostContent } from "./lib/validate-post-content";
 
 type PostField = keyof CreatePostData;
 
-export type CreatePostState = {
+export type PostEditorState = {
   status: "idle" | "error";
   fieldErrors: Partial<Record<PostField, string[]>>;
   message: string | null;
 };
 
 export async function createPostAction(
-  _previousState: CreatePostState,
+  _previousState: PostEditorState,
   formData: FormData,
-): Promise<CreatePostState> {
+): Promise<PostEditorState> {
   await requireAdmin();
   const validationResult = createPostSchema.safeParse({
     title: formData.get("title"),

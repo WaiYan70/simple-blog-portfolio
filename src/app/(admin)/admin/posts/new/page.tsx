@@ -1,3 +1,4 @@
+import { createPostAction } from "@/features/admin/posts/actions";
 import { PostEditorForm } from "@/features/admin/posts/components/PostEditorForm";
 
 export default function CreateNewPostPage() {
@@ -9,7 +10,7 @@ export default function CreateNewPostPage() {
           Create a new Markdown blog post.
         </p>
       </header>
-      <PostEditorForm mode="create" />
+      <PostEditorForm mode="create" action={createPostAction} />
     </main>
   );
 }

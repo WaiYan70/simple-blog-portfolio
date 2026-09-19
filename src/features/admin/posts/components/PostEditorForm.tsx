@@ -9,10 +9,7 @@ import {
 } from "react";
 import Link from "next/link";
 import {
-  createPostAction,
-  previewPostAction,
-  type CreatePostState,
-} from "../actions";
+  previewPostAction, type PostEditorState } from "../actions";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Button } from "@/components/ui/button";
 import {
@@ -45,6 +42,10 @@ type PostEditorValues = {
 type PostEditorFormProps = {
   mode: "create" | "edit";
   defaultValues?: Partial<PostEditorValues>;
+  action: (
+    previousState: PostEditorState,
+    formData: FormData,
+  ) => Promise<PostEditorState>
 };
 
 const emptyValues: PostEditorValues = {
@@ -56,20 +57,24 @@ const emptyValues: PostEditorValues = {
   content: "",
 };
 
-const initialCreatePostState: CreatePostState = {
+const initialCreatePostState: PostEditorState = {
   status: "idle",
   fieldErrors: {},
   message: null,
 };
 
-export function PostEditorForm({ mode, defaultValues }: PostEditorFormProps) {
+export function PostEditorForm({
+  mode,
+  defaultValues,
+  action,
+}: PostEditorFormProps) {
   const values = {
     ...emptyValues,
     ...defaultValues,
   };
 
   const [state, formAction, pending] = useActionState(
-    createPostAction,
+    action,
     initialCreatePostState,
   );
 

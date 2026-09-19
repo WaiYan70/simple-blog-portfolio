@@ -32,7 +32,10 @@ export default async function PostPage() {
                 <Link href={`/blog/${post.slug}`} className="underline">
                   View
                 </Link>
-                <Link href={`/blog/${post.slug}/edit`} className="underline">
+                <Link
+                  href={`/admin/posts/${post.slug}/edit`}
+                  className="underline"
+                >
                   Edit
                 </Link>
               </div>
