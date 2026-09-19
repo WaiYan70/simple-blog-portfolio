@@ -11,6 +11,8 @@ import z from "zod";
 import {
   createPostFile,
   PostFileAlreadyExistsError,
+  PostFileNotFoundError,
+  updatePostFile,
 } from "./lib/post-file-repository";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -129,4 +131,64 @@ export async function previewPostAction(
       message: "The Markdown could not be compiled for preview.",
     };
   }
+}
+
+// update post action
+export async function updatePostAction(
+  originalSlug: string,
+  _previousState: PostEditorState,
+  formData: FormData,
+): Promise<PostEditorState> {
+  await requireAdmin();
+
+  const result = createPostSchema.safeParse({
+    title: formData.get("title"),
+    slug: originalSlug,
+    description: formData.get("description"),
+    date: formData.get("date"),
+    tags: formData.get("tags") ?? "",
+    content: formData.get("content"),
+  });
+
+  if (!result.success) {
+    const { fieldErrors } = z.flattenError(result.error);
+    return {
+      status: "error",
+      fieldErrors,
+      message: "Check the highlighted fields",
+    };
+  }
+
+  const post = result.data;
+
+  try {
+    const contentValidation = await validatePostContent(post.content);
+    if (!contentValidation.success) {
+      return {
+        status: "error",
+        fieldErrors: {
+          content: [contentValidation.message],
+        },
+        message: "Fix the articel content before saving",
+      };
+    }
+    await updatePostFile(post);
+  } catch (error) {
+    return {
+      status: "error",
+      fieldErrors: {},
+      message:
+        error instanceof PostFileNotFoundError
+          ? "This post no longer exist. Return to the post list."
+          : "Unable to update the post. Please try again.",
+    };
+  }
+
+  revalidatePath("/");
+  revalidatePath("/blog");
+  revalidatePath(`/blog/${post.slug}`);
+  revalidatePath("/admin/posts");
+  revalidatePath(`/admin/posts/${post.slug}/edit`);
+
+  redirect("/admin/posts");
 }
