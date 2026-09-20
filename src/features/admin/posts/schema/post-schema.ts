@@ -4,8 +4,8 @@ export const postContentSchema = z
   .string()
   .max(200_000, "Markdown content is too large")
   .refine(
-    (content) => content.trim().length > 0,
-    "Markdown content is required",
+    (content) => !content.includes("\u0000"),
+    "Content contains an unsupported null character"
   );
 
 export const createPostSchema = z.object({
@@ -45,6 +45,7 @@ export const createPostSchema = z.object({
         .max(10, "Use no more than 10 tags"),
     ),
   content: postContentSchema,
+  status: z.enum(["draft", "published"]),
 });
 
 export type CreatePostData = z.infer<typeof createPostSchema>;
