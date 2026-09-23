@@ -18,6 +18,8 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { compileMarkdownPreview } from "./lib/compile-markdown-preview";
 import { validatePostContent } from "./lib/validate-post-content";
+import { insertPost } from "@/db/repositories/post-repository";
+import { NeonDbError } from "@neondatabase/serverless";
 
 type PostField = keyof CreatePostData;
 
@@ -33,6 +35,7 @@ export async function createPostAction(
 ): Promise<PostEditorState> {
   await requireAdmin();
   const validationResult = createPostSchema.safeParse({
+    status: formData.get("status"),
     title: formData.get("title"),
     slug: formData.get("slug"),
     description: formData.get("description"),
@@ -65,8 +68,21 @@ export async function createPostAction(
         message: "Fix the article content before saving",
       };
     }
-    await createPostFile(post);
+    await insertPost(post);
   } catch (error) {
+    if (
+      error instanceof NeonDbError &&
+      error.code === "23505" &&
+      error.constraint === "post_slug_unique"
+    ) {
+      return {
+        status: "error",
+        fieldErrors: {
+          slug: ["A post with this slug already exists."],
+        },
+        message: "Choose a different slug",
+      };
+    }
     if (error instanceof PostFileAlreadyExistsError) {
       return {
         status: "error",
