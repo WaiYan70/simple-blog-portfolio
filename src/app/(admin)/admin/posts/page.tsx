@@ -1,5 +1,4 @@
 import { listAdminPosts } from "@/db/repositories/post-repository";
-import { getAllPosts } from "@/features/blog/lib/post";
 import { requireAdmin } from "@/lib/auth/require-admin";
 import Link from "next/link";
 

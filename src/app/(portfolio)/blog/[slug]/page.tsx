@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { MDXContentShell } from "@/features/blog/components/MDXContentShell";
 import {
-  getAllPosts,
   getPostBySlug,
-  getPostContent,
 } from "@/features/blog/lib/post";
 import { TableOfContents } from "@/features/blog/components/TableOfContent";
 import { ArrowLeft, Clock } from "lucide-react";
@@ -15,14 +12,6 @@ import { renderMarkdown } from "@/features/blog/lib/render-markdown";
 type Props = {
   params: Promise<{ slug: string }>;
 };
-
-export async function generateStaticParams() {
-  const posts = await getAllPosts();
-
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
-}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;

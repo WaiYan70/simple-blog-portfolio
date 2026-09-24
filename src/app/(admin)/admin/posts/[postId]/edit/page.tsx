@@ -1,7 +1,6 @@
 import { findAdminPostBySlug } from "@/db/repositories/post-repository";
 import { updatePostAction } from "@/features/admin/posts/actions";
 import { PostEditorForm } from "@/features/admin/posts/components/PostEditorForm";
-import { getPostBySlug } from "@/features/blog/lib/post";
 import { requireAdmin } from "@/lib/auth/require-admin";
 import { notFound } from "next/navigation";
 

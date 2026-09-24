@@ -9,10 +9,8 @@ import {
 } from "./schema/post-schema";
 import z from "zod";
 import {
-  createPostFile,
   PostFileAlreadyExistsError,
   PostFileNotFoundError,
-  updatePostFile,
 } from "./lib/post-file-repository";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";

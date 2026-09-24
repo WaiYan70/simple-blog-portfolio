@@ -1,8 +1,4 @@
 import type { MDXComponents } from "mdx/types";
-import {
-  extractTextFromNode,
-  slugifyHeading,
-} from "@/features/blog/lib/heading";
 
 export const mdxComponents: MDXComponents = {
   h1: (props) => (
@@ -16,21 +12,18 @@ export const mdxComponents: MDXComponents = {
         className="scroll-mt-24 text-2xl sm:text-xl font-semibold mt-8 mb-3 tracking-tight"
         {...props}
       />
-
   },
   h3: (props) => {
       <h3
         className="scroll-mt-24 text-xl sm:text-lg font-semibold mt-6 mb-2 tracking-tight"
         {...props}
       />
-
   },
   h4: (props) => {
       <h4
         className="scroll-mt-24 text-lg font-semibold mt-4 mb-1 tracking-tight"
         {...props}
       />
-
   },
   p: (props) => (
     <p className="leading-7 text-muted-foreground mb-4" {...props} />

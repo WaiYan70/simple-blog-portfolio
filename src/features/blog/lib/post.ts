@@ -7,7 +7,6 @@ import { collectHeadings } from "@/features/admin/posts/lib/remark-headings.mjs"
 import { Post, PostSummary } from "@/types/post"
 import { createProcessor } from "@mdx-js/mdx";
 import { connection } from "next/server";
-import { title } from "process";
 import "server-only"
 
 const parser = createProcessor({ format: "md" })
