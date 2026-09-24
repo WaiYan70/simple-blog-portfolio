@@ -27,7 +27,7 @@ export async function renderMarkdown(content: string): Promise<ReactNode> {
 
   return (
     <MDXContentShell>
-      <Content contents={mdxComponents} />
+      <Content components={mdxComponents} />
     </MDXContentShell>
   );
 }

@@ -32,9 +32,11 @@ export default async function PostPage() {
                 </p>
               </div>
               <div className="flex gap-4">
-                <Link href={`/blog/${post.slug}`} className="underline">
-                  View
-                </Link>
+                {post.status === "published" && (
+                  <Link href={`/blog/${post.slug}`} className="underline">
+                    View
+                  </Link>
+                )}
                 <Link
                   href={`/admin/posts/${post.slug}/edit`}
                   className="underline"

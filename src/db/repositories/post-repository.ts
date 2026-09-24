@@ -79,7 +79,7 @@ export async function insertPost(post: CreatePostData) {
         ${post.content},
         ${post.tags}::text[],
         ${post.status},
-        ${post.date}::date
+        ${post.date}::date,
         case
             when ${post.status} = 'published' then now()
             else null
@@ -107,7 +107,7 @@ export async function updatePost(
             then coalesce(published_at, now())
           else published_at
         end,
-        version = version + 1
+        version = version + 1,
         updated_at = now()
       where id = ${id}::uuid
         and slug = ${post.slug}

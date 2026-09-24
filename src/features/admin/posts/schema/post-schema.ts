@@ -4,6 +4,10 @@ export const postContentSchema = z
   .string()
   .max(200_000, "Markdown content is too large")
   .refine(
+    (content) => content.trim().length > 0,
+    "Markdown content is requried",
+  )
+  .refine(
     (content) => !content.includes("\u0000"),
     "Content contains an unsupported null character"
   );

@@ -7,12 +7,12 @@ create table posts (
     tags text[] not null default '{}',
 
     status text not null default 'draft',
-    publication_data date not null,
+    publication_date date not null,
     published_at timestamptz,
 
     version integer not null default 1,
     created_at timestamptz not null default now(),
-    updated_at timestemptz not null default now(),
+    updated_at timestamptz not null default now(),
 
     constraint posts_slug_unique unique (slug),
 
@@ -40,6 +40,6 @@ create table posts (
 
 );
 
-create index posts_publication_data_idx
-    on posts (publication_data desc, id desc)
+create index posts_publication_date_idx
+    on posts (publication_date desc, id desc)
     where status = 'published';

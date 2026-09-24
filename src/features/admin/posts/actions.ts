@@ -73,7 +73,7 @@ export async function createPostAction(
     if (
       error instanceof NeonDbError &&
       error.code === "23505" &&
-      error.constraint === "post_slug_unique"
+      error.constraint === "posts_slug_unique"
     ) {
       return {
         status: "error",
@@ -105,7 +105,7 @@ export async function createPostAction(
   revalidatePath("/blog");
   revalidatePath(`/blog/${post.slug}`);
 
-  redirect(`/blog/${post.slug}`);
+  redirect(`/admin/posts`);
 }
 
 export type PostPreviewResult =
@@ -178,6 +178,7 @@ export async function updatePostAction(
   }
 
   const result = createPostSchema.safeParse({
+    status: formData.get("status"),
     title: formData.get("title"),
     slug: originalSlug,
     description: formData.get("description"),

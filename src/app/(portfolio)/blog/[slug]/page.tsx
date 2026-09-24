@@ -10,6 +10,7 @@ import {
 import { TableOfContents } from "@/features/blog/components/TableOfContent";
 import { ArrowLeft, Clock } from "lucide-react";
 import { ScrollProgress } from "@/features/blog/components/ScrollProgress";
+import { renderMarkdown } from "@/features/blog/lib/render-markdown";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -43,13 +44,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogDetailPage({ params }: Props) {
   const { slug } = await params;
+  const post = await getPostBySlug(slug);
 
-  const [post, PostContent] = await Promise.all([
-    getPostBySlug(slug),
-    getPostContent(slug),
-  ]);
+  if (!post) return notFound();
 
-  if (!post || !PostContent) return notFound();
+  const articleContent = await renderMarkdown(post.content);
 
   return (
     <div className="mx-auto flex max-w-5xl gap-10 py-2">
@@ -97,9 +96,7 @@ export default async function BlogDetailPage({ params }: Props) {
           )}
         </header>
 
-        <MDXContentShell>
-          <PostContent />
-        </MDXContentShell>
+        {articleContent}
       </article>
 
       <aside className="lg:block sticky top-20 hidden h-fit w-60 rounded-2xl border border-border bg-card p-4 text-left text-card-foreground">
