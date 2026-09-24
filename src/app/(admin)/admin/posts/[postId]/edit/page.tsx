@@ -1,3 +1,4 @@
+import { findAdminPostBySlug } from "@/db/repositories/post-repository";
 import { updatePostAction } from "@/features/admin/posts/actions";
 import { PostEditorForm } from "@/features/admin/posts/components/PostEditorForm";
 import { getPostBySlug } from "@/features/blog/lib/post";
@@ -12,12 +13,12 @@ export default async function EditPostPage({ params }: EditPageProps) {
   await requireAdmin();
 
   const { postId } = await params;
-  const post = await getPostBySlug(postId);
+  const post = await findAdminPostBySlug(postId);
   if (!post) {
     notFound();
   }
 
-  const action = updatePostAction.bind(null, post.slug);
+  const action = updatePostAction.bind(null, post.id, post.slug, post.version);
 
   return (
     <main>
@@ -36,6 +37,7 @@ export default async function EditPostPage({ params }: EditPageProps) {
           date: post.date,
           tags: post.tags,
           content: post.content,
+          status: post.status
         }}
       />
     </main>

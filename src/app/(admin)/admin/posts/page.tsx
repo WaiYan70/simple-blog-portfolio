@@ -1,10 +1,11 @@
+import { listAdminPosts } from "@/db/repositories/post-repository";
 import { getAllPosts } from "@/features/blog/lib/post";
 import { requireAdmin } from "@/lib/auth/require-admin";
 import Link from "next/link";
 
 export default async function PostPage() {
   await requireAdmin();
-  const posts = await getAllPosts();
+  const posts = await listAdminPosts();
 
   return (
     <main className="space-y-6 p-6">
@@ -26,7 +27,9 @@ export default async function PostPage() {
             >
               <div>
                 <h2 className="font-medium">{post.title}</h2>
-                <p className="text-sm text-muted-foreground">{post.date}</p>
+                <p className="text-sm text-muted-foreground">
+                  {post.date} . {post.status}
+                </p>
               </div>
               <div className="flex gap-4">
                 <Link href={`/blog/${post.slug}`} className="underline">
