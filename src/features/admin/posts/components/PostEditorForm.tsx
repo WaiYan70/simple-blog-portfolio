@@ -37,6 +37,7 @@ type PostEditorValues = {
   date: string;
   tags: string[];
   content: string;
+  status: "draft" | "published";
 };
 
 type PostEditorFormProps = {
@@ -55,6 +56,7 @@ const emptyValues: PostEditorValues = {
   date: "",
   tags: [],
   content: "",
+  status: "draft",
 };
 
 const initialCreatePostState: PostEditorState = {
@@ -83,6 +85,17 @@ export function PostEditorForm({
   const [previewContent, setPreviewContent] = useState<ReactNode>(null);
   const [previewError, setPreviewError] = useState<string | null>(null);
   const [previewPending, startPreviewTransition] = useTransition();
+
+  const [publicationStatus, setPublicationStatus] = useState(values.status);
+  const wasPublished = defaultValues?.status === "published";
+  const saveLabel =
+    publicationStatus === "published"
+      ? wasPublished
+        ? "Update published post"
+        : "Publish post"
+      : wasPublished
+        ? "Unpublish and save draft"
+        : "Save draft";
 
   const previewRequestId = useRef(0);
   const handleViewChange = (nextView: string): void => {
@@ -143,6 +156,27 @@ export function PostEditorForm({
 
         <CardContent>
           <FieldGroup>
+            {/* Status */}
+            <Field data-invalid={Boolean(state.fieldErrors.status?.length)}>
+              <FieldLabel htmlFor="status">Visibility</FieldLabel>
+              <select
+                name="status"
+                id="status"
+                value={publicationStatus}
+                onChange={(event) => {
+                  const value = event.target.value;
+                  if (value === "draft" || value === "published") {
+                    setPublicationStatus(value);
+                  }
+                }}
+                className="rounded-md border bg-background px-3 py-2"
+                aria-invalid={Boolean(state.fieldErrors.status?.length)}
+              >
+                <option value="draft">Draft - only visible in admin</option>
+                <option value="published">Published - visible publicly</option>
+              </select>
+            </Field>
+
             {/* Title */}
             <Field data-invalid={Boolean(titleErrors?.length)}>
               <FieldLabel htmlFor="title">Title</FieldLabel>
@@ -309,11 +343,7 @@ export function PostEditorForm({
             <Link href="/admin/posts">Cancel</Link>
           </Button>
           <Button type="submit" disabled={pending}>
-            {pending
-              ? "Validating..."
-              : isEditing
-                ? "Save changes"
-                : "Create a new post"}
+            {pending ? "Saving..." : saveLabel}
           </Button>
         </CardFooter>
 

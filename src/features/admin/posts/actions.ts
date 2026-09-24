@@ -18,7 +18,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { compileMarkdownPreview } from "./lib/compile-markdown-preview";
 import { validatePostContent } from "./lib/validate-post-content";
-import { insertPost } from "@/db/repositories/post-repository";
+import { insertPost, updatePost } from "@/db/repositories/post-repository";
 import { NeonDbError } from "@neondatabase/serverless";
 
 type PostField = keyof CreatePostData;
@@ -151,11 +151,31 @@ export async function previewPostAction(
 
 // update post action
 export async function updatePostAction(
+  postId: string,
   originalSlug: string,
+  expectedVersion: number,
   _previousState: PostEditorState,
   formData: FormData,
 ): Promise<PostEditorState> {
   await requireAdmin();
+
+  const target = z
+    .object({
+      postId: z.uuid(),
+      expectedVersion: z.number().int().positive(),
+    })
+    .safeParse({
+      postId,
+      expectedVersion,
+    });
+
+  if (!target.success) {
+    return {
+      status: "error",
+      fieldErrors: {},
+      message: "Invalid edit request. Reopen the post and try again.",
+    };
+  }
 
   const result = createPostSchema.safeParse({
     title: formData.get("title"),
@@ -188,8 +208,37 @@ export async function updatePostAction(
         message: "Fix the articel content before saving",
       };
     }
-    await updatePostFile(post);
+    // await updatePostFile(post);
+    const updated = await updatePost(
+      target.data.postId,
+      target.data.expectedVersion,
+      post,
+    );
+
+    if (!updated) {
+      return {
+        status: "error",
+        fieldErrors: {},
+        message:
+          "This post changed or was removed after you opened it." +
+          "Copy your unsaved changes before reloading",
+      };
+    }
+
   } catch (error) {
+    if (
+      error instanceof NeonDbError &&
+      error.code === "23505" &&
+      error.constraint === "post_slug_unique"
+    ) {
+      return {
+        status: "error",
+        fieldErrors: {
+          slug: ["A post with this slug already exists."],
+        },
+        message: "Choose a different slug",
+      };
+    }
     return {
       status: "error",
       fieldErrors: {},
@@ -203,6 +252,7 @@ export async function updatePostAction(
   revalidatePath("/");
   revalidatePath("/blog");
   revalidatePath(`/blog/${post.slug}`);
+  revalidatePath(`/blog/${post.slug}/opengraph-image`)
   revalidatePath("/admin/posts");
   revalidatePath(`/admin/posts/${post.slug}/edit`);
 
