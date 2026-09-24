@@ -1,97 +1,33 @@
-import "server-only";
-
-import fs from "fs";
-import path from "path";
-import matter from "gray-matter";
-import type { MDXContent } from "mdx/types";
-import { Heading, Post } from "@/types/post";
-import { slugifyHeading } from "@/features/blog/lib/heading";
-import type { PostSummary } from "@/types/post";
+import {
+  findPublishedPostBySlug,
+  listPublishedPosts,
+  StoredPost,
+} from "@/db/repositories/post-repository";
+import { collectHeadings } from "@/features/admin/posts/lib/remark-headings.mjs";
+import { Post, PostSummary } from "@/types/post"
 import { createProcessor } from "@mdx-js/mdx";
-import remarkFrontmatter from "remark-frontmatter";
-import { collectHeadings } from "../../admin/posts/lib/remark-headings.mjs";
+import { connection } from "next/server";
+import { title } from "process";
+import "server-only"
 
-const postDirectory = path.join(process.cwd(), "src/content/blog");
-const postSlugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const parser = createProcessor({ format: "md" })
 
-type PostMdxModule = {
-  default: MDXContent;
-};
+export function toPost(row: StoredPost): Post {
+  const words = row.content.trim().split(/\s+/).filter(Boolean);
 
-export const getAllPosts = async (): Promise<PostSummary[]> => {
-  const files = fs
-    .readdirSync(postDirectory)
-    .filter((file) => file.endsWith(".mdx"));
-
-  const posts = files.map((file) => {
-    const filePath = path.join(postDirectory, file);
-
-    const fileContent = fs.readFileSync(filePath, "utf-8");
-
-    const { data, content } = matter(fileContent);
-
-    const slug = getSlugFromFile(file);
-
-    const post = normalizePostFormatter(slug, data, content);
-
-    return toSummary(post);
-  });
-
-  return posts.sort((a, b) => {
-    return new Date(b.date).getTime() - new Date(a.date).getTime();
-  });
-};
-
-export const getPostBySlug = async (slug: string): Promise<Post | null> => {
-  if (!postSlugPattern.test(slug)) return null;
-
-  const filePath = path.join(postDirectory, `${slug}.mdx`);
-
-  if (!fs.existsSync(filePath)) return null;
-
-  const fileContent = fs.readFileSync(filePath, "utf-8");
-
-  const { data, content } = matter(fileContent);
-
-  return normalizePostFormatter(slug, data, content);
-};
-
-export const getPostContent = async (
-  slug: string,
-): Promise<MDXContent | null> => {
-  if (!postSlugPattern.test(slug)) return null;
-
-  const filePath = path.join(postDirectory, `${slug}.mdx`);
-
-  if (!fs.existsSync(filePath)) return null;
-
-  const postModule = (await import(
-    `@/content/blog/${slug}.mdx`
-  )) as PostMdxModule;
-
-  return postModule.default;
-};
-
-// Core Normalization  (single truth of source)
-const normalizePostFormatter = (
-  slug: string,
-  data: Record<string, unknown>,
-  content: string,
-): Post => {
   return {
-    slug,
-    title: getString(data.title),
-    description: getString(data.description),
-    date: getString(data.date),
-    content,
-    tags: getStringArray(data.tags),
-    readingTime: calculateReadingTime(content),
-    headings: extractHeadings(content),
+    slug: row.slug,
+    title: row.title,
+    description: row.description,
+    date: row.date,
+    tags: row.tags,
+    content: row.content,
+    readingTime: Math.ceil(words.length / 225),
+    headings: collectHeadings(parser.parse(row.content)),
   };
-};
+}
 
-// Derived Transformation
-const toSummary = (post: Post): PostSummary => {
+export function toSummary(post: Post): PostSummary {
   return {
     slug: post.slug,
     title: post.title,
@@ -101,36 +37,16 @@ const toSummary = (post: Post): PostSummary => {
     readingTime: post.readingTime,
     headings: post.headings,
   };
-};
+}
 
-// Helpers
-const getSlugFromFile = (file: string): string => {
-  return path.parse(file).name;
-};
+export async function getAllPosts(): Promise<PostSummary[]> {
+  await connection();
+  const rows = await listPublishedPosts();
+  return rows.map((row) => toSummary(toPost(row)));
+}
 
-const getString = (value: unknown): string => {
-  return typeof value === "string" ? value : "";
-};
-
-const getStringArray = (value: unknown): string[] => {
-  return Array.isArray(value)
-    ? value.filter((item): item is string => typeof item === "string")
-    : [];
-};
-
-const calculateReadingTime = (content: string): number => {
-  if (!content.trim()) return 0;
-
-  const words = content.trim().split(/\s+/).length;
-  return Math.ceil(words / 225);
-};
-
-const headingParser = createProcessor({
-  format: "mdx",
-  remarkPlugins: [remarkFrontmatter],
-});
-
-const extractHeadings = (content: string): Heading[] => {
-  const tree = headingParser.parse(content);
-  return collectHeadings(tree);
-};
+export async function getPostBySlug(slug: string): Promise<Post | null> {
+  await connection();
+  const row = await findPublishedPostBySlug(slug);
+  return row ? toPost(row) : null;
+}
