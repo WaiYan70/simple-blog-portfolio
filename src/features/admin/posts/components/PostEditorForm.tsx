@@ -80,6 +80,14 @@ export function PostEditorForm({
     initialCreatePostState,
   );
 
+  // states for title, slug, description, date, tags
+  const [title, setTitle] = useState(values.title);
+  const [slug, setSlug] = useState(values.slug);
+  const [description, setDescription] = useState(values.description);
+  const [date, setDate] = useState(values.date);
+  const [tags, setTags] = useState(values.tags.join(", "));
+
+  // states for content
   const [content, setContent] = useState(values.content);
   const [view, setView] = useState<"write" | "preview">("write");
   const [previewContent, setPreviewContent] = useState<ReactNode>(null);
@@ -183,7 +191,8 @@ export function PostEditorForm({
               <Input
                 id="title"
                 name="title"
-                defaultValue={values.title}
+                value={title}
+                onChange={(event) => setTitle(event.target.value)}
                 placeholder="e.g Build a secure admin dashboard"
                 required
                 aria-invalid={Boolean(titleErrors?.length)}
@@ -199,7 +208,8 @@ export function PostEditorForm({
               <Input
                 id="slug"
                 name="slug"
-                defaultValue={values.slug}
+                value={slug}
+                onChange={(event) => setSlug(event.target.value)}
                 placeholder="building-a-secure-admin-dashboard"
                 readOnly={isEditing}
                 required
@@ -216,7 +226,8 @@ export function PostEditorForm({
               <Input
                 id="description"
                 name="description"
-                defaultValue={values.description}
+                value={description}
+                onChange={(event) => setDescription(event.target.value)}
                 placeholder="A short summary of the article"
                 required
                 aria-invalid={Boolean(descriptionErrors?.length)}
@@ -233,7 +244,8 @@ export function PostEditorForm({
                 id="date"
                 name="date"
                 type="date"
-                defaultValue={values.date}
+                value={date}
+                onChange={(event) => setDate(event.target.value)}
                 required
                 aria-invalid={Boolean(dateErrors?.length)}
               />
@@ -248,7 +260,8 @@ export function PostEditorForm({
               <Input
                 id="tags"
                 name="tags"
-                defaultValue={values.tags.join(", ")}
+                value={tags}
+                onChange={(event) => setTags(event.target.value)}
                 placeholder="Next.js, TypeScript, Security"
                 aria-invalid={Boolean(tagsErrors?.length)}
               />
