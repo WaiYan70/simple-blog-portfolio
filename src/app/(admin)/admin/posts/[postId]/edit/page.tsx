@@ -22,11 +22,12 @@ export default async function EditPostPage({ params }: EditPageProps) {
   return (
     <main>
       <header>
-        <h1>Edit Post Page - {post.slug}</h1>
-        <p>Update the meta and articel content.</p>
+        <h1 className="mx-2 font-semibold text-xl">
+          Edit Post Page - {post.slug} | Version - {post.version}
+        </h1>
       </header>
       <PostEditorForm
-        key={post.slug}
+        key={`${post.id}:${post.version}`}
         mode="edit"
         action={action}
         defaultValues={{
@@ -36,7 +37,7 @@ export default async function EditPostPage({ params }: EditPageProps) {
           date: post.date,
           tags: post.tags,
           content: post.content,
-          status: post.status
+          status: post.status,
         }}
       />
     </main>
