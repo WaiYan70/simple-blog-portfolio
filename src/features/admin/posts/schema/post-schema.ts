@@ -1,14 +1,18 @@
 import { z } from "zod";
 
+
+const hasNoNullCharacter = (value: string): boolean => {
+  return !value.includes("\u0000");
+};
+
 export const postContentSchema = z
   .string()
   .max(200_000, "Markdown content is too large")
   .refine(
     (content) => content.trim().length > 0,
-    "Markdown content is requried",
+    "Markdown content is required",
   )
-  .refine(
-    (content) => !content.includes("\u0000"),
+  .refine(hasNoNullCharacter,
     "Content contains an unsupported null character"
   );
 
@@ -17,7 +21,8 @@ export const createPostSchema = z.object({
     .string()
     .trim()
     .min(1, "Title is required")
-    .max(120, "Title must be 120 characters or fewer"),
+    .max(120, "Title must be 120 characters or fewer")
+    .refine(hasNoNullCharacter, "Title contains an unsupported null character"),
 
   slug: z
     .string()
@@ -33,16 +38,22 @@ export const createPostSchema = z.object({
     .string()
     .trim()
     .min(1, "Description is required")
-    .max(300, "Description must be 300 characters or fewer"),
+    .max(300, "Description must be 300 characters or fewer")
+    .refine(
+      hasNoNullCharacter,
+      "Description contains an unsupported null character",
+    ),
   date: z.iso.date("Choose a valid publication date"),
   tags: z
     .string()
-    .transform((value) =>
-      value
+    .refine(hasNoNullCharacter, "Tags contain an unsupported null character")
+    .transform((value) => {
+      const tags = value
         .split(",")
         .map((tag) => tag.trim())
-        .filter(Boolean),
-    )
+        .filter(Boolean);
+      return [...new Set(tags)];
+    })
     .pipe(
       z
         .array(z.string().max(30, "Each tag must be 30 characters or fewer"))
