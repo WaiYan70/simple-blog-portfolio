@@ -8,10 +8,6 @@ import {
   postContentSchema,
 } from "./schema/post-schema";
 import z from "zod";
-import {
-  PostFileAlreadyExistsError,
-  PostFileNotFoundError,
-} from "./lib/post-file-repository";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { compileMarkdownPreview } from "./lib/compile-markdown-preview";
@@ -53,8 +49,6 @@ export async function createPostAction(
 
   const post = validationResult.data;
 
-  // Next step
-  // await createPostFile(post)
   try {
     const postContentValidation = await validatePostContent(post.content);
     if (!postContentValidation.success) {
@@ -194,7 +188,7 @@ export async function updatePostAction(
         fieldErrors: {
           content: [contentValidation.message],
         },
-        message: "Fix the articel content before saving",
+        message: "Fix the article content before saving",
       };
     }
 
@@ -209,8 +203,8 @@ export async function updatePostAction(
         status: "error",
         fieldErrors: {},
         message:
-          "This post changed or was removed after you opened it." +
-          "Copy your unsaved changes before reloading",
+          "This post changed or was removed after you opened it. " +
+          "Copy your unsaved changes before reloading.",
       };
     }
   } catch {
