@@ -365,7 +365,6 @@ export function PostEditorForm({
               </Field>
             </FieldGroup>
           </fieldset>
-
         </CardContent>
 
         <CardFooter className="justify-between">

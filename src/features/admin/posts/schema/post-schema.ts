@@ -43,7 +43,12 @@ export const createPostSchema = z.object({
       hasNoNullCharacter,
       "Description contains an unsupported null character",
     ),
-  date: z.iso.date("Choose a valid publication date"),
+  date: z.iso
+    .date("Choose a valid publication date")
+    .refine(
+      (value) => Number(value.slice(0, 4)) >= 1,
+      "Publication year must be 0001 or later",
+    ),
   tags: z
     .string()
     .refine(hasNoNullCharacter, "Tags contain an unsupported null character")
