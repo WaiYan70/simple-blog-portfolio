@@ -27,7 +27,7 @@ export default async function PostPage() {
               <div>
                 <h2 className="font-medium">{post.title}</h2>
                 <p className="text-sm text-muted-foreground">
-                  {post.date} . {post.status}
+                  {post.date} · {post.status}
                 </p>
               </div>
               <div className="flex gap-4">
