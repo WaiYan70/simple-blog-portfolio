@@ -64,10 +64,13 @@ export const validatePostContent = async (
       ],
     });
     return { success: true };
-  } catch {
+  } catch (error) {
     return {
       success: false,
-      message: "This content contains invalid MDX syntax",
+      message:
+        error instanceof UnsupportedMarkdownError
+          ? error.message
+          : "This content contains invalid MDX syntax",
     };
   }
 }

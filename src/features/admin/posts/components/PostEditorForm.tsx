@@ -179,10 +179,19 @@ export function PostEditorForm({
                 }}
                 className="rounded-md border bg-background px-3 py-2"
                 aria-invalid={Boolean(state.fieldErrors.status?.length)}
+                aria-describedby={
+                  state.fieldErrors?.status?.length ? "status-error" : undefined
+                }
               >
                 <option value="draft">Draft - only visible in admin</option>
                 <option value="published">Published - visible publicly</option>
               </select>
+              <FieldError
+                id="status-error"
+                errors={state.fieldErrors.status?.map((message) => ({
+                  message,
+                }))}
+              />
             </Field>
 
             {/* Title */}

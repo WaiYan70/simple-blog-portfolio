@@ -81,16 +81,6 @@ export async function createPostAction(
         message: "Choose a different slug",
       };
     }
-    if (error instanceof PostFileAlreadyExistsError) {
-      return {
-        status: "error",
-        fieldErrors: {
-          slug: ["A post with this slug already exists."],
-        },
-        message: "Choose a different slug",
-      };
-    }
-
     return {
       status: "error",
       fieldErrors: {},
@@ -207,7 +197,7 @@ export async function updatePostAction(
         message: "Fix the articel content before saving",
       };
     }
-    // await updatePostFile(post);
+
     const updated = await updatePost(
       target.data.postId,
       target.data.expectedVersion,
@@ -223,28 +213,11 @@ export async function updatePostAction(
           "Copy your unsaved changes before reloading",
       };
     }
-
-  } catch (error) {
-    if (
-      error instanceof NeonDbError &&
-      error.code === "23505" &&
-      error.constraint === "post_slug_unique"
-    ) {
-      return {
-        status: "error",
-        fieldErrors: {
-          slug: ["A post with this slug already exists."],
-        },
-        message: "Choose a different slug",
-      };
-    }
+  } catch {
     return {
       status: "error",
       fieldErrors: {},
-      message:
-        error instanceof PostFileNotFoundError
-          ? "This post no longer exist. Return to the post list."
-          : "Unable to update the post. Please try again.",
+      message: "Unable to update the post. Please try again.",
     };
   }
 
