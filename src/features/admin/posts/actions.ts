@@ -14,6 +14,7 @@ import { compileMarkdownPreview } from "./lib/compile-markdown-preview";
 import { validatePostContent } from "./lib/validate-post-content";
 import { insertPost, updatePost } from "@/db/repositories/post-repository";
 import { NeonDbError } from "@neondatabase/serverless";
+import { logServerError } from "@/lib/log-server-error";
 
 type PostField = keyof CreatePostData;
 
@@ -75,10 +76,13 @@ export async function createPostAction(
         message: "Choose a different slug",
       };
     }
+
+    const reference = logServerError("posts.create", error);
+
     return {
       status: "error",
       fieldErrors: {},
-      message: "Unable to create the post. Please try again.",
+      message: `Unable to create the post. Reference: ${reference}`,
     };
   }
 
@@ -123,10 +127,11 @@ export async function previewPostAction(
       success: true,
       preview,
     };
-  } catch {
+  } catch (error) {
+    const reference = logServerError("posts.preview", error);
     return {
       success: false,
-      message: "The Markdown could not be compiled for preview.",
+      message: `Unable to render the preview. Reference ${reference}`,
     };
   }
 }
@@ -207,11 +212,12 @@ export async function updatePostAction(
           "Copy your unsaved changes before reloading.",
       };
     }
-  } catch {
+  } catch (error) {
+    const reference = logServerError("posts.update", error);
     return {
       status: "error",
       fieldErrors: {},
-      message: "Unable to update the post. Please try again.",
+      message: `Unable to update the post. Reference: ${reference}`,
     };
   }
 
