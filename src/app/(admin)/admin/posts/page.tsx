@@ -1,10 +1,18 @@
 import { listAdminPosts } from "@/db/repositories/post-repository";
 import { requireAdmin } from "@/lib/auth/require-admin";
+import { logServerError } from "@/lib/log-server-error";
 import Link from "next/link";
 
 export default async function PostPage() {
   await requireAdmin();
-  const posts = await listAdminPosts();
+  let posts: Awaited<ReturnType<typeof listAdminPosts>>;
+
+  try {
+    posts = await listAdminPosts();
+  } catch (error) {
+    const reference = logServerError("posts.list", error);
+    throw new Error(`Unable to load posts. Reference: ${reference}`);
+  }
 
   return (
     <main className="space-y-6 p-6">
