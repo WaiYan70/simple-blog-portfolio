@@ -10,7 +10,12 @@ export default async function Image({ params }: Props) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
   if (!post) {
-    return new ImageResponse(<div>Not found</div>);
+    return new Response("Not found", {
+      status: 404,
+      headers: {
+        "Cache-Control": "no-store",
+      },
+    });
   }
 
   return new ImageResponse(
