@@ -10,7 +10,12 @@ export default function CreateNewPostPage() {
           Create a new Markdown blog post.
         </p>
       </header>
-      <PostEditorForm mode="create" action={createPostAction} />
+      <PostEditorForm
+        mode="create"
+        action={createPostAction}
+        recoveryKey="post-editor:new"
+        recoveryVersion={null}
+      />
     </main>
   );
 }

@@ -39,6 +39,8 @@ export default async function EditPostPage({ params }: EditPageProps) {
           content: post.content,
           status: post.status,
         }}
+        recoveryKey={`post-editor:${post.id}`}
+        recoveryVersion={post.version}
       />
     </main>
   );

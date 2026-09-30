@@ -1,6 +1,6 @@
 "use client";
 
-import {
+import React, {
   type ReactNode,
   useActionState,
   useRef,
@@ -29,6 +29,10 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  postRecoverySchema,
+  recoveryFieldsSchema,
+} from "../schema/post-recovery-schema";
 
 type PostEditorValues = {
   title: string;
@@ -46,7 +50,9 @@ type PostEditorFormProps = {
   action: (
     previousState: PostEditorState,
     formData: FormData,
-  ) => Promise<PostEditorState>
+  ) => Promise<PostEditorState>;
+  recoveryKey: string;
+  recoveryVersion: number | null;
 };
 
 const emptyValues: PostEditorValues = {
@@ -69,6 +75,8 @@ export function PostEditorForm({
   mode,
   defaultValues,
   action,
+  recoveryKey,
+  recoveryVersion
 }: PostEditorFormProps) {
   const values = {
     ...emptyValues,
@@ -95,6 +103,101 @@ export function PostEditorForm({
   const [previewPending, startPreviewTransition] = useTransition();
 
   const [publicationStatus, setPublicationStatus] = useState(values.status);
+
+  const snapshot = {
+    title,
+    slug,
+    description,
+    date,
+    tags,
+    content,
+    status: publicationStatus,
+  };
+
+  const [initialSnapshot] = useState(() => JSON.stringify(snapshot));
+
+  const isDirty = JSON.stringify(snapshot) !== initialSnapshot;
+
+  const [recoveryMessage, setRecoveryMessage] = useState<string | null>(null);
+
+  const saveRecovery = (event: React.SyntheticEvent<HTMLFormElement>): void => {
+    const formData = new FormData(event?.currentTarget);
+    const result = recoveryFieldsSchema.safeParse(
+      Object.fromEntries(formData.entries()),
+    );
+    if (!result.success) {
+      setRecoveryMessage(
+        "This recovery copy exceeds the local recovery limits. " +
+          "Keep a separate copy of your work",
+      );
+      return;
+    }
+
+    try {
+      if (JSON.stringify(result.data) === initialSnapshot) {
+        sessionStorage.removeItem(recoveryKey);
+      } else {
+        sessionStorage.setItem(
+          recoveryKey,
+          JSON.stringify({
+            version: recoveryVersion,
+            fields: result.data,
+          }),
+        );
+      }
+
+      setRecoveryMessage(null);
+    } catch {
+      setRecoveryMessage(
+        "Local recovery is unavailable. Save your work before leaving.",
+      );
+    }
+  };
+
+  const restoreRecovery = () => {
+    try {
+      const raw = sessionStorage.getItem(recoveryKey);
+      if (!raw) {
+        setRecoveryMessage("No recovery copy exists in this tab.");
+        return;
+      }
+      const result = postRecoverySchema.safeParse(JSON.parse(raw));
+      if (!result.success) {
+        setRecoveryMessage("The recovery copy could not be read.");
+        return;
+      }
+      if (result.data?.version !== recoveryVersion) {
+        setRecoveryMessage(
+          "This recovery copy belongs to an older saved version. " +
+            "Review it separately before replacing the current post.",
+        );
+        return;
+      }
+      if (
+        !window.confirm("Replace the editor fields with the recovery copy?")
+      ) {
+        return;
+      }
+      const field = result.data.fields;
+      setTitle(field.title);
+      setSlug(field.slug);
+      setDescription(field.description);
+      setDate(field.date);
+      setTags(field.tags);
+      setContent(field.content);
+      setPublicationStatus(field.status);
+
+      previewRequestId.current += 1;
+      setView("write");
+
+      setRecoveryMessage(
+        "Recovery copy restored. It has not been saved to the database.",
+      );
+    } catch {
+      setRecoveryMessage("Unable to read the recovery copy.");
+    }
+  };
+
   const wasPublished = defaultValues?.status === "published";
   const saveLabel =
     publicationStatus === "published"
@@ -153,7 +256,7 @@ export function PostEditorForm({
   const contentErrors = state.fieldErrors.content;
 
   return (
-    <form action={formAction}>
+    <form action={formAction} onChange={saveRecovery}>
       <Card>
         <CardHeader>
           <CardTitle>{isEditing ? "Edit post" : "Create a new post"}</CardTitle>
@@ -371,6 +474,19 @@ export function PostEditorForm({
           <Button variant="outline" asChild>
             <Link href="/admin/posts">Cancel</Link>
           </Button>
+          <Button
+            type="button"
+            variant="outline"
+            disabled={pending}
+            onClick={restoreRecovery}
+          >
+            Restore unsaved copy
+          </Button>
+          {recoveryMessage && (
+            <p role="status" className="text-sm text-muted-foreground">
+              {recoveryMessage}
+            </p>
+          )}
           <Button type="submit" disabled={pending}>
             {pending ? "Saving..." : saveLabel}
           </Button>
