@@ -19,7 +19,7 @@ import { logServerError } from "@/lib/log-server-error";
 type PostField = keyof CreatePostData;
 
 export type PostEditorState = {
-  status: "idle" | "error";
+  status: "idle" | "error" | "success";
   fieldErrors: Partial<Record<PostField, string[]>>;
   message: string | null;
 };

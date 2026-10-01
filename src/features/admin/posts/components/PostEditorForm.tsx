@@ -3,6 +3,7 @@
 import React, {
   type ReactNode,
   useActionState,
+  useEffect,
   useRef,
   useState,
   useTransition,
@@ -10,6 +11,10 @@ import React, {
 import Link from "next/link";
 import {
   previewPostAction, type PostEditorState } from "../actions";
+import {
+  postRecoverySchema,
+  recoveryFieldsSchema,
+} from "../schema/post-recovery-schema";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,10 +34,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  postRecoverySchema,
-  recoveryFieldsSchema,
-} from "../schema/post-recovery-schema";
+import { useRouter } from "next/navigation";
 
 type PostEditorValues = {
   title: string;
@@ -83,8 +85,28 @@ export function PostEditorForm({
     ...defaultValues,
   };
 
+  const router = useRouter();
+  const saveCompleted = useRef(false);
+
   const [state, formAction, pending] = useActionState(
-    action,
+    async (
+      previousState: PostEditorState,
+      formData: FormData,
+    ): Promise<PostEditorState> => {
+      const result = await action(previousState, formData);
+      if (result.status === "success") {
+        saveCompleted.current = true;
+        try {
+          sessionStorage.removeItem(recoveryKey);
+        } catch {
+          console.warn(
+            "The post was saved, but local recovery cleanup failed.",
+          );
+        }
+        router.replace("/admin/posts");
+      }
+      return result;
+    },
     initialCreatePostState,
   );
 
@@ -117,6 +139,22 @@ export function PostEditorForm({
   const [initialSnapshot] = useState(() => JSON.stringify(snapshot));
 
   const isDirty = JSON.stringify(snapshot) !== initialSnapshot;
+
+  // Add the warning effect here.
+  useEffect(() => {
+    if (!isDirty) return;
+    const handleBeforeUnload = (event: BeforeUnloadEvent): void => {
+      if (saveCompleted.current) return;
+      event.preventDefault();
+      event.returnValue = "";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [isDirty]);
 
   const [recoveryMessage, setRecoveryMessage] = useState<string | null>(null);
 
