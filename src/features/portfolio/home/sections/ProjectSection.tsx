@@ -1,5 +1,5 @@
 import type { ProjectSummary } from "@/types/project";
-import { ProjectCard } from "@/features/projects/components/ProjectCard";
+import { ProjectCard } from "@/features/portfolio/projects/components/ProjectCard";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { SectionHeader } from "@/components/shared/SectionHeader";

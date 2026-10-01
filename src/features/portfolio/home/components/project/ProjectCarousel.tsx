@@ -1,6 +1,6 @@
 "use client";
 
-import { ProjectCard } from "@/features/projects/components/ProjectCard";
+import { ProjectCard } from "@/features/portfolio/projects/components/ProjectCard";
 import type { ProjectSummary } from "@/types/project";
 import { motion, PanInfo } from "motion/react";
 import { useState } from "react";

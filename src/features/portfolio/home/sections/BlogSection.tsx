@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { Section } from "@/components/shared/Section";
-import { BlogCard } from "@/features/blog/components/BlogCard";
+import { BlogCard } from "@/features/portfolio/blog/components/BlogCard";
 import { StaggerReveal } from "../animation/StaggerReveal";
 
 export function BlogSection({ posts }: { posts: PostSummary[] }) {
