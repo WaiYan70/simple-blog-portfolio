@@ -1,5 +1,5 @@
 import { size } from "@/app/(portfolio)/opengraph-image";
-import { getPostBySlug } from "@/features/blog/lib/post";
+import { getPostBySlug } from "@/features/portfolio/blog/lib/post";
 import { ImageResponse } from "@vercel/og";
 
 type Props = {

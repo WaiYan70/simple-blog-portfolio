@@ -1,6 +1,6 @@
 import { Section } from "@/components/shared/Section";
-import { BlogListClient } from "@/features/blog/components/BlogListClient";
-import { getAllPosts } from "@/features/blog/lib/post";
+import { BlogListClient } from "@/features/portfolio/blog/components/BlogListClient";
+import { getAllPosts } from "@/features/portfolio/blog/lib/post";
 
 export default async function BlogPage() {
   const posts = await getAllPosts();

@@ -1,4 +1,4 @@
-import { contactSchema } from "@/features/home/schema/contact.schema";
+import { contactSchema } from "@/features/portfolio/home/schema/contact.schema";
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import z from "zod";

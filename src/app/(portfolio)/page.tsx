@@ -1,13 +1,13 @@
-import { Bento } from "@/features/home/sections/Bento";
-import { BlogSection } from "@/features/home/sections/BlogSection";
-import { ProjectSection } from "@/features/home/sections/ProjectSection";
-import { Skills } from "@/features/home/sections/Skills";
-import { EngineeringFocus } from "@/features/home/sections/EngineeringFocus";
-import { Journey } from "@/features/home/sections/Journey";
-import { ContactMe } from "@/features/home/sections/ContactMe";
+import { Bento } from "@/features/portfolio/home/sections/Bento";
+import { BlogSection } from "@/features/portfolio/home/sections/BlogSection";
+import { ProjectSection } from "@/features/portfolio/home/sections/ProjectSection";
+import { Skills } from "@/features/portfolio/home/sections/Skills";
+import { EngineeringFocus } from "@/features/portfolio/home/sections/EngineeringFocus";
+import { Journey } from "@/features/portfolio/home/sections/Journey";
+import { ContactMe } from "@/features/portfolio/home/sections/ContactMe";
 
-import { getAllPosts } from "@/features/blog/lib/post";
-import { getAllProjects } from "@/features/projects/lib/project";
+import { getAllPosts } from "@/features/portfolio/blog/lib/post";
+import { getAllProjects } from "@/features/portfolio/projects/lib/project";
 
 export default async function Home() {
   const posts = await getAllPosts();

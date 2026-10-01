@@ -3,11 +3,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   getPostBySlug,
-} from "@/features/blog/lib/post";
-import { TableOfContents } from "@/features/blog/components/TableOfContent";
+} from "@/features/portfolio/blog/lib/post";
+import { TableOfContents } from "@/features/portfolio/blog/components/TableOfContent";
 import { ArrowLeft, Clock } from "lucide-react";
-import { ScrollProgress } from "@/features/blog/components/ScrollProgress";
-import { renderMarkdown } from "@/features/blog/lib/render-markdown";
+import { ScrollProgress } from "@/features/portfolio/blog/components/ScrollProgress";
+import { renderMarkdown } from "@/features/portfolio/blog/lib/render-markdown";
 
 type Props = {
   params: Promise<{ slug: string }>;

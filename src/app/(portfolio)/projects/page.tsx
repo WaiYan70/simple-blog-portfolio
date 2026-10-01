@@ -1,7 +1,7 @@
 import { Section } from "@/components/shared/Section";
-import { StaggerReveal } from "@/features/home/animation/StaggerReveal";
-import { ProjectCard } from "@/features/projects/components/ProjectCard";
-import { getAllProjects } from "@/features/projects/lib/project";
+import { StaggerReveal } from "@/features/portfolio/home/animation/StaggerReveal";
+import { ProjectCard } from "@/features/portfolio/projects/components/ProjectCard";
+import { getAllProjects } from "@/features/portfolio/projects/lib/project";
 
 export default async function ProjectPage() {
   const projects = await getAllProjects();

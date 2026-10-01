@@ -1,9 +1,9 @@
-import { MDXContentShell } from "@/features/blog/components/MDXContentShell";
+import { MDXContentShell } from "@/features/portfolio/blog/components/MDXContentShell";
 import {
   getAllProjects,
   getProjectContent,
   getProjectBySlug,
-} from "@/features/projects/lib/project";
+} from "@/features/portfolio/projects/lib/project";
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
