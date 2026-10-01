@@ -146,7 +146,6 @@ export function PostEditorForm({
     const handleBeforeUnload = (event: BeforeUnloadEvent): void => {
       if (saveCompleted.current) return;
       event.preventDefault();
-      event.returnValue = "";
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);
@@ -510,7 +509,25 @@ export function PostEditorForm({
 
         <CardFooter className="justify-between">
           <Button variant="outline" asChild>
-            <Link href="/admin/posts">Cancel</Link>
+            <Link
+              href="/admin/posts"
+              onNavigate={(event) => {
+                if (pending) {
+                  event.preventDefault();
+                  return;
+                }
+                if (
+                  isDirty &&
+                  !window.confirm(
+                    "Leave without saving changes to the database?",
+                  )
+                ) {
+                  event.preventDefault();
+                }
+              }}
+            >
+              Cancel
+            </Link>
           </Button>
           <Button
             type="button"
