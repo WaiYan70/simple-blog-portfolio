@@ -15,4 +15,4 @@ export type Post = {
   headings: Heading[];
 };
 
-export type PostSummary = Omit<Post, "content">;
+export type PostSummary = Omit<Post, "content" | "headings">;
