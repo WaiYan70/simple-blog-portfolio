@@ -4,10 +4,15 @@ import {
   StoredPost,
 } from "@/db/repositories/post-repository";
 import { collectHeadings } from "@/features/admin/posts/lib/remark-headings.mjs";
-import { Post, PostSummary } from "@/types/post"
+import { Post, PostPageResult, PostSummary } from "@/types/post"
 import { createProcessor } from "@mdx-js/mdx";
 import { connection } from "next/server";
 import "server-only"
+import {
+  publishedPostListSchema,
+  PublishPostListInput,
+} from "../schema/post-list-schema";
+import { logServerError } from "@/lib/log-server-error";
 
 const parser = createProcessor({ format: "md" })
 
@@ -26,22 +31,17 @@ export function toPost(row: StoredPost): Post {
   };
 }
 
-export function toSummary(post: Post): PostSummary {
-  return {
-    slug: post.slug,
-    title: post.title,
-    description: post.description,
-    date: post.date,
-    tags: post.tags,
-    readingTime: post.readingTime,
-    headings: post.headings,
-  };
-}
-
-export async function getAllPosts(): Promise<PostSummary[]> {
+export async function getPulbishedPostPage(
+  input: PublishPostListInput,
+): Promise<PostPageResult<PostSummary>> {
+  const options = publishedPostListSchema.parse(input)
   await connection();
-  const rows = await listPublishedPosts();
-  return rows.map((row) => toSummary(toPost(row)));
+  try {
+    return await listPublishedPosts(options);
+  } catch (error) {
+    const reference = logServerError("posts.list", error);
+    throw new Error(`Unable to load posts. Reference: ${reference}`);
+  }
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
