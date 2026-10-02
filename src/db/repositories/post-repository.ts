@@ -7,6 +7,7 @@ import {
   AdminPostListItem,
   PostListOptions,
   PostPageResult,
+  PostSummary,
 } from "@/types/post";
 
 export type StoredPost = CreatePostData & {
@@ -40,10 +41,59 @@ export async function findPublishedPostBySlug(
   return rows[0] ?? null;
 }
 
-export async function listPublishedPosts(): Promise<StoredPost[]> {
-  return (await sql.query(
-    `select ${postColumns} from posts where status = 'published' order by publication_date desc, id desc`,
-  )) as StoredPost[];
+export async function listPublishedPosts(
+  options: PostListOptions,
+): Promise<PostPageResult<PostSummary>> {
+  const { page, pageSize, query } = options;
+  const offset = (page - 1) * pageSize;
+
+  const rows = (await sql.query(
+    `
+      select
+        slug,
+        title,
+        description,
+        tags,
+        to_char(publication_date, 'YYYY-MM-DD') as date,
+        case
+          when content_markdown ~ '^[[:space:]]*$' then 0
+          else ceil(
+            cardinality(
+              regexp_split_to_array(
+                regexp_replace(
+                  content_markdown,
+                  '^[[:space:]]+|[[:space:]]+$',
+                  '',
+                  'g'
+                )
+                '[[:space:]]+'
+              )
+            ) / 225.0
+          )::integer
+        end as "readingTime"
+      from posts
+      where
+        status = 'published'
+        and (
+          $1::text = ''
+          or strpos(lower(title), lower($1)) > 0
+          or strpos(lower(description), lower($1)) > 0
+          or exists (
+            select 1
+            from unnest(tags) as tag(value)
+            where strpos(lower(tag.value), lower($1)) > 0
+          )
+        )
+      order by publication_date desc, id desc
+      limit $2
+      offset $3
+    `,
+    [query, pageSize + 1, offset],
+  )) as PostSummary[];
+  return {
+    posts: rows.slice(0, pageSize),
+    hasNext: rows.length > pageSize,
+  }
 }
 
 export async function findAdminPostBySlug(
