@@ -16,3 +16,19 @@ export type Post = {
 };
 
 export type PostSummary = Omit<Post, "content" | "headings">;
+
+export type AdminPostListItem = Pick<Post, "slug" | "title" | "date"> & {
+  id: string;
+  status: "draft" | "published";
+};
+
+export type PostListOptions = {
+  page: number;
+  pageSize: number;
+  query: string;
+};
+
+export type PostPageResult<T> = {
+  posts: T[];
+  hasNext: boolean;
+}

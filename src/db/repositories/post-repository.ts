@@ -3,6 +3,11 @@ import "server-only";
 import { CreatePostData } from "@/features/admin/posts/schema/post-schema";
 import { sql } from "../client";
 import { randomUUID } from "node:crypto";
+import {
+  AdminPostListItem,
+  PostListOptions,
+  PostPageResult,
+} from "@/types/post";
 
 export type StoredPost = CreatePostData & {
   id: string;
@@ -52,10 +57,43 @@ export async function findAdminPostBySlug(
   return rows[0] ?? null;
 }
 
-export async function listAdminPosts(): Promise<StoredPost[]> {
-  return (await sql.query(
-    `select ${postColumns} from posts order by updated_at desc, id desc`,
-  )) as StoredPost[];
+export async function listAdminPosts(
+  options: PostListOptions,
+): Promise<PostPageResult<AdminPostListItem>> {
+  const { page, pageSize, query } = options;
+  const offset = (page - 1) * pageSize;
+
+  const rows = (await sql.query(
+    `
+      select
+        id,
+        slug,
+        title,
+        status,
+        to_char(publication_date, 'YYYY-MM-DD') as date
+      from posts
+      where
+        (
+          $1::text = ''
+          or strpos(lower(title), lower($1)) > 0
+          or strpos(lower(description), lower($1)) > 0
+          or exists (
+            select 1
+            from unnest(tags) as tag(value)
+            where strpos(lower(tag.value), lower($1)) > 0
+          )
+        )
+      order by updated_at desc, id desc
+      limit $2
+      offset $3
+    `,
+    [query, pageSize + 1, offset],
+  )) as AdminPostListItem[];
+
+  return {
+    posts: rows.slice(0, pageSize),
+    hasNext: rows.length > pageSize,
+  }
 }
 
 export async function insertPost(post: CreatePostData) {
