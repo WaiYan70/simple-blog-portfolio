@@ -9,7 +9,6 @@ import {
 } from "./schema/post-schema";
 import z from "zod";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { compileMarkdownPreview } from "./lib/compile-markdown-preview";
 import { validatePostContent } from "./lib/validate-post-content";
 import { insertPost, updatePost } from "@/db/repositories/post-repository";
@@ -91,7 +90,12 @@ export async function createPostAction(
   revalidatePath("/blog");
   revalidatePath(`/blog/${post.slug}`);
 
-  redirect(`/admin/posts`);
+  // Let the editor clear its recovery copy before navigating.
+  return {
+    status: "success",
+    fieldErrors: {},
+    message: null,
+  }
 }
 
 export type PostPreviewResult =
@@ -228,5 +232,10 @@ export async function updatePostAction(
   revalidatePath("/admin/posts");
   revalidatePath(`/admin/posts/${post.slug}/edit`);
 
-  redirect("/admin/posts");
+  // Let the editor clear its recovery copy before navigating
+  return {
+    status: "success",
+    fieldErrors: {},
+    message: null,
+  }
 }
