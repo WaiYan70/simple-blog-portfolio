@@ -19,7 +19,7 @@ export function PostSearch({ pathname, query }: SearchProps) {
           defaultValue={query}
           maxLength={100}
           placeholder="Search by title, description, or tag..."
-          className="h-11 w-full rounder"
+          className="h-11 w-full rounder-xl border border-border bg-background px-3  text-sm"
         />
       </div>
       <Button type="submit">Search</Button>
@@ -36,7 +36,7 @@ export function PostSearch({ pathname, query }: SearchProps) {
 }
 
 type PaginationProps = {
-  path: string;
+  pathname: string;
   page: number;
   query: string;
   hasNext: boolean;

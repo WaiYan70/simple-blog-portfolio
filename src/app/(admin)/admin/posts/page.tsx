@@ -1,18 +1,48 @@
-import { listAdminPosts } from "@/db/repositories/post-repository";
+import {
+  PostPagination,
+  PostSearch,
+} from "@/components/shared/PostListControls";
+import { getAdminPostPage } from "@/features/admin/posts/queries";
+import { adminPostListSchema } from "@/features/admin/posts/schema/post-list-schema";
 import { requireAdmin } from "@/lib/auth/require-admin";
-import { logServerError } from "@/lib/log-server-error";
 import Link from "next/link";
 
-export default async function PostPage() {
-  await requireAdmin();
-  let posts: Awaited<ReturnType<typeof listAdminPosts>>;
+type Props = {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+};
 
-  try {
-    posts = await listAdminPosts();
-  } catch (error) {
-    const reference = logServerError("posts.list", error);
-    throw new Error(`Unable to load posts. Reference: ${reference}`);
+export default async function PostPage({ searchParams }: Props) {
+  await requireAdmin();
+
+  const params = await searchParams;
+  const parsed = adminPostListSchema.safeParse({
+    page:
+      params.page === undefined
+        ? undefined
+        : typeof params.page === "string" && /^[1-9]\d*$/.test(params.page)
+          ? Number(params.page)
+          : Number.NaN,
+    query: params.q,
+  });
+
+  if (!parsed.success) {
+    return (
+      <main className="space-y-4 p-6">
+        {" "}
+        <h1 className="text-2xl font-semibold">Posts</h1>
+        <p>
+          Invalid search options. Use a page between 1 and 10, 000 and a search
+          of at most 100 characters
+        </p>
+        <Link href="/admin/posts" className="underline">
+          Reset filters
+        </Link>
+      </main>
+    );
   }
+
+  const options = parsed.data;
+  const { posts, hasNext } = await getAdminPostPage(options);
 
   return (
     <main className="space-y-6 p-6">
@@ -22,6 +52,10 @@ export default async function PostPage() {
           Create post
         </Link>
       </header>
+
+      <PostSearch pathname="/admin/posts" query={options.query} />
+
+      <p>Showing {posts.length} posts on this page</p>
 
       {posts.length === 0 ? (
         <p> No posts yet.</p>
@@ -55,6 +89,14 @@ export default async function PostPage() {
           ))}
         </ul>
       )}
+
+      <PostPagination
+        pathname="/admin/posts"
+        page={options.page}
+        query={options.query}
+        hasNext={hasNext}
+      />
+
     </main>
   );
 }
