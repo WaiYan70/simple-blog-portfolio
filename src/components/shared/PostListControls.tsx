@@ -34,3 +34,57 @@ export function PostSearch({ pathname, query }: SearchProps) {
     </form>
   );
 }
+
+type PaginationProps = {
+  path: string;
+  page: number;
+  query: string;
+  hasNext: boolean;
+};
+
+export function PostPagination({
+  pathname,
+  page,
+  query,
+  hasNext,
+}: PaginationProps) {
+  const createPageHref = (targetPage: number): string => {
+    const params = new URLSearchParams();
+
+    params.set("page", String(targetPage));
+
+    if (query) {
+      params.set("q", query);
+    }
+
+    return `${pathname}?${params.toString()}`;
+  };
+
+  return (
+    <nav>
+      {page > 1 ? (
+        <Link
+          href={createPageHref(page - 1)}
+          rel="previous"
+          className="text-sm underline"
+        >
+          Previous
+        </Link>
+      ) : (
+        <span />
+      )}
+      <span className="text-sm text-muted-foreground">Page {page}</span>
+      {hasNext && page < 10_000 ? (
+        <Link
+          href={createPageHref(page + 1)}
+          rel="next"
+          className="text-sm underline"
+        >
+          Next
+        </Link>
+      ) : (
+        <span />
+      )}
+    </nav>
+  );
+}
