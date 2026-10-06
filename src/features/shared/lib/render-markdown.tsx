@@ -5,9 +5,9 @@ import * as runtime from "react/jsx-runtime";
 import { evaluate } from "@mdx-js/mdx";
 import rehypePrettyCode from "rehype-pretty-code";
 
-import { MDXContentShell } from "../components/MDXContentShell";
-import { mdxComponents } from "../components/MDXComponents";
-import remarkHeadings from "@/features/admin/posts/lib/remark-headings.mjs";
+import remarkHeadings from "./remark-headings.mjs";
+import { MDXContentShell } from "../markdown/MDXContentShell";
+import { mdxComponents } from "../markdown/MDXComponents";
 
 export async function renderMarkdown(content: string): Promise<ReactNode> {
   const { default: Content } = await evaluate(content, {

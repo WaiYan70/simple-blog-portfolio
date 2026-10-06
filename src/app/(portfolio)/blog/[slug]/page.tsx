@@ -7,7 +7,8 @@ import {
 import { TableOfContents } from "@/features/portfolio/blog/components/TableOfContent";
 import { ArrowLeft, Clock } from "lucide-react";
 import { ScrollProgress } from "@/features/portfolio/blog/components/ScrollProgress";
-import { renderMarkdown } from "@/features/portfolio/blog/lib/render-markdown";
+import { renderMarkdown } from "@/features/shared/lib/render-markdown";
+
 
 type Props = {
   params: Promise<{ slug: string }>;

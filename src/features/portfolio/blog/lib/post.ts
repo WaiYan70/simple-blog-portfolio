@@ -3,7 +3,7 @@ import {
   listPublishedPosts,
   StoredPost,
 } from "@/db/repositories/post-repository";
-import { collectHeadings } from "@/features/admin/posts/lib/remark-headings.mjs";
+import { collectHeadings } from "@/features/shared/lib/remark-headings.mjs";
 import { Post, PostPageResult, PostSummary } from "@/types/post"
 import { createProcessor } from "@mdx-js/mdx";
 import { connection } from "next/server";

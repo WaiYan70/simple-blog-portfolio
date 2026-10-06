@@ -1,12 +1,12 @@
+import Link from "next/link";
+import { getPulbishedPostPage } from "@/features/portfolio/blog/lib/post";
+import { publishedPostListSchema } from "@/features/portfolio/blog/schema/post-list-schema";
+import { BlogCard } from "@/features/portfolio/blog/components/BlogCard";
 import {
   PostPagination,
   PostSearch,
 } from "@/components/shared/PostListControls";
 import { Section } from "@/components/shared/Section";
-import { adminPostListSchema } from "@/features/admin/posts/schema/post-list-schema";
-import { BlogCard } from "@/features/portfolio/blog/components/BlogCard";
-import { getPulbishedPostPage } from "@/features/portfolio/blog/lib/post";
-import Link from "next/link";
 
 type Props = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -15,7 +15,7 @@ type Props = {
 export default async function BlogPage({ searchParams }: Props) {
   const params = await searchParams;
 
-  const parsed = adminPostListSchema.safeParse({
+  const parsed = publishedPostListSchema.safeParse({
     page:
       params.page === undefined
         ? undefined

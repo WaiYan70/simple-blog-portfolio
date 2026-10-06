@@ -10,10 +10,7 @@ const withMDX = createMDX({
   options: {
     remarkPlugins: [
       "remark-frontmatter",
-      resolve(
-        process.cwd(),
-        "src/features/admin/posts/lib/remark-headings.mjs",
-      )
+      resolve(process.cwd(), "src/features/shared/lib/remark-headings.mjs")
     ],
     rehypePlugins: [
       [

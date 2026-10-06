@@ -1,4 +1,4 @@
-import { MDXContentShell } from "@/features/portfolio/blog/components/MDXContentShell";
+import { MDXContentShell } from "@/features/shared/markdown/MDXContentShell";
 import {
   getAllProjects,
   getProjectContent,
