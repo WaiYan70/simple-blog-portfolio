@@ -1,3 +1,5 @@
+import "server-only";
+
 import { requireAdmin } from "@/lib/auth/require-admin";
 import {
   AdminPostListInput,
@@ -24,7 +26,7 @@ export async function getAdminPostPage(
   }
 }
 
-export async function getAdminPostPageBySlug(
+export async function getAdminPostBySlug(
   slug: string,
 ): Promise<StoredPost | null> {
   await requireAdmin();

@@ -1,18 +1,16 @@
-import { findAdminPostBySlug } from "@/db/repositories/post-repository";
+import { notFound } from "next/navigation";
+import { getAdminPostBySlug } from "@/features/admin/posts/queries";
 import { updatePostAction } from "@/features/admin/posts/actions";
 import { PostEditorForm } from "@/features/admin/posts/components/PostEditorForm";
-import { requireAdmin } from "@/lib/auth/require-admin";
-import { notFound } from "next/navigation";
 
 type EditPageProps = {
   params: Promise<{ postId: string }>;
 };
 
 export default async function EditPostPage({ params }: EditPageProps) {
-  await requireAdmin();
+  const { postId: slug } = await params;
+  const post = await getAdminPostBySlug(slug);
 
-  const { postId } = await params;
-  const post = await findAdminPostBySlug(postId);
   if (!post) {
     notFound();
   }

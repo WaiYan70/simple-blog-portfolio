@@ -46,6 +46,12 @@ export async function getPulbishedPostPage(
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
   await connection();
-  const row = await findPublishedPostBySlug(slug);
-  return row ? toPost(row) : null;
+  try {
+    const row = await findPublishedPostBySlug(slug);
+    return row ? toPost(row) : null;
+  } catch (error) {
+    const reference = logServerError("posts.read", error);
+    throw new Error(`Unable to load the post. Reference ${reference}`);
+  }
+
 }

@@ -1,5 +1,4 @@
-import { findAdminPostBySlug } from "@/db/repositories/post-repository";
-import { requireAdmin } from "@/lib/auth/require-admin";
+import { getAdminPostBySlug } from "@/features/admin/posts/queries";
 import { notFound, redirect } from "next/navigation";
 
 type Props = {
@@ -7,10 +6,8 @@ type Props = {
 };
 
 export default async function PostDetailPage({ params }: Props) {
-  await requireAdmin();
-
-  const { postId } = await params;
-  const post = await findAdminPostBySlug(postId);
+  const { postId: slug } = await params;
+  const post = await getAdminPostBySlug(slug);
 
   if (!post) {
     notFound();
