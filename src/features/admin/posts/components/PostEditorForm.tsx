@@ -211,7 +211,9 @@ export function PostEditorForm({
         }
       } catch {
         // Preserve malformed JSON for manual inspection.
-        console.warn("somethng is wrong");
+        console.warn(
+          "The recovery copy contains invalid JSON. The original data has been preserved for manual review.",
+        );
       }
 
       setRecovery({
@@ -286,7 +288,7 @@ export function PostEditorForm({
     setContent(fields.content);
     setPublicationStatus(fields.status);
 
-    // Ignore any earlier previous reponse.
+    // Ignore any earlier preview reponse.
     previewRequestId.current += 1;
     setView("write");
     setPreviewContent(null);
