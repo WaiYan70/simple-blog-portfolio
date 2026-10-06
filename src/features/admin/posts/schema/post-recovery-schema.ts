@@ -14,3 +14,6 @@ export const postRecoverySchema = z.object({
   version: z.number().int().positive().nullable(),
   fields: recoveryFieldsSchema,
 });
+
+export type RecoveryFields = z.infer<typeof recoveryFieldsSchema>;
+export type PostRecovery = z.infer<typeof postRecoverySchema>;

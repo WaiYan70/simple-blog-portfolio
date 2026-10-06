@@ -12,6 +12,7 @@ import Link from "next/link";
 import {
   previewPostAction, type PostEditorState } from "../actions";
 import {
+  PostRecovery,
   postRecoverySchema,
   recoveryFieldsSchema,
 } from "../schema/post-recovery-schema";
@@ -72,6 +73,16 @@ const initialCreatePostState: PostEditorState = {
   fieldErrors: {},
   message: null,
 };
+
+type RecoveryState =
+  | { status: "checking" }
+  | { status: "ready" }
+  | { status: "unavailable" }
+  | {
+      status: "found";
+      raw: string;
+      copy: PostRecovery | null;
+    };
 
 export function PostEditorForm({
   mode,
@@ -155,84 +166,163 @@ export function PostEditorForm({
     };
   }, [isDirty]);
 
+  const [recovery, setRecovery] = useState<RecoveryState>({
+    status: "checking",
+  });
   const [recoveryMessage, setRecoveryMessage] = useState<string | null>(null);
 
+  const recoveryBlocked = recovery.status === "checking" || recovery.status;
+  const editorDisabled = pending || recoveryBlocked;
+  const recoveryCopy = recovery.status === "found" ? recovery.copy : null;
+  const recoveryVersionMatches = recoveryCopy !== null && recoveryCopy.version;
+  const recoverySlugMatches =
+    recoveryCopy !== null &&
+    (mode === "create" || recoveryCopy.version === recoveryVersion);
+  const canRestoreRecovery = recoveryVersionMatches && recoverySlugMatches;
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      let raw: string | null;
+      try {
+        raw = sessionStorage.getItem(recoveryKey);
+      } catch {
+        setRecovery({ status: "unavailable" });
+        setRecoveryMessage(
+          "Local recovery is unavailable. " +
+            "You can edit, but keep a separate copy of your work.",
+        );
+        return;
+      }
+
+      if (raw === null) {
+        setRecovery({ status: "ready" });
+        return;
+      }
+      let copy: PostRecovery | null = null;
+
+      try {
+        const parsed = postRecoverySchema.safeParse(JSON.parse(raw));
+
+        if (parsed.success) {
+          copy = parsed.data;
+        }
+      } catch {
+        // Preserve malformed JSON for manual inspection.
+        console.warn("somethng is wrong");
+      }
+
+      setRecovery({
+        status: "found",
+        raw,
+        copy,
+      });
+    }, 0);
+
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [recoveryKey]);
+
   const saveRecovery = (event: React.SyntheticEvent<HTMLFormElement>): void => {
+    // An unsolved recovery copy must never be overwritten
+    if (recovery.status !== "ready" || pending || saveCompleted.current) {
+      return;
+    }
+
     const formData = new FormData(event?.currentTarget);
     const result = recoveryFieldsSchema.safeParse(
       Object.fromEntries(formData.entries()),
     );
     if (!result.success) {
       setRecoveryMessage(
-        "This recovery copy exceeds the local recovery limits. " +
-          "Keep a separate copy of your work",
+        "Your latest changes exceed the local recovery limits. " +
+          "The previous recovery copy was kept. " +
+          "Keep a separate copy of your latest work.",
       );
       return;
     }
 
     try {
-      if (JSON.stringify(result.data) === initialSnapshot) {
+      const serializedFields = JSON.stringify(result.data);
+      if (serializedFields === initialSnapshot) {
         sessionStorage.removeItem(recoveryKey);
       } else {
-        sessionStorage.setItem(
-          recoveryKey,
-          JSON.stringify({
-            version: recoveryVersion,
-            fields: result.data,
-          }),
-        );
+        const nextCopy: PostRecovery = {
+          version: recoveryVersion,
+          fields: result.data,
+        };
+        sessionStorage.setItem(recoveryKey, JSON.stringify(nextCopy));
       }
 
       setRecoveryMessage(null);
     } catch {
       setRecoveryMessage(
-        "Local recovery is unavailable. Save your work before leaving.",
+        "Your latest changes could not be stored locally. " +
+          "Keep a separate copy before leaving.",
       );
     }
   };
 
-  const restoreRecovery = () => {
-    try {
-      const raw = sessionStorage.getItem(recoveryKey);
-      if (!raw) {
-        setRecoveryMessage("No recovery copy exists in this tab.");
-        return;
-      }
-      const result = postRecoverySchema.safeParse(JSON.parse(raw));
-      if (!result.success) {
-        setRecoveryMessage("The recovery copy could not be read.");
-        return;
-      }
-      if (result.data?.version !== recoveryVersion) {
-        setRecoveryMessage(
-          "This recovery copy belongs to an older saved version. " +
-            "Review it separately before replacing the current post.",
-        );
-        return;
-      }
-      if (
-        !window.confirm("Replace the editor fields with the recovery copy?")
-      ) {
-        return;
-      }
-      const field = result.data.fields;
-      setTitle(field.title);
-      setSlug(field.slug);
-      setDescription(field.description);
-      setDate(field.date);
-      setTags(field.tags);
-      setContent(field.content);
-      setPublicationStatus(field.status);
-
-      previewRequestId.current += 1;
-      setView("write");
-
-      setRecoveryMessage(
-        "Recovery copy restored. It has not been saved to the database.",
-      );
-    } catch {
-      setRecoveryMessage("Unable to read the recovery copy.");
+  const restoreRecovery = (): void => {
+    if (
+      pending ||
+      recovery.status !== "found" ||
+      !recovery.copy ||
+      !canRestoreRecovery
+    ) {
+      return;
     }
+
+    const fields = recovery.copy.fields;
+
+    setTitle(fields.title);
+    setSlug(fields.slug);
+    setDescription(fields.description);
+    setDate(fields.date);
+    setTags(fields.tags);
+    setContent(fields.content);
+    setPublicationStatus(fields.status);
+
+    // Ignore any earlier previous reponse.
+    previewRequestId.current += 1;
+    setView("write");
+    setPreviewContent(null);
+    setPreviewError(null);
+
+    // Keep the stored copy until a successful save or later edit!
+    setRecovery({ status: "ready" });
+
+    setRecoveryMessage(
+      "Recovery copy restored. " + "It has not been saved to the database.",
+    );
+  };
+
+  const discardRecovery = (): void => {
+    if (pending || recovery.status !== "found") {
+      return;
+    }
+
+    const confirmed = window.confirm(
+      "Discard this local recovery copy? " +
+        "This cannot be undone. Your saved database post will not change.",
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      sessionStorage.removeItem(recoveryKey);
+      setRecovery({ status: "ready" });
+      setRecoveryMessage("Local recovery copy discarded. You can now edit.");
+    } catch {
+      // Stay blocked because the old copy has not been removed.
+      setRecoveryMessage(
+        "The recovery copy could not be discarded. " +
+          "It has been preserved. Copy any needed text before leaving.",
+      );
+    }
+
   };
 
   const wasPublished = defaultValues?.status === "published";
@@ -293,7 +383,15 @@ export function PostEditorForm({
   const contentErrors = state.fieldErrors.content;
 
   return (
-    <form action={formAction} onChange={saveRecovery}>
+    <form
+      action={formAction}
+      onChange={saveRecovery}
+      onSubmit={(event) => {
+        if (recoveryBlocked) {
+          event.preventDefault();
+        }
+      }}
+    >
       <Card>
         <CardHeader>
           <CardTitle>{isEditing ? "Edit post" : "Create a new post"}</CardTitle>
