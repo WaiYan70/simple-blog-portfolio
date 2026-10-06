@@ -171,14 +171,17 @@ export function PostEditorForm({
   });
   const [recoveryMessage, setRecoveryMessage] = useState<string | null>(null);
 
-  const recoveryBlocked = recovery.status === "checking" || recovery.status;
-  const editorDisabled = pending || recoveryBlocked;
+  const recoveryBlocked =
+    recovery.status === "checking" || recovery.status === "found";
+  const editorDisabled: boolean = pending || recoveryBlocked;
   const recoveryCopy = recovery.status === "found" ? recovery.copy : null;
-  const recoveryVersionMatches = recoveryCopy !== null && recoveryCopy.version;
-  const recoverySlugMatches =
+  const recoveryVersionMatches: boolean =
+    recoveryCopy !== null && recoveryCopy.version === recoveryVersion;
+  const recoverySlugMatches: boolean =
     recoveryCopy !== null &&
-    (mode === "create" || recoveryCopy.version === recoveryVersion);
-  const canRestoreRecovery = recoveryVersionMatches && recoverySlugMatches;
+    (mode === "create" || recoveryCopy.fields.slug === values.slug);
+  const canRestoreRecovery: boolean =
+    recoveryVersionMatches && recoverySlugMatches;
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -401,7 +404,117 @@ export function PostEditorForm({
         </CardHeader>
 
         <CardContent>
-          <fieldset disabled={pending} className="min-w-0">
+          {recovery.status === "checking" && (
+            <p role="status" className="mb-4 text-sm text-muted-foreground">
+              Checking for an unsaved recovery copy…
+            </p>
+          )}
+
+          {recovery.status === "found" && (
+            <section
+              aria-labelledby="post-recovery-title"
+              className="mb-6 space-y-4 rounded-md border p-4"
+            >
+              <h2 id="post-recovery-title" className="font-semibold">
+                An unsaved recovery copy is available
+              </h2>
+
+              <p className="text-sm text-muted-foreground">
+                The editor is paused so this copy cannot be overwritten. Review
+                it, then restore or discard it.
+              </p>
+
+              {!recovery.copy ? (
+                <p className="text-sm text-destructive">
+                  This copy could not be validated. You can inspect and copy the
+                  original data below before discarding it.
+                </p>
+              ) : !recoveryVersionMatches ? (
+                <p className="text-sm text-muted-foreground">
+                  This copy belongs to a different saved version. Automatic
+                  restore is disabled. Copy any text you need before discarding
+                  it and continuing with the current post.
+                </p>
+              ) : !recoverySlugMatches ? (
+                <p className="text-sm text-destructive">
+                  This copy does not match the current post slug. Automatic
+                  restore is disabled. Inspect it before discarding.
+                </p>
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  This copy matches the current editing session and can be
+                  restored.
+                </p>
+              )}
+
+              <details className="space-y-3">
+                <summary className="cursor-pointer text-sm font-medium">
+                  Review recovery copy
+                </summary>
+
+                {recovery.copy && (
+                  <div className="space-y-2">
+                    <label
+                      htmlFor="recovery-markdown"
+                      className="text-sm font-medium"
+                    >
+                      Recovered Markdown — read only
+                    </label>
+
+                    <Textarea
+                      id="recovery-markdown"
+                      value={recovery.copy.fields.content}
+                      readOnly
+                      spellCheck={false}
+                      className="min-h-64 font-mono text-sm"
+                    />
+                  </div>
+                )}
+
+                <div className="space-y-2">
+                  <label
+                    htmlFor="recovery-data"
+                    className="text-sm font-medium"
+                  >
+                    Complete recovery data — read only
+                  </label>
+
+                  <Textarea
+                    id="recovery-data"
+                    value={recovery.raw}
+                    readOnly
+                    spellCheck={false}
+                    className="min-h-40 font-mono text-sm"
+                  />
+
+                  <p className="text-xs text-muted-foreground">
+                    This includes the metadata and article body. Select and copy
+                    it to keep a separate backup.
+                  </p>
+                </div>
+              </details>
+
+              <div className="flex flex-wrap gap-3">
+                <Button
+                  type="button"
+                  disabled={pending || !canRestoreRecovery}
+                  onClick={restoreRecovery}
+                >
+                  Restore copy
+                </Button>
+
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={pending}
+                  onClick={discardRecovery}
+                >
+                  Discard copy
+                </Button>
+              </div>
+            </section>
+          )}
+          <fieldset disabled={editorDisabled} className="min-w-0">
             <FieldGroup>
               {/* Status */}
               <Field data-invalid={Boolean(state.fieldErrors.status?.length)}>
@@ -532,7 +645,7 @@ export function PostEditorForm({
                     type="single"
                     value={view}
                     onValueChange={handleViewChange}
-                    disabled={pending}
+                    disabled={editorDisabled}
                     variant="outline"
                     spacing={0}
                     aria-label="Markdown editor view"
@@ -627,20 +740,12 @@ export function PostEditorForm({
               Cancel
             </Link>
           </Button>
-          <Button
-            type="button"
-            variant="outline"
-            disabled={pending}
-            onClick={restoreRecovery}
-          >
-            Restore unsaved copy
-          </Button>
           {recoveryMessage && (
             <p role="status" className="text-sm text-muted-foreground">
               {recoveryMessage}
             </p>
           )}
-          <Button type="submit" disabled={pending}>
+          <Button type="submit" disabled={editorDisabled}>
             {pending ? "Saving..." : saveLabel}
           </Button>
         </CardFooter>
