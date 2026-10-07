@@ -31,7 +31,7 @@ export function toPost(row: StoredPost): Post {
   };
 }
 
-export async function getPulbishedPostPage(
+export async function getPublishedPostPage(
   input: PublishPostListInput,
 ): Promise<PostPageResult<PostSummary>> {
   const options = publishedPostListSchema.parse(input)

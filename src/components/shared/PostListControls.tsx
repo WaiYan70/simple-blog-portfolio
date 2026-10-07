@@ -8,9 +8,9 @@ type SearchProps = {
 
 export function PostSearch({ pathname, query }: SearchProps) {
   return (
-    <form>
+    <form action={pathname} method="get">
       <div>
-        <label>Search Posts</label>
+        <label htmlFor="post-search">Search Posts</label>
         <input
           key={query}
           id="post-search"
@@ -19,7 +19,7 @@ export function PostSearch({ pathname, query }: SearchProps) {
           defaultValue={query}
           maxLength={100}
           placeholder="Search by title, description, or tag..."
-          className="h-11 w-full rounder-xl border border-border bg-background px-3  text-sm"
+          className="h-11 w-full rounder-xl border border-border bg-background px-3 text-sm"
         />
       </div>
       <Button type="submit">Search</Button>
@@ -73,7 +73,9 @@ export function PostPagination({
       ) : (
         <span />
       )}
-      <span className="text-sm text-muted-foreground">Page {page}</span>
+      <span aria-current="page" className="text-sm text-muted-foreground">
+        Page {page}
+      </span>
       {hasNext && page < 10_000 ? (
         <Link
           href={createPageHref(page + 1)}

@@ -44,6 +44,13 @@ export default async function PostPage({ searchParams }: Props) {
   const options = parsed.data;
   const { posts, hasNext } = await getAdminPostPage(options);
 
+  let emptyMessage = "No post yet.";
+  if (options.page > 1) {
+    emptyMessage = "No posts found on this page.";
+  } else if (options.query) {
+    emptyMessage = "No posts found matching your search";
+  }
+
   return (
     <main className="space-y-6 p-6">
       <header className="flex items-center justify-between">
@@ -55,10 +62,13 @@ export default async function PostPage({ searchParams }: Props) {
 
       <PostSearch pathname="/admin/posts" query={options.query} />
 
-      <p>Showing {posts.length} posts on this page</p>
+      <p>
+        Showing {posts.length} {posts.length === 1 ? "post" : "posts"} on this
+        page
+      </p>
 
       {posts.length === 0 ? (
-        <p> No posts yet.</p>
+        <p> {emptyMessage} </p>
       ) : (
         <ul className="divide-y">
           {posts.map((post) => (

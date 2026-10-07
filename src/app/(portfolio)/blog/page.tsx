@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getPulbishedPostPage } from "@/features/portfolio/blog/lib/post";
+import { getPublishedPostPage } from "@/features/portfolio/blog/lib/post";
 import { publishedPostListSchema } from "@/features/portfolio/blog/schema/post-list-schema";
 import { BlogCard } from "@/features/portfolio/blog/components/BlogCard";
 import {
@@ -43,7 +43,7 @@ export default async function BlogPage({ searchParams }: Props) {
   }
 
   const options = parsed.data;
-  const { posts, hasNext } = await getPulbishedPostPage(options)
+  const { posts, hasNext } = await getPublishedPostPage(options)
 
   return (
     <Section>
