@@ -31,7 +31,7 @@ export default async function PostPage({ searchParams }: Props) {
         {" "}
         <h1 className="text-2xl font-semibold">Posts</h1>
         <p>
-          Invalid search options. Use a page between 1 and 10, 000 and a search
+          Invalid search options. Use a page between 1 and 10,000 and a search
           of at most 100 characters
         </p>
         <Link href="/admin/posts" className="underline">

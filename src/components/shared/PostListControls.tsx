@@ -19,7 +19,7 @@ export function PostSearch({ pathname, query }: SearchProps) {
           defaultValue={query}
           maxLength={100}
           placeholder="Search by title, description, or tag..."
-          className="h-11 w-full rounder-xl border border-border bg-background px-3 text-sm"
+          className="h-11 w-full rounded-xl border border-border bg-background px-3 text-sm"
         />
       </div>
       <Button type="submit">Search</Button>
@@ -61,7 +61,7 @@ export function PostPagination({
   };
 
   return (
-    <nav>
+    <nav aria-label="Post pagination">
       {page > 1 ? (
         <Link
           href={createPageHref(page - 1)}
