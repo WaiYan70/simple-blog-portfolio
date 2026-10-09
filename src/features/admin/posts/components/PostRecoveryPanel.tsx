@@ -12,7 +12,7 @@ type PostRecoveryPanelProps = {
   onDiscard: () => void;
 };
 
-export function PostRecoveryPanel({
+export default function PostRecoveryPanel({
   raw,
   copy,
   versionMatches,

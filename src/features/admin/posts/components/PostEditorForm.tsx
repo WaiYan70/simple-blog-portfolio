@@ -36,7 +36,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/navigation";
-import { PostMarkdownEditor } from "./PostMarkdownEditor";
+import PostRecoveryPanel from "./PostRecoveryPanel";
+import PostMetadataFields from "./PostMetadataFields";
 
 type PostEditorValues = {
   title: string;
@@ -414,7 +415,7 @@ export function PostEditorForm({
           )}
 
           {recovery.status === "found" && (
-            <PostMarkdownEditor
+            <PostRecoveryPanel
               raw={recovery.raw}
               copy={recovery.copy}
               versionMatches={recoveryVersionMatches}
@@ -426,125 +427,13 @@ export function PostEditorForm({
           )}
           <fieldset disabled={editorDisabled} className="min-w-0">
             <FieldGroup>
-              {/* Status */}
-              <Field data-invalid={Boolean(state.fieldErrors.status?.length)}>
-                <FieldLabel htmlFor="status">Visibility</FieldLabel>
-                <select
-                  name="status"
-                  id="status"
-                  value={publicationStatus}
-                  onChange={(event) => {
-                    const value = event.target.value;
-                    if (value === "draft" || value === "published") {
-                      setPublicationStatus(value);
-                    }
-                  }}
-                  className="rounded-md border bg-background px-3 py-2"
-                  aria-invalid={Boolean(state.fieldErrors.status?.length)}
-                  aria-describedby={
-                    state.fieldErrors?.status?.length
-                      ? "status-error"
-                      : undefined
-                  }
-                >
-                  <option value="draft">Draft - only visible in admin</option>
-                  <option value="published">
-                    Published - visible publicly
-                  </option>
-                </select>
-                <FieldError
-                  id="status-error"
-                  errors={state.fieldErrors.status?.map((message) => ({
-                    message,
-                  }))}
-                />
-              </Field>
 
-              {/* Title */}
-              <Field data-invalid={Boolean(titleErrors?.length)}>
-                <FieldLabel htmlFor="title">Title</FieldLabel>
-                <Input
-                  id="title"
-                  name="title"
-                  value={title}
-                  onChange={(event) => setTitle(event.target.value)}
-                  placeholder="e.g Build a secure admin dashboard"
-                  required
-                  aria-invalid={Boolean(titleErrors?.length)}
-                />
-                <FieldError
-                  errors={titleErrors?.map((message) => ({ message }))}
-                />
-              </Field>
-
-              {/* Slug */}
-              <Field data-invalid={Boolean(slugErrors?.length)}>
-                <FieldLabel htmlFor="slug">Slug</FieldLabel>
-                <Input
-                  id="slug"
-                  name="slug"
-                  value={slug}
-                  onChange={(event) => setSlug(event.target.value)}
-                  placeholder="building-a-secure-admin-dashboard"
-                  readOnly={isEditing}
-                  required
-                  aria-invalid={Boolean(slugErrors?.length)}
-                />
-                <FieldError
-                  errors={slugErrors?.map((message) => ({ message }))}
-                />
-              </Field>
-
-              {/* Description */}
-              <Field data-invalid={Boolean(descriptionErrors?.length)}>
-                <FieldLabel htmlFor="description">Description</FieldLabel>
-                <Input
-                  id="description"
-                  name="description"
-                  value={description}
-                  onChange={(event) => setDescription(event.target.value)}
-                  placeholder="A short summary of the article"
-                  required
-                  aria-invalid={Boolean(descriptionErrors?.length)}
-                />
-                <FieldError
-                  errors={descriptionErrors?.map((message) => ({ message }))}
-                />
-              </Field>
-
-              {/* Date */}
-              <Field data-invalid={Boolean(dateErrors?.length)}>
-                <FieldLabel htmlFor="date">Publication Date</FieldLabel>
-                <Input
-                  id="date"
-                  name="date"
-                  type="date"
-                  value={date}
-                  onChange={(event) => setDate(event.target.value)}
-                  required
-                  aria-invalid={Boolean(dateErrors?.length)}
-                />
-                <FieldError
-                  errors={dateErrors?.map((message) => ({ message }))}
-                />
-              </Field>
-
-              {/* Tags */}
-              <Field data-invalid={Boolean(tagsErrors?.length)}>
-                <FieldLabel htmlFor="tags">Tags</FieldLabel>
-                <Input
-                  id="tags"
-                  name="tags"
-                  value={tags}
-                  onChange={(event) => setTags(event.target.value)}
-                  placeholder="Next.js, TypeScript, Security"
-                  aria-invalid={Boolean(tagsErrors?.length)}
-                />
-                <FieldError
-                  errors={tagsErrors?.map((message) => ({ message }))}
-                />
-                <FieldDescription>Separate tags using commas</FieldDescription>
-              </Field>
+              <PostMetadataFields
+                values={fields}
+                fieldErrors={state.fieldErrors}
+                isEditing={isEditing}
+                onChange={updateFields}
+              />
 
               {/* Content */}
               <Field data-invalid={Boolean(contentErrors?.length)}>
