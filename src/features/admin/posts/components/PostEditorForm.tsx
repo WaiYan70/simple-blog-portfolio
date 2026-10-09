@@ -36,6 +36,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/navigation";
+import { PostMarkdownEditor } from "./PostMarkdownEditor";
 
 type PostEditorValues = {
   title: string;
@@ -413,108 +414,15 @@ export function PostEditorForm({
           )}
 
           {recovery.status === "found" && (
-            <section
-              aria-labelledby="post-recovery-title"
-              className="mb-6 space-y-4 rounded-md border p-4"
-            >
-              <h2 id="post-recovery-title" className="font-semibold">
-                An unsaved recovery copy is available
-              </h2>
-
-              <p className="text-sm text-muted-foreground">
-                The editor is paused so this copy cannot be overwritten. Review
-                it, then restore or discard it.
-              </p>
-
-              {!recovery.copy ? (
-                <p className="text-sm text-destructive">
-                  This copy could not be validated. You can inspect and copy the
-                  original data below before discarding it.
-                </p>
-              ) : !recoveryVersionMatches ? (
-                <p className="text-sm text-muted-foreground">
-                  This copy belongs to a different saved version. Automatic
-                  restore is disabled. Copy any text you need before discarding
-                  it and continuing with the current post.
-                </p>
-              ) : !recoverySlugMatches ? (
-                <p className="text-sm text-destructive">
-                  This copy does not match the current post slug. Automatic
-                  restore is disabled. Inspect it before discarding.
-                </p>
-              ) : (
-                <p className="text-sm text-muted-foreground">
-                  This copy matches the current editing session and can be
-                  restored.
-                </p>
-              )}
-
-              <details className="space-y-3">
-                <summary className="cursor-pointer text-sm font-medium">
-                  Review recovery copy
-                </summary>
-
-                {recovery.copy && (
-                  <div className="space-y-2">
-                    <label
-                      htmlFor="recovery-markdown"
-                      className="text-sm font-medium"
-                    >
-                      Recovered Markdown — read only
-                    </label>
-
-                    <Textarea
-                      id="recovery-markdown"
-                      value={recovery.copy.fields.content}
-                      readOnly
-                      spellCheck={false}
-                      className="min-h-64 font-mono text-sm"
-                    />
-                  </div>
-                )}
-
-                <div className="space-y-2">
-                  <label
-                    htmlFor="recovery-data"
-                    className="text-sm font-medium"
-                  >
-                    Complete recovery data — read only
-                  </label>
-
-                  <Textarea
-                    id="recovery-data"
-                    value={recovery.raw}
-                    readOnly
-                    spellCheck={false}
-                    className="min-h-40 font-mono text-sm"
-                  />
-
-                  <p className="text-xs text-muted-foreground">
-                    This includes the metadata and article body. Select and copy
-                    it to keep a separate backup.
-                  </p>
-                </div>
-              </details>
-
-              <div className="flex flex-wrap gap-3">
-                <Button
-                  type="button"
-                  disabled={pending || !canRestoreRecovery}
-                  onClick={restoreRecovery}
-                >
-                  Restore copy
-                </Button>
-
-                <Button
-                  type="button"
-                  variant="outline"
-                  disabled={pending}
-                  onClick={discardRecovery}
-                >
-                  Discard copy
-                </Button>
-              </div>
-            </section>
+            <PostMarkdownEditor
+              raw={recovery.raw}
+              copy={recovery.copy}
+              versionMatches={recoveryVersionMatches}
+              slugMatches={recoverySlugMatches}
+              pending={pending}
+              onRestore={restoreRecovery}
+              onDiscard={discardRecovery}
+            />
           )}
           <fieldset disabled={editorDisabled} className="min-w-0">
             <FieldGroup>
