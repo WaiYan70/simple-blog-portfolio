@@ -83,20 +83,21 @@ export default function PostMarkdownEditor({
             className="min-h-128 rounded-md border p-6"
             aria-busy={previewPending}
           >
-            {previewPending ? (
+            {previewPending && (
               <p
                 role="status"
                 aria-live="polite"
                 className="text-sm text-muted-foreground"
               >
-                Rendering Preview
+                Rendering Preview...
               </p>
-            ) : null}
-            {!previewPending && previewError ? (
+            )}
+            {!previewPending && previewError && (
               <p role="alert" className="text-sm text-destructive">
                 {previewError}
               </p>
-            ) : null}
+            )}
+            {!previewPending && !previewError ? previewContent : null}
           </div>
         </>
       )}

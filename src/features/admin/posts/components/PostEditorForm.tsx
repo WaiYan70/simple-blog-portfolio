@@ -14,6 +14,7 @@ import {
 import {
   PostRecovery,
   postRecoverySchema,
+  RecoveryFields,
   recoveryFieldsSchema,
 } from "../schema/post-recovery-schema";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
@@ -38,6 +39,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/navigation";
 import PostRecoveryPanel from "./PostRecoveryPanel";
 import PostMetadataFields from "./PostMetadataFields";
+import PostMarkdownEditor from "./PostMarkdownEditor";
 
 type PostEditorValues = {
   title: string;
@@ -429,90 +431,24 @@ export function PostEditorForm({
             <FieldGroup>
 
               <PostMetadataFields
-                values={fields}
+                values={}
                 fieldErrors={state.fieldErrors}
                 isEditing={isEditing}
-                onChange={updateFields}
+                onChange={}
               />
 
               {/* Content */}
-              <Field data-invalid={Boolean(contentErrors?.length)}>
-                <div className="flex items-center justify-between gap-4">
-                  <FieldLabel htmlFor="content">Markdown content</FieldLabel>
-
-                  <ToggleGroup
-                    type="single"
-                    value={view}
-                    onValueChange={handleViewChange}
-                    disabled={editorDisabled}
-                    variant="outline"
-                    spacing={0}
-                    aria-label="Markdown editor view"
-                  >
-                    <ToggleGroupItem
-                      type="button"
-                      value="write"
-                      aria-label="Write Markdown"
-                    >
-                      Write
-                    </ToggleGroupItem>
-                    <ToggleGroupItem
-                      type="button"
-                      value="preview"
-                      aria-label="Preview Markdown"
-                    >
-                      Preview
-                    </ToggleGroupItem>
-                  </ToggleGroup>
-                </div>
-
-                {view === "write" ? (
-                  <Textarea
-                    id="content"
-                    name="content"
-                    value={content}
-                    onChange={(event) => {
-                      setContent(event.target.value);
-                    }}
-                    placeholder="# Introduction"
-                    className="min-h-128 resize-y"
-                    required
-                    aria-invalid={Boolean(contentErrors?.length)}
-                  />
-                ) : (
-                  <>
-                    <input type="hidden" name="content" value={content} />
-                    <div
-                      className="min-h-128 rounded-md border p-6"
-                      aria-busy={previewPending}
-                    >
-                      {previewPending ? (
-                        <p
-                          role="status"
-                          aria-live="polite"
-                          className="text-sm text-muted-foreground"
-                        >
-                          Rendering Preview...
-                        </p>
-                      ) : null}
-                      {!previewPending && previewError ? (
-                        <p role="alert" className="text-sm text-destructive">
-                          {previewError}
-                        </p>
-                      ) : null}
-                      {!previewPending && !previewError ? previewContent : null}
-                    </div>
-                  </>
-                )}
-
-                <FieldError
-                  errors={contentErrors?.map((message) => ({ message }))}
-                />
-                <FieldDescription>
-                  Write the article body in Markdown. Metadata is saved
-                  separately.
-                </FieldDescription>
-              </Field>
+              <PostMarkdownEditor
+                content={}
+                errors={}
+                disabled={}
+                view={}
+                previewContent={}
+                previewError={}
+                previewPending={}
+                onContentChange={}
+                onViewChange={}
+              />
             </FieldGroup>
           </fieldset>
         </CardContent>
