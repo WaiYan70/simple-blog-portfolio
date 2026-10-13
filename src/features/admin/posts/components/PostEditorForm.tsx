@@ -384,13 +384,6 @@ export function PostEditorForm({
 
   const isEditing = mode === "edit";
 
-  const titleErrors = state.fieldErrors.title;
-  const slugErrors = state.fieldErrors.slug;
-  const descriptionErrors = state.fieldErrors.description;
-  const dateErrors = state.fieldErrors.date;
-  const tagsErrors = state.fieldErrors.tags;
-  const contentErrors = state.fieldErrors.content;
-
   return (
     <form
       action={formAction}

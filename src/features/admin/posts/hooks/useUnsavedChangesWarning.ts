@@ -2,7 +2,7 @@ import { useEffect, type RefObject } from "react";
 
 export default function useUnsavedChangesWarning(
   isDirty: boolean,
-  saveCompleted: RefObject,
+  saveCompleted: RefObject<boolean>,
 ) {
   useEffect(() => {
     if (!isDirty) {
