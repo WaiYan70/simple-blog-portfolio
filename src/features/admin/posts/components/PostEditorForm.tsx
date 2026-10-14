@@ -1,23 +1,13 @@
 "use client";
 
 import React, {
-  type ReactNode,
   useActionState,
-  useEffect,
   useRef,
   useState,
-  useTransition,
 } from "react";
 import Link from "next/link";
-import {
-  previewPostAction, type PostEditorState } from "../actions";
-import {
-  PostRecovery,
-  postRecoverySchema,
-  RecoveryFields,
-  recoveryFieldsSchema,
-} from "../schema/post-recovery-schema";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { type PostEditorState } from "../actions";
+import { RecoveryFields } from "../schema/post-recovery-schema";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -28,18 +18,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  Field,
-  FieldDescription,
   FieldError,
   FieldGroup,
-  FieldLabel,
 } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/navigation";
 import PostRecoveryPanel from "./PostRecoveryPanel";
 import PostMetadataFields from "./PostMetadataFields";
 import PostMarkdownEditor from "./PostMarkdownEditor";
+import usePostPreview from "../hooks/usePostPreview";
+import usePostRecovery from "../hooks/usePostRecovery";
+import useUnsavedChangesWarning from "../hooks/useUnsavedChangesWarning";
 
 type PostEditorValues = {
   title: string;
@@ -72,21 +60,11 @@ const emptyValues: PostEditorValues = {
   status: "draft",
 };
 
-const initialCreatePostState: PostEditorState = {
+const initialPostEditorState: PostEditorState = {
   status: "idle",
   fieldErrors: {},
   message: null,
 };
-
-type RecoveryState =
-  | { status: "checking" }
-  | { status: "ready" }
-  | { status: "unavailable" }
-  | {
-      status: "found";
-      raw: string;
-      copy: PostRecovery | null;
-    };
 
 export function PostEditorForm({
   mode,
@@ -95,13 +73,28 @@ export function PostEditorForm({
   recoveryKey,
   recoveryVersion
 }: PostEditorFormProps) {
-  const values = {
-    ...emptyValues,
-    ...defaultValues,
-  };
-
   const router = useRouter();
   const saveCompleted = useRef(false);
+
+  const [initialFields] = useState<RecoveryFields>(() => {
+    const values = { ...emptyValues, ...defaultValues };
+    return {
+      title: values.title,
+      slug: values.slug,
+      description: values.description,
+      date: values.date,
+      tags: values.tags.join(", "),
+      content: values.content,
+      status: values.status,
+    };
+  });
+
+  const [fields, setFields] = useState<RecoveryFields>(initialFields);
+  const [initialSnapshot] = useState(() => JSON.stringify(initialFields));
+
+  const isDirty = JSON.stringify(fields) !== initialSnapshot;
+
+  const preview = usePostPreview(fields.content);
 
   const [state, formAction, pending] = useActionState(
     async (
@@ -109,287 +102,69 @@ export function PostEditorForm({
       formData: FormData,
     ): Promise<PostEditorState> => {
       const result = await action(previousState, formData);
+
       if (result.status === "success") {
         saveCompleted.current = true;
         try {
           sessionStorage.removeItem(recoveryKey);
         } catch {
           console.warn(
-            "The post was saved, but local recovery cleanup failed.",
-          );
+            "The Post was saved, but local recovery cleanup failed.",
+          )
         }
-        router.replace("/admin/posts");
+        router.replace("/admin/posts")
       }
       return result;
     },
-    initialCreatePostState,
+    initialPostEditorState,
   );
 
-  // states for title, slug, description, date, tags
-  const [title, setTitle] = useState(values.title);
-  const [slug, setSlug] = useState(values.slug);
-  const [description, setDescription] = useState(values.description);
-  const [date, setDate] = useState(values.date);
-  const [tags, setTags] = useState(values.tags.join(", "));
-
-  // states for content
-  const [content, setContent] = useState(values.content);
-  const [view, setView] = useState<"write" | "preview">("write");
-  const [previewContent, setPreviewContent] = useState<ReactNode>(null);
-  const [previewError, setPreviewError] = useState<string | null>(null);
-  const [previewPending, startPreviewTransition] = useTransition();
-
-  const [publicationStatus, setPublicationStatus] = useState(values.status);
-
-  const snapshot = {
-    title,
-    slug,
-    description,
-    date,
-    tags,
-    content,
-    status: publicationStatus,
-  };
-
-  const [initialSnapshot] = useState(() => JSON.stringify(snapshot));
-
-  const isDirty = JSON.stringify(snapshot) !== initialSnapshot;
-
-  // Add the warning effect here.
-  useEffect(() => {
-    if (!isDirty) return;
-    const handleBeforeUnload = (event: BeforeUnloadEvent): void => {
-      if (saveCompleted.current) return;
-      event.preventDefault();
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [isDirty]);
-
-  const [recovery, setRecovery] = useState<RecoveryState>({
-    status: "checking",
+  const recovery = usePostRecovery({
+    mode,
+    recoveryKey,
+    recoveryVersion,
+    originalSlug: initialFields.slug,
+    initialSnapshot,
+    pending,
+    saveCompleted,
   });
-  const [recoveryMessage, setRecoveryMessage] = useState<string | null>(null);
 
-  const recoveryBlocked =
-    recovery.status === "checking" || recovery.status === "found";
-  const editorDisabled: boolean = pending || recoveryBlocked;
-  const recoveryCopy = recovery.status === "found" ? recovery.copy : null;
-  const recoveryVersionMatches: boolean =
-    recoveryCopy !== null && recoveryCopy.version === recoveryVersion;
-  const recoverySlugMatches: boolean =
-    recoveryCopy !== null &&
-    (mode === "create" || recoveryCopy.fields.slug === values.slug);
-  const canRestoreRecovery: boolean =
-    recoveryVersionMatches && recoverySlugMatches;
+  useUnsavedChangesWarning(isDirty, saveCompleted);
 
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      let raw: string | null;
-      try {
-        raw = sessionStorage.getItem(recoveryKey);
-      } catch {
-        setRecovery({ status: "unavailable" });
-        setRecoveryMessage(
-          "Local recovery is unavailable. " +
-            "You can edit, but keep a separate copy of your work.",
-        );
-        return;
-      }
-
-      if (raw === null) {
-        setRecovery({ status: "ready" });
-        return;
-      }
-      let copy: PostRecovery | null = null;
-
-      try {
-        const parsed = postRecoverySchema.safeParse(JSON.parse(raw));
-
-        if (parsed.success) {
-          copy = parsed.data;
-        }
-      } catch {
-        // Preserve malformed JSON for manual inspection.
-        console.warn(
-          "The recovery copy contains invalid JSON. The original data has been preserved for manual review.",
-        );
-      }
-
-      setRecovery({
-        status: "found",
-        raw,
-        copy,
-      });
-    }, 0);
-
-    return () => {
-      window.clearTimeout(timer);
-    };
-  }, [recoveryKey]);
-
-  const saveRecovery = (event: React.SyntheticEvent<HTMLFormElement>): void => {
-    // An unsolved recovery copy must never be overwritten
-    if (recovery.status !== "ready" || pending || saveCompleted.current) {
-      return;
-    }
-
-    const formData = new FormData(event?.currentTarget);
-    const result = recoveryFieldsSchema.safeParse(
-      Object.fromEntries(formData.entries()),
-    );
-    if (!result.success) {
-      setRecoveryMessage(
-        "Your latest changes exceed the local recovery limits. " +
-          "The previous recovery copy was kept. " +
-          "Keep a separate copy of your latest work.",
-      );
-      return;
-    }
-
-    try {
-      const serializedFields = JSON.stringify(result.data);
-      if (serializedFields === initialSnapshot) {
-        sessionStorage.removeItem(recoveryKey);
-      } else {
-        const nextCopy: PostRecovery = {
-          version: recoveryVersion,
-          fields: result.data,
-        };
-        sessionStorage.setItem(recoveryKey, JSON.stringify(nextCopy));
-      }
-
-      setRecoveryMessage(null);
-    } catch {
-      setRecoveryMessage(
-        "Your latest changes could not be stored locally. " +
-          "Keep a separate copy before leaving.",
-      );
-    }
+  const updateFields = (changes: Partial<RecoveryFields>): void => {
+    setFields((currentFields) => ({
+      ...currentFields,
+      ...changes,
+    }));
   };
 
   const restoreRecovery = (): void => {
-    if (
-      pending ||
-      recovery.status !== "found" ||
-      !recovery.copy ||
-      !canRestoreRecovery
-    ) {
+    const restoredFields = recovery.restoreRecovery();
+    if (!restoredFields) {
       return;
     }
-
-    const fields = recovery.copy.fields;
-
-    setTitle(fields.title);
-    setSlug(fields.slug);
-    setDescription(fields.description);
-    setDate(fields.date);
-    setTags(fields.tags);
-    setContent(fields.content);
-    setPublicationStatus(fields.status);
-
-    // Ignore any earlier preview reponse.
-    previewRequestId.current += 1;
-    setView("write");
-    setPreviewContent(null);
-    setPreviewError(null);
-
-    // Keep the stored copy until a successful save or later edit!
-    setRecovery({ status: "ready" });
-
-    setRecoveryMessage(
-      "Recovery copy restored. " + "It has not been saved to the database.",
-    );
+    setFields(restoredFields);
+    preview.resetPreview();
   };
 
-  const discardRecovery = (): void => {
-    if (pending || recovery.status !== "found") {
-      return;
-    }
-
-    const confirmed = window.confirm(
-      "Discard this local recovery copy? " +
-        "This cannot be undone. Your saved database post will not change.",
-    );
-
-    if (!confirmed) {
-      return;
-    }
-
-    try {
-      sessionStorage.removeItem(recoveryKey);
-      setRecovery({ status: "ready" });
-      setRecoveryMessage("Local recovery copy discarded. You can now edit.");
-    } catch {
-      // Stay blocked because the old copy has not been removed.
-      setRecoveryMessage(
-        "The recovery copy could not be discarded. " +
-          "It has been preserved. Copy any needed text before leaving.",
-      );
-    }
-
-  };
-
+  const isEditing = mode === "edit";
+  const editorDisabled = pending || recovery.recoveryBlocked;
   const wasPublished = defaultValues?.status === "published";
   const saveLabel =
-    publicationStatus === "published"
+    fields.status === "published"
       ? wasPublished
         ? "Update published post"
         : "Publish post"
       : wasPublished
         ? "Unpublish and save draft"
-        : "Save draft";
-
-  const previewRequestId = useRef(0);
-  const handleViewChange = (nextView: string): void => {
-    if (nextView !== "write" && nextView !== "preview") {
-      return;
-    }
-
-    if (nextView === "write") {
-      previewRequestId.current += 1;
-      setView("write");
-      return;
-    }
-
-    const requestId = ++previewRequestId.current;
-
-    setView("preview");
-    setPreviewContent(null);
-    setPreviewError(null);
-
-    startPreviewTransition(async () => {
-      try {
-        const result = await previewPostAction(content);
-        if (requestId !== previewRequestId.current) {
-          return;
-        }
-        if (result.success) {
-          setPreviewContent(result.preview);
-          return;
-        }
-        setPreviewError(result.message);
-      } catch {
-        if (requestId !== previewRequestId.current) {
-          return;
-        }
-        setPreviewError("Unable to render the preview");
-      }
-    });
-  };
-
-  const isEditing = mode === "edit";
+        : "Save draft"
 
   return (
     <form
       action={formAction}
-      onChange={saveRecovery}
+      onChange={recovery.saveRecovery}
       onSubmit={(event) => {
-        if (recoveryBlocked) {
+        if (recovery.recoveryBlocked) {
           event.preventDefault();
         }
       }}
@@ -403,44 +178,44 @@ export function PostEditorForm({
         </CardHeader>
 
         <CardContent>
-          {recovery.status === "checking" && (
+          {recovery.recovery.status === "checking" && (
             <p role="status" className="mb-4 text-sm text-muted-foreground">
               Checking for an unsaved recovery copy…
             </p>
           )}
 
-          {recovery.status === "found" && (
+          {recovery.recovery.status === "found" && (
             <PostRecoveryPanel
-              raw={recovery.raw}
-              copy={recovery.copy}
-              versionMatches={recoveryVersionMatches}
-              slugMatches={recoverySlugMatches}
+              raw={recovery.recovery.raw}
+              copy={recovery.recovery.copy}
+              versionMatches={recovery.recoveryVersionMatches}
+              slugMatches={recovery.recoverySlugMatches}
               pending={pending}
               onRestore={restoreRecovery}
-              onDiscard={discardRecovery}
+              onDiscard={recovery.discardRecovery}
             />
           )}
           <fieldset disabled={editorDisabled} className="min-w-0">
             <FieldGroup>
 
               <PostMetadataFields
-                values={}
+                values={fields}
                 fieldErrors={state.fieldErrors}
                 isEditing={isEditing}
-                onChange={}
+                onChange={updateFields}
               />
 
               {/* Content */}
               <PostMarkdownEditor
-                content={}
-                errors={}
-                disabled={}
-                view={}
-                previewContent={}
-                previewError={}
-                previewPending={}
-                onContentChange={}
-                onViewChange={}
+                content={fields.content}
+                errors={state.fieldErrors.content}
+                disabled={editorDisabled}
+                view={preview.view}
+                previewContent={preview.previewContent}
+                previewError={preview.previewError}
+                previewPending={preview.previewPending}
+                onContentChange={(content) => updateFields({ content })}
+                onViewChange={preview.changeView}
               />
             </FieldGroup>
           </fieldset>
@@ -468,9 +243,9 @@ export function PostEditorForm({
               Cancel
             </Link>
           </Button>
-          {recoveryMessage && (
+          {recovery.recoveryMessage && (
             <p role="status" className="text-sm text-muted-foreground">
-              {recoveryMessage}
+              {recovery.recoveryMessage}
             </p>
           )}
           <Button type="submit" disabled={editorDisabled}>
