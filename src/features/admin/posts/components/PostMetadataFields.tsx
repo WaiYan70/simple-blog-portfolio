@@ -4,8 +4,8 @@ import {
   FieldError,
   FieldLabel,
 } from "@/components/ui/field";
-import { RecoveryFields } from "../schema/post-recovery-schema";
-import { PostEditorState } from "../actions";
+import type { RecoveryFields } from "../schema/post-recovery-schema";
+import type { PostEditorState } from "../actions";
 import { Input } from "@/components/ui/input";
 
 type MetadataValues = Omit<RecoveryFields, "content">;

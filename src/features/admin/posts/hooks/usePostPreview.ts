@@ -1,5 +1,5 @@
 import { type ReactNode, useRef, useState, useTransition } from "react";
-import { PostEditorView } from "../components/PostMarkdownEditor";
+import type { PostEditorView } from "../components/PostMarkdownEditor";
 import { previewPostAction } from "../actions";
 
 export default function usePostPreview(content: string) {

@@ -1,8 +1,13 @@
-import { type RefObject, SyntheticEvent, useEffect, useState } from "react";
 import {
-  PostRecovery,
+  type RefObject,
+  type SyntheticEvent,
+  useEffect,
+  useState,
+} from "react";
+import {
+  type PostRecovery,
   postRecoverySchema,
-  RecoveryFields,
+  type RecoveryFields,
   recoveryFieldsSchema,
 } from "../schema/post-recovery-schema";
 
@@ -16,7 +21,7 @@ type RecoveryState =
       copy: PostRecovery | null;
     };
 
-type usePostRecoveryOptions = {
+type UsePostRecoveryOptions = {
   mode: "create" | "edit";
   recoveryKey: string;
   recoveryVersion: number | null;
@@ -34,7 +39,7 @@ export default function usePostRecovery({
   initialSnapshot,
   pending,
   saveCompleted,
-}: usePostRecoveryOptions) {
+}: UsePostRecoveryOptions) {
   const [recovery, setRecovery] = useState<RecoveryState>({
     status: "checking",
   });

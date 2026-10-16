@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 export type PostEditorView = "write" | "preview";
 
