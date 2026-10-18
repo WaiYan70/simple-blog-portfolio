@@ -210,12 +210,11 @@ export function PostEditorForm({
                 content={fields.content}
                 errors={state.fieldErrors.content}
                 disabled={editorDisabled}
-                view={preview.view}
                 previewContent={preview.previewContent}
                 previewError={preview.previewError}
                 previewPending={preview.previewPending}
                 onContentChange={(content) => updateFields({ content })}
-                onViewChange={preview.changeView}
+                onRefreshPreview={preview.refreshPreview}
               />
             </FieldGroup>
           </fieldset>

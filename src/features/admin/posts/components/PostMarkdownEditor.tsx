@@ -1,111 +1,108 @@
+import type { ReactNode } from "react";
 import {
   Field,
   FieldDescription,
   FieldError,
+  FieldGroup,
   FieldLabel,
+  FieldTitle,
 } from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import type { ReactNode } from "react";
-
-export type PostEditorView = "write" | "preview";
+import { Button } from "@/components/ui/button";
 
 type PostMarkdownEditorProps = {
   content: string;
   errors?: string[];
   disabled: boolean;
-  view: PostEditorView;
   previewContent: ReactNode;
   previewError: string | null;
   previewPending: boolean;
   onContentChange: (content: string) => void;
-  onViewChange: (view: string) => void;
+  onRefreshPreview: () => void;
 };
 
 export default function PostMarkdownEditor({
   content,
   errors,
   disabled,
-  view,
   previewContent,
   previewError,
   previewPending,
   onContentChange,
-  onViewChange,
+  onRefreshPreview,
 }: PostMarkdownEditorProps) {
+  const hasErrors = Boolean(errors?.length);
   return (
-    <Field aria-invalid={Boolean(errors?.length)}>
-      <div className="flex items-center justify-between gap-4">
-        <FieldLabel htmlFor="content">Markdown Content</FieldLabel>
-        <ToggleGroup
-          type="single"
-          value={view}
-          onValueChange={onViewChange}
-          disabled={disabled}
-          variant="outline"
-          spacing={0}
-          aria-label="Markdown editor view"
-        >
-          <ToggleGroupItem
-            type="button"
-            value="write"
-            aria-label="Write Markdown"
-          >
-            Write
-          </ToggleGroupItem>
-          <ToggleGroupItem
-            type="button"
-            value="preview"
-            aria-label="Preview Markdown"
-          >
-            Preview
-          </ToggleGroupItem>
-        </ToggleGroup>
-      </div>
-
-      {view === "write" ? (
+    <FieldGroup className="grid grid-cols-1 items-start gap-6 lg:grid-cols-2">
+      <Field
+        className="min-w-0"
+        data-invalid={hasErrors}
+        data-disable={disabled}
+      >
+        <div className="flex min-h-8 items-center">
+          <FieldLabel>Write</FieldLabel>
+        </div>
         <Textarea
           id="content"
           name="content"
           value={content}
           onChange={(event) => {
-            onContentChange(event.target.value);
+            onContentChange(event.target.value)
           }}
           placeholder="# Introduction"
-          className="min-h-128 resize-y"
+          className="h-128 resize-none field-sizing-fixed font-mono"
+          disabled={disabled}
           required
-          aria-invalid={Boolean(errors?.length)}
+          aria-invalid={hasErrors}
+          aria-describedby={
+            hasErrors
+              ? "content-description content-error"
+              : "content-description"
+          }
         />
-      ) : (
-        <>
-          <input type="hidden" name="content" value={content} />
-          <div
-            className="min-h-128 rounded-md border p-6"
-            aria-busy={previewPending}
+        <FieldError
+          id="content-error"
+          errors={errors?.map((message) => ({ message }))}
+        />
+        <FieldDescription id="content-description">
+          Write the article body in Markdown. Metadata is saved separately
+        </FieldDescription>
+      </Field>
+      <Field className="min-w-0" data-disabled={disabled}>
+        <div className="flex min-h-8 items-center justify-between gap-3">
+          <FieldTitle id="post-preview-title">Preview</FieldTitle>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={onRefreshPreview}
           >
-            {previewPending && (
-              <p
-                role="status"
-                aria-live="polite"
-                className="text-sm text-muted-foreground"
-              >
-                Rendering Preview...
-              </p>
+            {previewPending ? "Rendering..." : "Refresh preview"}
+          </Button>
+        </div>
+        <div
+          role="region"
+          aria-labelledby="post-preview-title"
+          aria-busy={previewPending}
+          className="h-128 min-w-0 overflow-auto rounded-md border p-4"
+        >
+          {previewPending && (
+            <p role="status" className="text-sm text-muted-foreground">
+              Rendering preview
+            </p>
+          )}
+          <FieldError>{previewError}</FieldError>
+          {previewContent}
+          {previewContent === null && !previewPending && !previewError && (
+            <FieldDescription>
+              Write some Markdown, then click Refresh preview.
+            </FieldDescription>
             )}
-            {!previewPending && previewError && (
-              <p role="alert" className="text-sm text-destructive">
-                {previewError}
-              </p>
-            )}
-            {!previewPending && !previewError ? previewContent : null}
-          </div>
-        </>
-      )}
-
-      <FieldError errors={errors?.map((message) => ({ message }))} />
-      <FieldDescription>
-        Write the article body in Markdown. Metadata is saved separately.
-      </FieldDescription>
-    </Field>
+        </div>
+        <FieldDescription>
+          Preview shows the last rendered version. Refresh after editing.
+        </FieldDescription>
+      </Field>
+    </FieldGroup>
   );
 }

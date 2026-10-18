@@ -3,59 +3,57 @@ import type { PostEditorView } from "../components/PostMarkdownEditor";
 import { previewPostAction } from "../actions";
 
 export default function usePostPreview(content: string) {
-  const [view, setView] = useState<PostEditorView>("write");
   const [previewContent, setPreviewContent] = useState<ReactNode>(null);
   const [previewError, setPreviewError] = useState<string | null>(null);
   const [previewPending, startPreviewTransition] = useTransition();
+
   const previewRequestId = useRef(0);
 
   const resetPreview = (): void => {
     previewRequestId.current += 1;
-    setView("write");
     setPreviewContent(null);
     setPreviewError(null);
   };
 
-  const changeView = (nextView: string): void => {
-    if (nextView !== "write" && nextView !== "preview") {
-      return;
-    }
-    if (nextView === "write") {
-      previewRequestId.current += 1;
-      setView("write");
-      return;
-    }
-
-    const requestId = ++previewRequestId.current;
-    setView("preview");
+  const resetReview = (): void => {
+    previewRequestId.current += 1;
     setPreviewContent(null);
     setPreviewError(null);
+  }
 
+  const refreshPreview = (): void => {
+    const requestId = ++previewRequestId.current;
+
+    setPreviewError(null);
+    // Keep the previous preview visible while rendering its replacement.
     startPreviewTransition(async () => {
       try {
         const result = await previewPostAction(content);
+
         if (requestId !== previewRequestId.current) {
           return;
         }
+
         if (result.success) {
           setPreviewContent(result.preview);
-          return;
+        } else {
+          setPreviewError(result.message);
         }
-        setPreviewError(result.message);
+
       } catch {
         if (requestId !== previewRequestId.current) {
           return;
         }
-        setPreviewError("Unable to render the preview");
+        setPreviewError("Unable to render the preview")
       }
     });
   };
+
   return {
-    view,
     previewContent,
     previewError,
     previewPending,
     resetPreview,
-    changeView,
+    refreshPreview,
   };
 }
