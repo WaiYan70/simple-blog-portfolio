@@ -1,6 +1,8 @@
 import type { MDXComponents } from "mdx/types";
+import { MermaidDiagram } from "./MermaidDiagram";
 
 export const mdxComponents: MDXComponents = {
+  "mermaid=diagram": MermaidDiagram,
   h1: (props) => (
     <h1
       className="text-3xl sm:text-2xl font-bold mt-10 mb-4 tracking-tight"

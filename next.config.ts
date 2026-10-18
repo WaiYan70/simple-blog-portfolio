@@ -13,6 +13,7 @@ const withMDX = createMDX({
       resolve(process.cwd(), "src/features/shared/lib/remark-headings.mjs")
     ],
     rehypePlugins: [
+      resolve(process.cwd(), "src/features/shared/lib/rehype-mermaid.mjs"),
       [
         "rehype-pretty-code",
         {

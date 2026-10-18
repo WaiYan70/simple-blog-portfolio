@@ -6,6 +6,7 @@ import { evaluate } from "@mdx-js/mdx";
 import rehypePrettyCode from "rehype-pretty-code";
 
 import remarkHeadings from "./remark-headings.mjs";
+import rehypeMermaid from "./rehype-mermaid.mjs"
 import { MDXContentShell } from "../markdown/MDXContentShell";
 import { mdxComponents } from "../markdown/MDXComponents";
 
@@ -15,6 +16,7 @@ export async function renderMarkdown(content: string): Promise<ReactNode> {
     format: "md",
     remarkPlugins: [remarkHeadings],
     rehypePlugins: [
+      rehypeMermaid,
       [
         rehypePrettyCode,
         {

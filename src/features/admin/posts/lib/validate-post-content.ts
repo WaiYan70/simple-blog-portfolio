@@ -2,6 +2,8 @@ import "server-only";
 
 import { compile } from "@mdx-js/mdx";
 import rehypePrettyCode from "rehype-pretty-code";
+import { resolve } from "node:path";
+import rehypeMermaid from "@/features/shared/lib/rehype-mermaid.mjs";
 
 type PostContentValidationResult =
   | { success: true }
@@ -54,6 +56,7 @@ export const validatePostContent = async (
       format: "mdx",
       remarkPlugins: [remarkMarkdownOnly],
       rehypePlugins: [
+        rehypeMermaid,
         [
           rehypePrettyCode,
           {
