@@ -63,6 +63,9 @@ export const MermaidDiagram = ({ chart }: MermaidDiagramProps) => {
           </pre>
         </>
       )}
+      {current?.status === "success" && (
+        <div dangerouslySetInnerHTML={{ __html: current.svg }} />
+      )}
     </figure>
   );
 };
