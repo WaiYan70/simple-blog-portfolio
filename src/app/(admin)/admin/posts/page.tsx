@@ -2,6 +2,7 @@ import {
   PostPagination,
   PostSearch,
 } from "@/components/shared/PostListControls";
+import { DeletePostButton } from "@/features/admin/posts/components/DeletePostButton";
 import { getAdminPostPage } from "@/features/admin/posts/queries";
 import { adminPostListSchema } from "@/features/admin/posts/schema/post-list-schema";
 import { requireAdmin } from "@/lib/auth/require-admin";
@@ -94,6 +95,11 @@ export default async function PostPage({ searchParams }: Props) {
                 >
                   Edit
                 </Link>
+                <DeletePostButton
+                  postId={post.id}
+                  expectedVersion={post.version}
+                  title={post.title}
+                />
               </div>
             </li>
           ))}
