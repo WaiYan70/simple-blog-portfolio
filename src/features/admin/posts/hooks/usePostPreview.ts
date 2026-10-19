@@ -1,5 +1,4 @@
 import { type ReactNode, useRef, useState, useTransition } from "react";
-import type { PostEditorView } from "../components/PostMarkdownEditor";
 import { previewPostAction } from "../actions";
 
 export default function usePostPreview(content: string) {
@@ -14,12 +13,6 @@ export default function usePostPreview(content: string) {
     setPreviewContent(null);
     setPreviewError(null);
   };
-
-  const resetReview = (): void => {
-    previewRequestId.current += 1;
-    setPreviewContent(null);
-    setPreviewError(null);
-  }
 
   const refreshPreview = (): void => {
     const requestId = ++previewRequestId.current;
