@@ -6,7 +6,8 @@ type Operation =
   | "posts.update"
   | "posts.preview"
   | "posts.list"
-  | "posts.read";
+  | "posts.read"
+  | "posts.delete";
 
 export const logServerError = (operation: Operation, error: unknown) => {
   const reference = randomUUID();

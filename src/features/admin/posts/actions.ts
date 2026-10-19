@@ -11,7 +11,11 @@ import z from "zod";
 import { revalidatePath } from "next/cache";
 import { compileMarkdownPreview } from "./lib/compile-markdown-preview";
 import { validatePostContent } from "./lib/validate-post-content";
-import { insertPost, updatePost } from "@/db/repositories/post-repository";
+import {
+  insertPost,
+  updatePost,
+  deletePost,
+} from "@/db/repositories/post-repository";
 import { NeonDbError } from "@neondatabase/serverless";
 import { logServerError } from "@/lib/log-server-error";
 
@@ -238,4 +242,59 @@ export async function updatePostAction(
     fieldErrors: {},
     message: null,
   }
+}
+
+export type DeletePostResult =
+  | { success: true }
+  | { success: false; message: string };
+
+export async function deletePostAction(
+  postId: string,
+  expectedVersion: number,
+): Promise<DeletePostResult> {
+  await requireAdmin();
+  const target = z
+    .object({
+      postId: z.uuid(),
+      expectedVersion: z.number().int().positive(),
+    })
+    .safeParse({ postId, expectedVersion });
+
+  if (!target.success) {
+    return {
+      success: false,
+      message: "Invalid delete request. Refresh the post list and try again.",
+    };
+  }
+
+  let deleted: {
+    slug: string;
+  } | null;
+
+  try {
+    deleted = await deletePost(target.data.postId, target.data.expectedVersion);
+  } catch (error) {
+    const reference = logServerError("posts.delete", error);
+    return {
+      success: false,
+      message: "Unable to delete the post. Reference: " + reference,
+    };
+  }
+  if (!deleted) {
+    return {
+      success: false,
+      message:
+        "This post changed or was already deleted. Refresh the list before trying again.",
+    };
+  }
+
+  revalidatePath("/");
+  revalidatePath("/blog");
+  revalidatePath("/blog/" + deleted.slug);
+  revalidatePath("/blog/" + deleted.slug + "/opengraph-image");
+  revalidatePath("/admin/posts");
+  revalidatePath("/admin/posts/" + deleted.slug);
+  revalidatePath("/admin/posts/" + deleted.slug + "/edit");
+
+  return { success: true };
 }
