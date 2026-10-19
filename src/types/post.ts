@@ -19,7 +19,6 @@ export type PostSummary = Omit<Post, "content" | "headings">;
 
 export type AdminPostListItem = Pick<Post, "slug" | "title" | "date"> & {
   id: string;
-  version: number;
   status: "draft" | "published";
 };
 
