@@ -1,79 +1,65 @@
-import "server-only";
-
+import "server-only"
 import { compile } from "@mdx-js/mdx";
-import rehypePrettyCode from "rehype-pretty-code";
-import { resolve } from "node:path";
 import rehypeMermaid from "@/features/shared/lib/rehype-mermaid.mjs";
+import rehypePrettyCode from "rehype-pretty-code";
+
 
 type PostContentValidationResult =
   | { success: true }
   | { success: false; message: string };
 
+type MarkdownNode = {
+  type: string;
+  children?: MarkdownNode[];
+};
 
-  type MarkdownNode = {
-    type: string;
-    children?: MarkdownNode[];
-  };
+class UnsupportMarkdownError extends Error {
+  constructor() {
+    super(
+      "Raw HTML is not supported. Use Markdown syntax, or put HTML examples in fenced code blocks.",
+    );
+    this.name = "UnsupportMarkdownError";
+  }
+}
 
-  const blockedNodeTypes = new Set([
-    "mdxjsEsm", // import and export statements
-    "mdxFlowExpression", // standalone {expressions}
-    "mdxTextExpression", // inline {expressions}
-    "mdxJsxFlowElement", // standalone JSX / HTML
-    "mdxJsxTextElement", // inline JSX / HTML
-  ]);
-
-  class UnsupportedMarkdownError extends Error {
-    constructor() {
-      super(
-        "Use Markdown only. JavaScript expressions, imports, exports, " +
-          "and JSX/HTML tags are not supported. " +
-          "Wrap code examples in backticks or fenced code blocks.",
-      );
-      this.name = "UnsupportedMarkdownError";
+const remarkRejectHTML = () => {
+  const walk = (node: MarkdownNode) => {
+    if (node.type === "html") {
+      return;
+    }
+    for (const child of node?.children ?? []) {
+      walk(child)
     }
   }
-
-  const remarkMarkdownOnly = () => {
-    const checkNode = (node: MarkdownNode): void => {
-      if (blockedNodeTypes.has(node.type)) {
-        throw new UnsupportedMarkdownError();
-      }
-
-      for (const child of node.children ?? []) {
-        checkNode(child);
-      }
-    };
-
-    return checkNode;
-  };
+  return walk;
+}
 
 export const validatePostContent = async (
   content: string,
 ): Promise<PostContentValidationResult> => {
   try {
     await compile(content, {
-      format: "mdx",
-      remarkPlugins: [remarkMarkdownOnly],
+      format: "md",
+      remarkPlugins: [remarkRejectHTML],
       rehypePlugins: [
         rehypeMermaid,
         [
           rehypePrettyCode,
           {
             theme: "tokyo-night",
-            keepBackground: false,
+            keepBackground: false
           },
         ],
       ],
     });
-    return { success: true };
+    return { success: true }
   } catch (error) {
     return {
       success: false,
       message:
-        error instanceof UnsupportedMarkdownError
+        error instanceof UnsupportMarkdownError
           ? error.message
-          : "This content contains invalid MDX syntax",
-    };
+          : "Unable to compile Markdown content",
+    }
   }
 }
