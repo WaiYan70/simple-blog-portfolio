@@ -9,6 +9,7 @@ import {
   PostPageResult,
   PostSummary,
 } from "@/types/post";
+import { version } from "zod/v4/core";
 
 export type StoredPost = CreatePostData & {
   id: string;
@@ -117,6 +118,7 @@ export async function listAdminPosts(
     `
       select
         id,
+        version,
         slug,
         title,
         status,
@@ -143,7 +145,7 @@ export async function listAdminPosts(
   return {
     posts: rows.slice(0, pageSize),
     hasNext: rows.length > pageSize,
-  }
+  };
 }
 
 export async function insertPost(post: CreatePostData) {
@@ -204,3 +206,17 @@ export async function updatePost(
     `;
   return rows.length === 1;
 }
+
+export const deletePost = async (
+  id: string,
+  expectedVersion: number,
+): Promise<{ slug: string } | null> => {
+  const rows = (await sql`
+    delete from posts
+    where id = ${id}::uuid
+      and version = ${expectedVersion}
+    returning slug
+  `) as Array<{ slug: string }>;
+
+  return rows[0] ?? null;
+};
