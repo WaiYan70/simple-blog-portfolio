@@ -25,7 +25,7 @@ class UnsupportMarkdownError extends Error {
 const remarkRejectHTML = () => {
   const walk = (node: MarkdownNode) => {
     if (node.type === "html") {
-      return;
+      throw new UnsupportMarkdownError();
     }
     for (const child of node?.children ?? []) {
       walk(child)

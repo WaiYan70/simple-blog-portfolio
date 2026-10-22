@@ -25,7 +25,22 @@ export const MermaidDiagram = ({ chart }: MermaidDiagramProps) => {
             startOnLoad: false,
             securityLevel: "strict",
             suppressErrorRendering: true,
-            theme: "neutral",
+            theme: "base",
+            themeVariables: {
+              primaryColor: "#eff6ff",
+              primaryTextColor: "#0f172a",
+              primaryBorderColor: "#2563eb",
+              lineColor: "#64748b",
+              fontFamily: "JetBrains Mono, monospace",
+              fontSize: "14px",
+            },
+
+            flowchart: {
+              useMaxWidth: false,
+              nodeSpacing: 40,
+              rankSpacing: 60,
+              curve: "rounded",
+            },
           });
           initialized = true;
         }
