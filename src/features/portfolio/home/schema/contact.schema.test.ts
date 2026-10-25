@@ -22,5 +22,5 @@ test("rejects an invalid email address", () => {
   };
 
   const result = contactSchema.safeParse(validContact);
-  expect(result.success).toBe(true);
+  expect(result.success).toBe(false);
 });
