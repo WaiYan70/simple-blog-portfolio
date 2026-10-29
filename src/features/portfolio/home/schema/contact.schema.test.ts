@@ -24,3 +24,15 @@ test("rejects an invalid email address", () => {
   const result = contactSchema.safeParse(validContact);
   expect(result.success).toBe(false);
 });
+
+test("rejects an invalid email address", () => {
+  const validContact = {
+    name: "Alex",
+    email: "invalid-email",
+    subject: "Portfolio enquiry",
+    message: "I would like to discuss a project.",
+  };
+
+  const result = contactSchema.safeParse(validContact);
+  expect(result.success).toBe(false);
+});
